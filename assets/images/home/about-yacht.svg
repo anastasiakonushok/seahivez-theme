@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 700" role="img" aria-label="About yacht placeholder">
+  <rect width="900" height="700" fill="#E8E0D4"/>
+  <rect x="80" y="420" width="740" height="180" rx="8" fill="#123052" opacity="0.15"/>
+  <path d="M120 500 L780 500 L720 320 L180 320 Z" fill="#0B1F3A"/>
+  <path d="M220 320 L680 320 L640 260 L260 260 Z" fill="#123052"/>
+</svg>

@@ -19,7 +19,7 @@ function seahivez_theme_customize_register( $wp_customize ) {
 		$wp_customize->selective_refresh->add_partial(
 			'blogname',
 			array(
-				'selector'        => '.site-title a',
+				'selector'        => '.site-title a, .site-branding .site-title a',
 				'render_callback' => 'seahivez_theme_customize_partial_blogname',
 			)
 		);
@@ -56,6 +56,6 @@ function seahivez_theme_customize_partial_blogdescription() {
  * Binds JS handlers to make Theme Customizer preview reload changes asynchronously.
  */
 function seahivez_theme_customize_preview_js() {
-	wp_enqueue_script( 'seahivez-theme-customizer', get_template_directory_uri() . '/js/customizer.js', array( 'customize-preview' ), _S_VERSION, true );
+	wp_enqueue_script( 'seahivez-theme-customizer', get_theme_file_uri( 'js/customizer.js' ), array( 'customize-preview' ), _S_VERSION, true );
 }
 add_action( 'customize_preview_init', 'seahivez_theme_customize_preview_js' );

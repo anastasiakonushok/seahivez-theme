@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" role="img" aria-label="Yacht hero placeholder">
+  <rect width="1600" height="900" fill="#123052"/>
+  <path d="M0 620 Q400 560 800 590 T1600 610 V900 H0 Z" fill="#0B1F3A"/>
+  <path d="M420 520 L980 520 L920 430 L480 430 Z" fill="#F5F1EA" opacity="0.92"/>
+  <path d="M500 430 L900 430 L860 390 L540 390 Z" fill="#E8E0D4"/>
+  <path d="M320 600 Q800 540 1280 600" fill="none" stroke="#F5F1EA" stroke-width="3" opacity="0.35"/>
+</svg>

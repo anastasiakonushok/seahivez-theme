@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" role="img" aria-label="Mallorca map placeholder">
+  <rect width="800" height="600" fill="#F5F1EA"/>
+  <path d="M280 120 C360 80 520 90 560 180 C600 270 520 360 430 420 C340 480 250 430 230 330 C210 230 220 160 280 120 Z" fill="#E8E0D4" stroke="#123052" stroke-width="2"/>
+  <circle cx="390" cy="280" r="8" fill="#0B1F3A"/>
+  <path d="M390 288 V330" stroke="#0B1F3A" stroke-width="2"/>
+</svg>

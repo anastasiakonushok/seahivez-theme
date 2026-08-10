@@ -717,15 +717,17 @@ Local (Open Server / OSPanel)
 
 **Production requirements:**
 
-- PHP 8.0+ recommended (theme currently declares 5.6 — update during Phase 1)
+- PHP 8.0+ (theme header updated in Phase 1B)
 - No Node.js on server
 - Standard shared WordPress hosting (Apache/Nginx + MySQL)
 - Compiled `assets/dist/main.css` and `assets/dist/main.js` committed
 
+**Phase 1B status:** Tailwind + esbuild build configured. Frontend assets enqueued from `assets/dist/`. `style.css` is metadata-only for WordPress theme recognition.
+
 **Pre-deploy checklist:**
 
 1. ~~Resolve nested directory structure~~ ✅ (Phase 1A)
-2. Run `npm run build`
+2. ~~Run `npm run build`~~ ✅ (Phase 1B)
 3. Verify theme activates at correct path
 4. Smoke test homepage and one interior page
 
