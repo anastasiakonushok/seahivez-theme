@@ -359,30 +359,6 @@
 		@apply text-xs font-medium uppercase leading-[1.2] tracking-[0.16em] text-navy-800/80;
 	}
 
-	.extras-group__helper {
-		@apply mt-2 flex items-center gap-2 text-base font-normal leading-relaxed;
-	}
-
-	.extras-group__status-dot {
-		@apply h-2 w-2 shrink-0 rounded-full;
-	}
-
-	.extras-group--included .extras-group__helper {
-		color: #65a844;
-	}
-
-	.extras-group--included .extras-group__status-dot {
-		background-color: #65a844;
-	}
-
-	.extras-group--paid .extras-group__helper {
-		color: #c65d5d;
-	}
-
-	.extras-group--paid .extras-group__status-dot {
-		background-color: #c65d5d;
-	}
-
 	.extras-grid {
 		@apply grid w-full grid-cols-2 gap-x-6;
 	}

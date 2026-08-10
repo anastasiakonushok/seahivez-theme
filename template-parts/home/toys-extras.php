@@ -24,10 +24,12 @@ $data = seahivez_get_home_extras_data();
 			<div class="extras-group extras-group--included reveal">
 				<div class="extras-group__header">
 					<h3 class="extras-group__title"><?php echo esc_html( $data['included_heading'] ); ?></h3>
-					<p class="extras-group__helper">
-						<span class="extras-group__status-dot" aria-hidden="true"></span>
-						<span><?php echo esc_html( $data['included_helper'] ); ?></span>
-					</p>
+					<div class="mt-2 flex items-center gap-2">
+						<span class="block h-2 w-2 shrink-0 rounded-full bg-[#65A844]" aria-hidden="true"></span>
+						<span class="text-base font-normal text-[#65A844]">
+							<?php echo esc_html( $data['included_helper'] ); ?>
+						</span>
+					</div>
 				</div>
 				<ul class="extras-grid mt-6">
 					<?php foreach ( $data['included'] as $item ) : ?>
@@ -41,10 +43,12 @@ $data = seahivez_get_home_extras_data();
 			<div class="extras-group extras-group--paid reveal reveal-delay-1">
 				<div class="extras-group__header">
 					<h3 class="extras-group__title"><?php echo esc_html( $data['paid_heading'] ); ?></h3>
-					<p class="extras-group__helper">
-						<span class="extras-group__status-dot" aria-hidden="true"></span>
-						<span><?php echo esc_html( $data['paid_helper'] ); ?></span>
-					</p>
+					<div class="mt-2 flex items-center gap-2">
+						<span class="block h-2 w-2 shrink-0 rounded-full bg-[#C65D5D]" aria-hidden="true"></span>
+						<span class="text-base font-normal text-[#C65D5D]">
+							<?php echo esc_html( $data['paid_helper'] ); ?>
+						</span>
+					</div>
 				</div>
 				<ul class="extras-grid mt-6">
 					<?php foreach ( $data['paid'] as $item ) : ?>
