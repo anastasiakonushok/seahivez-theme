@@ -25,8 +25,11 @@ $data = seahivez_get_home_extras_data();
 				<div class="extras-group__header">
 					<h3 class="extras-group__title"><?php echo esc_html( $data['included_heading'] ); ?></h3>
 					<div class="mt-2 flex items-center gap-2">
-						<span class="block h-2 w-2 shrink-0 rounded-full bg-[#65A844]" aria-hidden="true"></span>
-						<span class="text-base font-normal text-[#65A844]">
+						<span
+							aria-hidden="true"
+							style="display:inline-block;width:8px;height:8px;min-width:8px;border-radius:9999px;background:#65A844;"
+						></span>
+						<span style="color:#65A844;">
 							<?php echo esc_html( $data['included_helper'] ); ?>
 						</span>
 					</div>
@@ -44,8 +47,11 @@ $data = seahivez_get_home_extras_data();
 				<div class="extras-group__header">
 					<h3 class="extras-group__title"><?php echo esc_html( $data['paid_heading'] ); ?></h3>
 					<div class="mt-2 flex items-center gap-2">
-						<span class="block h-2 w-2 shrink-0 rounded-full bg-[#C65D5D]" aria-hidden="true"></span>
-						<span class="text-base font-normal text-[#C65D5D]">
+						<span
+							aria-hidden="true"
+							style="display:inline-block;width:8px;height:8px;min-width:8px;border-radius:9999px;background:#C65D5D;"
+						></span>
+						<span style="color:#C65D5D;">
 							<?php echo esc_html( $data['paid_helper'] ); ?>
 						</span>
 					</div>
