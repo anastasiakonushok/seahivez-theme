@@ -8,24 +8,33 @@ import Swiper from 'swiper';
 import { Navigation, Thumbs, Keyboard, A11y } from 'swiper/modules';
 import { Fancybox } from '@fancyapps/ui';
 
-const FANCYBOX_GROUP = '[data-fancybox="seahivez-gallery"]';
+const FANCYBOX_GROUPS = [
+	'[data-fancybox="seahivez-gallery"]',
+	'[data-fancybox="seahivez-full-gallery"]',
+];
 
 let fancyboxBound = false;
 
 /**
- * Bind Fancybox once for the SeaHivez gallery group.
+ * Bind Fancybox once for SeaHivez gallery groups.
  */
 function bindGalleryFancybox() {
 	if ( fancyboxBound ) {
 		return;
 	}
 
-	if ( ! document.querySelector( FANCYBOX_GROUP ) ) {
+	const hasGallery = FANCYBOX_GROUPS.some( ( selector ) => document.querySelector( selector ) );
+
+	if ( ! hasGallery ) {
 		return;
 	}
 
-	Fancybox.bind( FANCYBOX_GROUP, {
-		theme: 'dark',
+	FANCYBOX_GROUPS.forEach( ( selector ) => {
+		if ( document.querySelector( selector ) ) {
+			Fancybox.bind( selector, {
+				theme: 'dark',
+			} );
+		}
 	} );
 
 	fancyboxBound = true;
@@ -37,7 +46,7 @@ function bindGalleryFancybox() {
  * @param {number} startIndex
  */
 function openGalleryFancybox( startIndex = 0 ) {
-	const triggers = Array.from( document.querySelectorAll( FANCYBOX_GROUP ) );
+	const triggers = Array.from( document.querySelectorAll( FANCYBOX_GROUPS[ 0 ] ) );
 
 	if ( ! triggers.length ) {
 		return;

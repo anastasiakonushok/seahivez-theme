@@ -92,6 +92,7 @@ $yacht_fallback_links = array(
 					<ul class="footer-menu space-y-3">
 						<li><a class="footer-link" href="<?php echo esc_url( home_url( '/' ) ); ?>"><?php esc_html_e( 'Home', 'seahivez-theme' ); ?></a></li>
 						<li><a class="footer-link" href="<?php echo esc_url( home_url( '/the-yacht/' ) ); ?>"><?php esc_html_e( 'The Yacht', 'seahivez-theme' ); ?></a></li>
+						<li><a class="footer-link" href="<?php echo esc_url( seahivez_get_posts_page_url() ); ?>"><?php esc_html_e( 'News', 'seahivez-theme' ); ?></a></li>
 						<li><a class="footer-link" href="<?php echo esc_url( home_url( '/gallery/' ) ); ?>"><?php esc_html_e( 'Gallery', 'seahivez-theme' ); ?></a></li>
 						<li><a class="footer-link" href="<?php echo esc_url( home_url( '/contact/' ) ); ?>"><?php esc_html_e( 'Contact', 'seahivez-theme' ); ?></a></li>
 					</ul>

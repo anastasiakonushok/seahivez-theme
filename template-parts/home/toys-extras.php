@@ -24,7 +24,10 @@ $data = seahivez_get_home_extras_data();
 			<div class="extras-group extras-group--included reveal">
 				<div class="extras-group__header">
 					<h3 class="extras-group__title"><?php echo esc_html( $data['included_heading'] ); ?></h3>
-					<p class="extras-group__helper"><?php echo esc_html( $data['included_helper'] ); ?></p>
+					<p class="extras-group__helper">
+						<span class="extras-group__status-dot" aria-hidden="true"></span>
+						<span><?php echo esc_html( $data['included_helper'] ); ?></span>
+					</p>
 				</div>
 				<ul class="extras-grid mt-6">
 					<?php foreach ( $data['included'] as $item ) : ?>
@@ -38,7 +41,10 @@ $data = seahivez_get_home_extras_data();
 			<div class="extras-group extras-group--paid reveal reveal-delay-1">
 				<div class="extras-group__header">
 					<h3 class="extras-group__title"><?php echo esc_html( $data['paid_heading'] ); ?></h3>
-					<p class="extras-group__helper"><?php echo esc_html( $data['paid_helper'] ); ?></p>
+					<p class="extras-group__helper">
+						<span class="extras-group__status-dot" aria-hidden="true"></span>
+						<span><?php echo esc_html( $data['paid_helper'] ); ?></span>
+					</p>
 				</div>
 				<ul class="extras-grid mt-6">
 					<?php foreach ( $data['paid'] as $item ) : ?>

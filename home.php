@@ -1,6 +1,6 @@
 <?php
 /**
- * Category / tag / date archives — same card grid as News.
+ * Blog posts index — public News archive (/news/ when Posts page is set).
  *
  * @package seahivez-theme
  */
@@ -15,40 +15,43 @@ get_header();
 		null,
 		seahivez_get_page_hero_defaults(
 			array(
-				'eyebrow'     => __( 'Archive', 'seahivez-theme' ),
-				'heading'     => wp_strip_all_tags( get_the_archive_title() ),
-				'description' => get_the_archive_description() ? wp_strip_all_tags( get_the_archive_description() ) : '',
+				'eyebrow'     => __( 'News & Inspiration', 'seahivez-theme' ),
+				'heading'     => __( 'Stories from Mallorca', 'seahivez-theme' ),
+				'description' => __( 'Discover local places, charter inspiration, hidden coves and life on the Mediterranean.', 'seahivez-theme' ),
 				'image'       => seahivez_get_theme_image_uri( 'assets/images/photo/1.jpg' ),
-				'image_alt'   => '',
+				'image_alt'   => __( 'SeaHivez news and inspiration', 'seahivez-theme' ),
 				'compact'     => true,
 			)
 		)
 	);
 	?>
 
-	<section class="news-archive section-spacing bg-warm-white">
+	<section class="news-archive section-spacing bg-warm-white" aria-label="<?php esc_attr_e( 'All news', 'seahivez-theme' ); ?>">
 		<div class="site-container">
 			<?php if ( have_posts() ) : ?>
-				<ul class="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3" role="list">
+				<ul class="news-archive__grid grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3" role="list">
 					<?php
+					$index = 0;
 					while ( have_posts() ) :
 						the_post();
 						?>
-						<li class="reveal">
+						<li class="reveal<?php echo $index % 3 ? ' reveal-delay-' . min( $index % 3, 2 ) : ''; ?>">
 							<?php get_template_part( 'template-parts/news/news-card' ); ?>
 						</li>
 						<?php
+						++$index;
 					endwhile;
 					?>
 				</ul>
 
-				<nav class="news-pagination mt-14" aria-label="<?php esc_attr_e( 'Pagination', 'seahivez-theme' ); ?>">
+				<nav class="news-pagination mt-14" aria-label="<?php esc_attr_e( 'News pagination', 'seahivez-theme' ); ?>">
 					<?php
 					the_posts_pagination(
 						array(
 							'mid_size'  => 2,
 							'prev_text' => seahivez_get_arrow_svg( 'left', array( 'size' => 'sm' ) ) . '<span class="screen-reader-text">' . esc_html__( 'Previous', 'seahivez-theme' ) . '</span>',
 							'next_text' => '<span class="screen-reader-text">' . esc_html__( 'Next', 'seahivez-theme' ) . '</span>' . seahivez_get_arrow_svg( 'right', array( 'size' => 'sm' ) ),
+							'class'     => 'pagination',
 						)
 					);
 					?>

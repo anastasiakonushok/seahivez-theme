@@ -35,3 +35,20 @@ function seahivez_theme_pingback_header() {
 	}
 }
 add_action( 'wp_head', 'seahivez_theme_pingback_header' );
+
+/**
+ * News archive: 9 posts per page on the Posts page and post type archives.
+ *
+ * @param WP_Query $query Main query.
+ * @return void
+ */
+function seahivez_news_posts_per_page( $query ) {
+	if ( is_admin() || ! $query->is_main_query() ) {
+		return;
+	}
+
+	if ( $query->is_home() || $query->is_category() || $query->is_tag() || $query->is_author() || $query->is_date() ) {
+		$query->set( 'posts_per_page', 9 );
+	}
+}
+add_action( 'pre_get_posts', 'seahivez_news_posts_per_page' );

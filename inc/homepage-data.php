@@ -211,8 +211,9 @@ function seahivez_get_home_extras_data() {
 			array( 'icon' => 'towel', 'title' => __( 'Towels', 'seahivez-theme' ), 'included' => true ),
 		),
 		'paid'             => array(
-			array( 'icon' => 'seabob', 'title' => __( 'SeaBob', 'seahivez-theme' ), 'price' => '300', 'included' => false ),
-			array( 'icon' => 'jet-ski', 'title' => __( 'Jet Ski', 'seahivez-theme' ), 'price' => '400', 'included' => false ),
+			array( 'icon' => 'seabob', 'title' => __( 'SeaBob', 'seahivez-theme' ), 'price' => '400', 'included' => false ),
+			array( 'icon' => 'jet-ski', 'title' => __( 'Jet Ski', 'seahivez-theme' ), 'price' => '500', 'included' => false ),
+			array( 'icon' => 'efoil-air', 'title' => __( 'Efoil Air', 'seahivez-theme' ), 'price' => '500', 'included' => false ),
 		),
 		'amenities'        => array(
 			__( 'Towel service included', 'seahivez-theme' ),
@@ -440,16 +441,19 @@ function seahivez_get_home_faq_items() {
  */
 function seahivez_get_home_news_header() {
 	return array(
-		'eyebrow'     => __( 'Latest News', 'seahivez-theme' ),
-		'heading'     => __( 'News & Inspiration', 'seahivez-theme' ),
-		'description' => __( 'Discover Mallorca, yacht life and the latest SeaHivez updates.', 'seahivez-theme' ),
+		'eyebrow'     => __( 'News & Inspiration', 'seahivez-theme' ),
+		'heading'     => __( 'Stories from Mallorca', 'seahivez-theme' ),
+		'description' => __( 'Discover local places, charter inspiration, hidden coves and life on the Mediterranean.', 'seahivez-theme' ),
 		'cta_label'   => __( 'View all news', 'seahivez-theme' ),
 		'cta_url'     => seahivez_get_posts_page_url(),
 	);
 }
 
 /**
- * URL for the WordPress posts index / blog page.
+ * URL for the WordPress posts index / News archive.
+ *
+ * Uses the configured Posts page when set (Settings → Reading).
+ * Falls back to /news/ so the public URL stays stable before configuration.
  *
  * @return string
  */
@@ -460,7 +464,7 @@ function seahivez_get_posts_page_url() {
 		return get_permalink( $page_for_posts );
 	}
 
-	return home_url( '/' );
+	return home_url( '/news/' );
 }
 
 /**

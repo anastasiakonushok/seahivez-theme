@@ -22,6 +22,7 @@ function seahivez_get_allowed_toy_icons() {
 		'paddle-board'  => __( 'Paddle Board', 'seahivez-theme' ),
 		'seabob'        => __( 'SeaBob', 'seahivez-theme' ),
 		'jet-ski'       => __( 'Jet Ski', 'seahivez-theme' ),
+		'efoil-air'     => __( 'Efoil Air', 'seahivez-theme' ),
 		'towel'         => __( 'Towel Service', 'seahivez-theme' ),
 		'water'         => __( 'Drinking Water', 'seahivez-theme' ),
 		'flippers'      => __( 'Flippers', 'seahivez-theme' ),

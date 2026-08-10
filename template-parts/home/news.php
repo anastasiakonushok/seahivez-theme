@@ -50,7 +50,7 @@ $header = seahivez_get_home_news_header();
 				$news_query->the_post();
 				?>
 				<li class="news__item reveal<?php echo $index ? ' reveal-delay-' . min( $index, 2 ) : ''; ?>">
-					<?php get_template_part( 'template-parts/cards/news-card' ); ?>
+					<?php get_template_part( 'template-parts/news/news-card' ); ?>
 				</li>
 				<?php
 				++$index;
