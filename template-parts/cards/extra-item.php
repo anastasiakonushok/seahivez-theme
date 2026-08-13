@@ -45,7 +45,7 @@ $icon_slug    = sanitize_key( str_replace( '_', '-', $args['icon'] ) );
 			seahivez_render_toy_icon(
 				$icon_slug,
 				array(
-					'class' => 'extra-item__icon h-8 w-8',
+					'class' => 'extra-item__icon h-10 w-10',
 				)
 			);
 			?>

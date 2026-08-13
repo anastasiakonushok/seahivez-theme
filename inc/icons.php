@@ -44,11 +44,25 @@ function seahivez_get_toy_icon_path( $icon_name ) {
 		return false;
 	}
 
-	$relative = 'assets/images/icons/toys/' . $icon_name . '.svg';
+	// Prefer designer-exported assets when present.
+	$file_map = array(
+		'snorkel'      => 'svg-snorkel-sets.svg',
+		'paddle-board' => 'svg-paddleboard.svg',
+		'flippers'     => 'svg-flippers.svg',
+		'towel'        => 'svg-towels.svg',
+		'seabob'       => 'svg-seabob.svg',
+		'jet-ski'      => 'svg-jet-ski.svg',
+		'efoil-air'    => 'svg-e-foil.svg',
+	);
+
+	$filename = $file_map[ $icon_name ] ?? ( $icon_name . '.svg' );
+	$relative = 'assets/images/icons/toys/' . $filename;
 	$path     = get_theme_file_path( $relative );
 
 	if ( ! file_exists( $path ) ) {
-		return false;
+		// Fallback to slug.svg (legacy stroke icons).
+		$fallback = get_theme_file_path( 'assets/images/icons/toys/' . $icon_name . '.svg' );
+		return file_exists( $fallback ) ? $fallback : false;
 	}
 
 	return $path;
@@ -60,74 +74,95 @@ function seahivez_get_toy_icon_path( $icon_name ) {
  * @return array<string, array<string, bool>>
  */
 function seahivez_get_svg_allowed_html() {
+	$common = array(
+		'class'           => true,
+		'fill'            => true,
+		'stroke'          => true,
+		'stroke-width'    => true,
+		'stroke-linecap'  => true,
+		'stroke-linejoin' => true,
+		'opacity'         => true,
+		'transform'       => true,
+		'clip-path'       => true,
+		'mask'            => true,
+		'style'           => true,
+	);
+
 	return array(
-		'svg'      => array(
-			'class'           => true,
-			'xmlns'           => true,
-			'viewbox'         => true,
-			'width'           => true,
-			'height'          => true,
-			'fill'            => true,
-			'stroke'          => true,
-			'stroke-width'    => true,
-			'stroke-linecap'  => true,
-			'stroke-linejoin' => true,
-			'aria-hidden'     => true,
-			'role'            => true,
-			'focusable'       => true,
+		'svg'      => array_merge(
+			$common,
+			array(
+				'xmlns'       => true,
+				'viewbox'     => true,
+				'width'       => true,
+				'height'      => true,
+				'aria-hidden' => true,
+				'role'        => true,
+				'focusable'   => true,
+			)
 		),
-		'path'     => array(
-			'd'               => true,
-			'fill'            => true,
-			'stroke'          => true,
-			'stroke-width'    => true,
-			'stroke-linecap'  => true,
-			'stroke-linejoin' => true,
+		'path'     => array_merge(
+			$common,
+			array(
+				'd' => true,
+			)
 		),
-		'circle'   => array(
-			'cx'              => true,
-			'cy'              => true,
-			'r'               => true,
-			'fill'            => true,
-			'stroke'          => true,
-			'stroke-width'    => true,
+		'circle'   => array_merge(
+			$common,
+			array(
+				'cx' => true,
+				'cy' => true,
+				'r'  => true,
+			)
 		),
-		'line'     => array(
-			'x1'              => true,
-			'y1'              => true,
-			'x2'              => true,
-			'y2'              => true,
-			'stroke'          => true,
-			'stroke-width'    => true,
-			'stroke-linecap'  => true,
+		'line'     => array_merge(
+			$common,
+			array(
+				'x1' => true,
+				'y1' => true,
+				'x2' => true,
+				'y2' => true,
+			)
 		),
-		'rect'     => array(
-			'x'               => true,
-			'y'               => true,
-			'width'           => true,
-			'height'          => true,
-			'rx'              => true,
-			'fill'            => true,
-			'stroke'          => true,
-			'stroke-width'    => true,
+		'rect'     => array_merge(
+			$common,
+			array(
+				'x'      => true,
+				'y'      => true,
+				'width'  => true,
+				'height' => true,
+				'rx'     => true,
+				'ry'     => true,
+			)
 		),
-		'polyline' => array(
-			'points'          => true,
-			'fill'            => true,
-			'stroke'          => true,
-			'stroke-width'    => true,
-			'stroke-linecap'  => true,
-			'stroke-linejoin' => true,
+		'polyline' => array_merge(
+			$common,
+			array(
+				'points' => true,
+			)
 		),
-		'polygon'  => array(
-			'points'          => true,
-			'fill'            => true,
-			'stroke'          => true,
-			'stroke-width'    => true,
-			'stroke-linejoin' => true,
+		'polygon'  => array_merge(
+			$common,
+			array(
+				'points' => true,
+			)
 		),
-		'g'        => array(
+		'g'        => $common,
+		'defs'     => array(),
+		'clippath' => array(
+			'id'    => true,
 			'class' => true,
+		),
+		'mask'     => array(
+			'id'           => true,
+			'class'        => true,
+			'style'        => true,
+			'maskunits'    => true,
+			'maskcontentunits' => true,
+			'x'            => true,
+			'y'            => true,
+			'width'        => true,
+			'height'       => true,
 		),
 	);
 }
@@ -165,6 +200,9 @@ function seahivez_get_toy_icon_svg( $icon_name, $args = array() ) {
 	if ( false === $svg || '' === $svg ) {
 		return '';
 	}
+
+	// Designer exports use navy fills — map to currentColor for hover accents.
+	$svg = str_ireplace( array( '#0B1F3A', '#070C26' ), 'currentColor', $svg );
 
 	$class_attr = esc_attr( $args['class'] );
 

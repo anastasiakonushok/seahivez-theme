@@ -19,6 +19,7 @@ function seahivez_get_social_contact_data() {
 		'instagram_handle' => '@seahivez',
 		'whatsapp_number'  => '34000000000',
 		'whatsapp_url'     => '',
+		'telegram_url'     => 'https://t.me/seahivez',
 		'phone'            => '+34 000 000 000',
 		'email'            => 'info@seahivez.com',
 		'address'          => __( "Mallorca / S'Arenal", 'seahivez-theme' ),
@@ -89,42 +90,52 @@ function seahivez_get_allowed_social_icons() {
 	return array(
 		'instagram' => __( 'Instagram', 'seahivez-theme' ),
 		'whatsapp'  => __( 'WhatsApp', 'seahivez-theme' ),
+		'telegram'  => __( 'Telegram', 'seahivez-theme' ),
 	);
 }
 
 /**
- * SVG path markup for social icons.
+ * Resolve a social icon slug to an absolute SVG file path.
  *
  * @param string $icon_name Icon identifier.
  * @return string|false
  */
-function seahivez_get_social_icon_paths( $icon_name ) {
-	$paths = array(
-		'instagram' => array(
-			'<rect x="3" y="3" width="18" height="18" rx="5"/>',
-			'<circle cx="12" cy="12" r="4"/>',
-			'<circle cx="17" cy="7" r="0.75" fill="currentColor" stroke="none"/>',
-		),
-		'whatsapp'  => array(
-			'<path d="M8.5 19.5 5 20l.8-3.2C4.3 15.2 3.5 13.2 3.5 11a8.5 8.5 0 1 1 17 0 8.5 8.5 0 0 1-12 8.5z"/>',
-			'<path d="M9.5 10.5c.3.6 1.2 2 2.8 2.6 1.1.4 1.8.2 2.3-.1.3-.2.9-.7 1-.9.1-.2.1-.4 0-.6-.1-.1-.4-.3-.6-.4-.2-.1-.4-.1-.5 0-.2.2-.5.5-.6.6-.1.1-.3.1-.5 0-.4-.2-1.5-.6-2.4-1.5-.9-.9-1.3-2-1.4-2.3 0-.2 0-.4.2-.6.1-.1.3-.3.4-.4.1-.1.1-.3 0-.4-.1-.2-.3-.7-.4-.9-.1-.2-.2-.2-.4-.2h-.8c-.2 0-.5.1-.7.4-.2.3-.9.9-.9 2.1 0 1.2.9 2.4 1 2.6.1.2 1.8 2.8 4.4 3.8.6.2 1 .4 1.3.5.6.2 1.1.2 1.5.1.4-.1 1.3-.5 1.5-1 .2-.5.2-.9.1-1-.1-.1-.3-.2-.6-.3-.3-.1-1.3-.6-1.5-.7-.2-.1-.4-.1-.6 0-.2.1-.5.3-.6.4-.2.1-.3.1-.5 0z"/>',
-		),
+function seahivez_get_social_icon_path( $icon_name ) {
+	$icon_name = sanitize_key( $icon_name );
+	$allowed   = seahivez_get_allowed_social_icons();
+
+	if ( ! array_key_exists( $icon_name, $allowed ) ) {
+		return false;
+	}
+
+	$file_map = array(
+		'instagram' => 'svg-instagram.svg',
+		'whatsapp'  => 'svg-whatsup.svg',
+		'telegram'  => 'svg-telegram.svg',
 	);
 
-	$icon_name = sanitize_key( $icon_name );
+	$filename = $file_map[ $icon_name ] ?? '';
 
-	return $paths[ $icon_name ] ?? false;
+	if ( '' === $filename ) {
+		return false;
+	}
+
+	$relative = 'assets/images/icons/social-media/' . $filename;
+	$path     = get_theme_file_path( $relative );
+
+	return file_exists( $path ) ? $path : false;
 }
 
 /**
  * Build inline SVG markup for a social icon.
+ *
+ * Loads designer SVGs from assets/images/icons/social-media/.
  *
  * @param string $icon_name Icon identifier.
  * @param array  $args {
  *     Optional. Rendering arguments.
  *
  *     @type string $class CSS classes for the SVG element.
- *     @type string $size  Size token: sm, md.
  * }
  * @return string
  */
@@ -134,22 +145,48 @@ function seahivez_get_social_icon_svg( $icon_name, $args = array() ) {
 	);
 
 	$args   = wp_parse_args( $args, $defaults );
-	$paths  = seahivez_get_social_icon_paths( $icon_name );
 	$labels = seahivez_get_allowed_social_icons();
+	$path   = seahivez_get_social_icon_path( $icon_name );
 
-	if ( ! $paths || ! isset( $labels[ $icon_name ] ) ) {
+	if ( ! $path || ! isset( $labels[ $icon_name ] ) ) {
 		return '';
 	}
 
+	// phpcs:ignore WordPress.WP.AlternativeFunctions.file_get_contents_file_get_contents
+	$svg = file_get_contents( $path );
+
+	if ( false === $svg || '' === $svg ) {
+		return '';
+	}
+
+	$svg = str_ireplace( array( '#0B1F3A', '#070C26' ), 'currentColor', $svg );
+
 	$classes = trim( 'icon-social h-6 w-6 ' . $args['class'] );
+	$class_attr = esc_attr( $classes );
 
-	$path_markup = implode( '', $paths );
+	if ( preg_match( '/<svg\b([^>]*)>/', $svg, $matches ) ) {
+		$attrs = $matches[1];
 
-	$svg = sprintf(
-		'<svg class="%1$s" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">%2$s</svg>',
-		esc_attr( $classes ),
-		$path_markup
-	);
+		if ( false !== stripos( $attrs, 'class=' ) ) {
+			$svg = preg_replace(
+				'/<svg\b([^>]*)\bclass=(["\'])(.*?)\2/',
+				'<svg$1class=$2$3 ' . $class_attr . '$2',
+				$svg,
+				1
+			);
+		} else {
+			$svg = preg_replace(
+				'/<svg\b/',
+				'<svg class="' . $class_attr . '"',
+				$svg,
+				1
+			);
+		}
+
+		if ( false === stripos( $attrs, 'aria-hidden=' ) ) {
+			$svg = preg_replace( '/<svg\b/', '<svg aria-hidden="true" focusable="false"', $svg, 1 );
+		}
+	}
 
 	return wp_kses( $svg, seahivez_get_svg_allowed_html() );
 }
@@ -191,6 +228,15 @@ function seahivez_get_social_links() {
 			'url'      => $whatsapp_url,
 			'label'    => __( 'WhatsApp', 'seahivez-theme' ),
 			'subtitle' => __( 'Chat with us', 'seahivez-theme' ),
+		);
+	}
+
+	if ( ! empty( $data['telegram_url'] ) ) {
+		$links[] = array(
+			'key'      => 'telegram',
+			'url'      => $data['telegram_url'],
+			'label'    => __( 'Telegram', 'seahivez-theme' ),
+			'subtitle' => __( 'Message us', 'seahivez-theme' ),
 		);
 	}
 
