@@ -310,10 +310,15 @@ function seahivez_get_spec_icon_path( $icon_name ) {
 	}
 
 	$file_map = array(
-		'guests' => 'svg-guests.svg',
-		'crew'   => 'svg-crew.svg',
-		'cabins' => 'svg-cabins.svg',
-		'speed'  => 'speed.svg',
+		'guests'    => 'svg-guests.svg',
+		'crew'      => 'svg-crew.svg',
+		'cabins'    => 'svg-cabins.svg',
+		'length'    => 'svg-length.svg',
+		'beam'      => 'svg-beam.svg',
+		'draft'     => 'svg-draft.svg',
+		'engines'   => 'svg-engines.svg',
+		'bathrooms' => 'svg-bathrooms.svg',
+		'speed'     => 'svg-speed.svg',
 	);
 
 	$filename = $file_map[ $icon_name ] ?? ( $icon_name . '.svg' );
@@ -321,7 +326,9 @@ function seahivez_get_spec_icon_path( $icon_name ) {
 	$path     = get_theme_file_path( $relative );
 
 	if ( ! file_exists( $path ) ) {
-		return false;
+		// Fallback to legacy slug.svg when no designer export exists yet.
+		$fallback = get_theme_file_path( 'assets/images/icons/specs/' . $icon_name . '.svg' );
+		return file_exists( $fallback ) ? $fallback : false;
 	}
 
 	return $path;
@@ -336,7 +343,7 @@ function seahivez_get_spec_icon_path( $icon_name ) {
  */
 function seahivez_get_spec_icon_svg( $icon_name, $args = array() ) {
 	$defaults = array(
-		'class'       => 'h-6 w-6',
+		'class'       => 'h-7 w-7',
 		'aria_hidden' => true,
 	);
 
@@ -355,7 +362,7 @@ function seahivez_get_spec_icon_svg( $icon_name, $args = array() ) {
 	}
 
 	// Map original brand-navy artwork to theme text color without editing source geometry.
-	$svg = str_ireplace( '#070C26', 'currentColor', $svg );
+	$svg = str_ireplace( array( '#0B1F3A', '#070C26' ), 'currentColor', $svg );
 
 	$class_attr = esc_attr( $args['class'] );
 

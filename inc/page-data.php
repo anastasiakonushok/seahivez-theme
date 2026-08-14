@@ -46,6 +46,62 @@ function seahivez_get_yacht_page_hero() {
 }
 
 /**
+ * Yacht layout spreads — deck plans with interior/exterior feature lists.
+ *
+ * @return array<int, array<string, mixed>>
+ */
+function seahivez_get_yacht_layout_sections() {
+	return array(
+		array(
+			'id'           => 'interiors',
+			'eyebrow'      => __( 'Interiors', 'seahivez-theme' ),
+			'heading'      => __( 'Inside the yacht', 'seahivez-theme' ),
+			'description'  => __( 'Light-filled cabins and a refined salon create a calm onboard atmosphere — designed for comfort between swim stops, lunch, and golden-hour cruising.', 'seahivez-theme' ),
+			'list_heading' => __( 'Below deck', 'seahivez-theme' ),
+			'plan'         => array(
+				'path'  => 'assets/images/home/interiores.png',
+				'alt'   => __( 'Numarine 55 Fly interior deck plan', 'seahivez-theme' ),
+				'frame' => 'light',
+			),
+			'items' => array(
+				__( 'Full-beam master cabin with ensuite', 'seahivez-theme' ),
+				__( 'VIP forward cabin', 'seahivez-theme' ),
+				__( 'Twin guest cabin', 'seahivez-theme' ),
+				__( 'Open salon & dining area', 'seahivez-theme' ),
+				__( 'Fully equipped galley', 'seahivez-theme' ),
+				__( '2 bathrooms with showers', 'seahivez-theme' ),
+				__( 'Natural light throughout', 'seahivez-theme' ),
+				__( 'Air-conditioned interiors', 'seahivez-theme' ),
+			),
+			'bg' => 'bg-warm-white',
+		),
+		array(
+			'id'           => 'exteriors',
+			'eyebrow'      => __( 'Exterior areas', 'seahivez-theme' ),
+			'heading'      => __( 'Outdoor living', 'seahivez-theme' ),
+			'description'  => __( 'From the elevated flybridge to the aft lounge and swim platform, open decks are laid out for sun, conversation, and effortless Mediterranean entertaining.', 'seahivez-theme' ),
+			'list_heading' => __( 'On deck', 'seahivez-theme' ),
+			'plan'         => array(
+				'path'  => 'assets/images/home/exteriores.png',
+				'alt'   => __( 'Numarine 55 Fly exterior deck plan', 'seahivez-theme' ),
+				'frame' => 'dark',
+			),
+			'items' => array(
+				__( 'Elevated flybridge with seating', 'seahivez-theme' ),
+				__( 'Bow sunpad & forward lounge', 'seahivez-theme' ),
+				__( 'Aft lounge with U-shaped sofa', 'seahivez-theme' ),
+				__( 'Outdoor dining & coffee table', 'seahivez-theme' ),
+				__( 'Main cockpit & helm station', 'seahivez-theme' ),
+				__( 'Teak swim platform', 'seahivez-theme' ),
+				__( 'Hard-top shading', 'seahivez-theme' ),
+				__( 'Panoramic Mediterranean views', 'seahivez-theme' ),
+			),
+			'bg' => 'bg-sand-50',
+		),
+	);
+}
+
+/**
  * Yacht page editorial blocks.
  *
  * @return array<int, array<string, string>>
@@ -53,17 +109,9 @@ function seahivez_get_yacht_page_hero() {
 function seahivez_get_yacht_editorial_sections() {
 	return array(
 		array(
-			'eyebrow'     => __( 'Interiors', 'seahivez-theme' ),
-			'heading'     => __( 'Spacious interiors', 'seahivez-theme' ),
-			'description' => __( 'Light-filled cabins and a refined salon create a calm onboard atmosphere — designed for comfort between swim stops, lunch, and golden-hour cruising.', 'seahivez-theme' ),
-			'image'       => seahivez_get_theme_image_uri( 'assets/images/photo/1.jpg' ),
-			'image_alt'   => __( 'SeaHivez yacht lifestyle on the water', 'seahivez-theme' ),
-			'reverse'     => false,
-		),
-		array(
-			'eyebrow'     => __( 'Outdoor living', 'seahivez-theme' ),
-			'heading'     => __( 'Flybridge and deck', 'seahivez-theme' ),
-			'description' => __( 'Open decks and an elevated flybridge offer panoramic Mediterranean views — ideal for sun lounging, conversation, and unhurried hours at sea.', 'seahivez-theme' ),
+			'eyebrow'     => __( 'Design', 'seahivez-theme' ),
+			'heading'     => __( 'Contemporary flybridge profile', 'seahivez-theme' ),
+			'description' => __( 'Clean lines, generous glazing, and a balanced hull form define the Numarine 55 Fly — a modern silhouette built for confident cruising along the Balearic coast.', 'seahivez-theme' ),
 			'image'       => seahivez_get_theme_image_uri( 'assets/images/photo/3.jpg' ),
 			'image_alt'   => __( 'Yacht anchored in a Mediterranean cove', 'seahivez-theme' ),
 			'reverse'     => true,

@@ -30,7 +30,7 @@ $has_languages = ! empty( $args['languages'] );
 <div class="spec-item <?php echo esc_attr( $args['class'] ); ?>">
 	<?php if ( ! empty( $args['icon'] ) ) : ?>
 		<div class="spec-item__icon text-navy-900" aria-hidden="true">
-			<?php seahivez_render_spec_icon( $args['icon'], array( 'class' => 'spec-item__icon-svg h-6 w-6 md:h-7 md:w-7' ) ); ?>
+			<?php seahivez_render_spec_icon( $args['icon'], array( 'class' => 'spec-item__icon-svg h-7 w-7 md:h-8 md:w-8' ) ); ?>
 		</div>
 	<?php endif; ?>
 

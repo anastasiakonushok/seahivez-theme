@@ -271,7 +271,7 @@
 	}
 
 	.social-links__list {
-		@apply m-0 flex list-none items-center gap-3 p-0;
+		@apply m-0 flex list-none items-center justify-start gap-4 p-0;
 	}
 
 	.social-links__heading {
@@ -283,11 +283,11 @@
 	}
 
 	.social-link {
-		@apply inline-flex h-11 w-11 items-center justify-center rounded-md text-navy-900 transition-colors duration-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-navy-700;
+		@apply inline-flex shrink-0 items-center justify-center rounded-md text-navy-900 transition-colors duration-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-navy-700;
 	}
 
 	.social-link--compact {
-		@apply hover:text-gold-dark;
+		@apply h-6 w-6 p-0 hover:text-gold-dark;
 	}
 
 	.social-link--light {
@@ -308,6 +308,14 @@
 
 	.mobile-navigation__social {
 		@apply pt-2;
+	}
+
+	.mobile-navigation__social .social-link--compact {
+		@apply h-10 w-10;
+	}
+
+	.site-footer__social .social-links__list {
+		@apply gap-5;
 	}
 
 	/* Accent hover — warm sand / gold */
@@ -745,11 +753,11 @@
 	}
 
 	.spec-item--bar .spec-item__icon {
-		@apply mb-2 flex h-7 items-start;
+		@apply mb-2 flex h-8 items-start;
 	}
 
 	.spec-item--bar .spec-item__icon-svg {
-		@apply !h-6 !w-6 shrink-0;
+		@apply !h-7 !w-7 shrink-0;
 	}
 
 	.spec-item__icon-svg {
@@ -778,6 +786,47 @@
 
 	.spec-item__value--languages {
 		@apply mt-2 font-normal;
+	}
+
+	/* Yacht layout spreads (deck plans + feature lists) */
+	.yacht-layout__plan-frame {
+		@apply flex items-center justify-center overflow-hidden rounded-md border p-4 sm:p-5 lg:p-6;
+	}
+
+	.yacht-layout__plan-frame--light {
+		@apply border-gray-200/80 bg-sand-50;
+	}
+
+	.yacht-layout__plan-frame--dark {
+		@apply border-navy-800 bg-navy-950;
+	}
+
+	.yacht-layout__plan-image {
+		@apply mx-auto h-auto w-full max-h-[320px] max-w-[180px] object-contain sm:max-h-[340px] sm:max-w-[190px] lg:max-h-[380px] lg:max-w-[210px];
+	}
+
+	.yacht-layout__heading-rule {
+		@apply mt-4 h-px w-12 bg-gold/70;
+	}
+
+	.yacht-layout__features {
+		@apply mt-8 rounded-md border border-gray-200/80 bg-white p-6 sm:p-7;
+	}
+
+	.yacht-layout__features-title {
+		@apply border-b border-gray-200 pb-4 text-xs font-medium uppercase leading-[1.2] tracking-[0.16em] text-navy-800/70;
+	}
+
+	.yacht-layout__features-list {
+		@apply m-0 grid list-none gap-x-8 gap-y-3 p-0 pt-5 sm:grid-cols-2;
+	}
+
+	.yacht-layout__feature {
+		@apply flex items-start gap-3 text-sm leading-snug text-gray-600;
+	}
+
+	.yacht-layout__feature-marker {
+		@apply mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-gold;
 	}
 
 	/* Interior page content (generic page / single) */

@@ -55,9 +55,9 @@ $yacht_fallback_links = array(
 				<?php endif; ?>
 
 				<div class="pt-2">
-				<h2 class="type-eyebrow mb-4 text-white">
-					<?php esc_html_e( 'Follow us', 'seahivez-theme' ); ?>
-				</h2>
+					<h2 class="type-eyebrow mb-4 text-white">
+						<?php esc_html_e( 'Follow us', 'seahivez-theme' ); ?>
+					</h2>
 					<?php
 					get_template_part(
 						'template-parts/components/social-links',
