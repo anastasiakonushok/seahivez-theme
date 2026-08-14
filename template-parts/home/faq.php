@@ -12,8 +12,7 @@ if ( empty( $items ) ) {
 	return;
 }
 
-$whatsapp_url = seahivez_get_whatsapp_url();
-$contact_url  = ! empty( $header['contact_url'] ) ? $header['contact_url'] : home_url( '/contact/' );
+$contact_url = ! empty( $header['contact_url'] ) ? $header['contact_url'] : home_url( '/contact/' );
 ?>
 
 <section class="faq section-spacing bg-warm-white" id="faq" aria-labelledby="faq-heading">
@@ -30,23 +29,21 @@ $contact_url  = ! empty( $header['contact_url'] ) ? $header['contact_url'] : hom
 
 				<div class="faq__cta mt-8 hidden lg:block">
 					<p class="faq__cta-label"><?php echo esc_html( $header['cta_heading'] ); ?></p>
-					<div class="faq__cta-actions mt-4 flex flex-wrap items-center gap-4">
-						<a class="link-arrow" href="<?php echo esc_url( $contact_url ); ?>">
+					<div class="faq__cta-actions mt-4 flex flex-wrap items-center gap-3">
+						<a class="faq__contact link-arrow" href="<?php echo esc_url( $contact_url ); ?>">
 							<?php echo esc_html( $header['cta_label'] ); ?>
 							<?php seahivez_render_link_arrow_icon( 'sm' ); ?>
 						</a>
 
-						<?php if ( $whatsapp_url ) : ?>
-							<a
-								class="faq__whatsapp social-link social-link--compact"
-								href="<?php echo esc_url( $whatsapp_url ); ?>"
-								target="_blank"
-								rel="noopener noreferrer"
-								aria-label="<?php esc_attr_e( 'WhatsApp', 'seahivez-theme' ); ?>"
-							>
-								<?php seahivez_render_social_icon( 'whatsapp' ); ?>
-							</a>
-						<?php endif; ?>
+						<?php
+						get_template_part(
+							'template-parts/components/social-links',
+							null,
+							array(
+								'class' => 'faq__social',
+							)
+						);
+						?>
 					</div>
 				</div>
 			</div>
@@ -72,23 +69,21 @@ $contact_url  = ! empty( $header['contact_url'] ) ? $header['contact_url'] : hom
 
 			<div class="faq__cta faq__cta--mobile reveal lg:hidden">
 				<p class="faq__cta-label"><?php echo esc_html( $header['cta_heading'] ); ?></p>
-				<div class="faq__cta-actions mt-4 flex flex-wrap items-center gap-4">
-					<a class="link-arrow" href="<?php echo esc_url( $contact_url ); ?>">
+				<div class="faq__cta-actions mt-4 flex flex-wrap items-center gap-3">
+					<a class="faq__contact link-arrow" href="<?php echo esc_url( $contact_url ); ?>">
 						<?php echo esc_html( $header['cta_label'] ); ?>
 						<?php seahivez_render_link_arrow_icon( 'sm' ); ?>
 					</a>
 
-					<?php if ( $whatsapp_url ) : ?>
-						<a
-							class="faq__whatsapp social-link social-link--compact"
-							href="<?php echo esc_url( $whatsapp_url ); ?>"
-							target="_blank"
-							rel="noopener noreferrer"
-							aria-label="<?php esc_attr_e( 'WhatsApp', 'seahivez-theme' ); ?>"
-						>
-							<?php seahivez_render_social_icon( 'whatsapp' ); ?>
-						</a>
-					<?php endif; ?>
+					<?php
+					get_template_part(
+						'template-parts/components/social-links',
+						null,
+						array(
+							'class' => 'faq__social',
+						)
+					);
+					?>
 				</div>
 			</div>
 		</div>

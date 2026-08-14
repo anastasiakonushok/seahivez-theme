@@ -312,6 +312,7 @@ function seahivez_get_spec_icon_path( $icon_name ) {
 	$file_map = array(
 		'guests' => 'svg-guests.svg',
 		'crew'   => 'svg-crew.svg',
+		'cabins' => 'svg-cabins.svg',
 		'speed'  => 'speed.svg',
 	);
 

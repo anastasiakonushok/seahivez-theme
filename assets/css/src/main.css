@@ -529,8 +529,24 @@
 		@apply text-sm font-medium text-navy-900;
 	}
 
-	.faq__whatsapp {
-		@apply h-10 w-10 shrink-0 text-navy-900;
+	.faq__contact {
+		@apply inline-flex items-center gap-2.5 rounded-lg bg-gray-100 px-4 py-2.5 text-sm font-medium uppercase tracking-wide text-navy-900 transition-colors duration-200 hover:bg-gray-200 hover:text-gold-dark;
+	}
+
+	.faq__contact:hover .icon-arrow {
+		@apply translate-x-0.5 text-gold;
+	}
+
+	.faq__cta-actions .faq__social {
+		@apply inline-flex;
+	}
+
+	.faq__cta-actions .social-links__list {
+		@apply gap-2;
+	}
+
+	.faq__cta-actions .social-link {
+		@apply h-10 w-10 rounded-lg bg-gray-100 hover:bg-gray-200;
 	}
 
 	.faq-accordion {

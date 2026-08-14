@@ -134,7 +134,7 @@ function seahivez_get_home_specification_groups() {
 			'items'      => array(
 				array( 'icon' => 'guests', 'label' => __( 'Guests', 'seahivez-theme' ), 'value' => '10' ),
 				array( 'icon' => 'cabins', 'label' => __( 'Cabins', 'seahivez-theme' ), 'value' => '3' ),
-				array( 'icon' => 'bathrooms', 'label' => __( 'Bathrooms', 'seahivez-theme' ), 'value' => '3' ),
+				array( 'icon' => 'bathrooms', 'label' => __( 'Bathrooms', 'seahivez-theme' ), 'value' => '2' ),
 			),
 		),
 		array(
