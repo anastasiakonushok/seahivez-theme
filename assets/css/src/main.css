@@ -829,6 +829,15 @@
 		@apply mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-gold;
 	}
 
+	/* SuperSaaS booking calendar */
+	.booking-widget__frame {
+		@apply min-h-[520px] overflow-hidden rounded-md border border-gray-200 bg-white;
+	}
+
+	.booking-widget__frame iframe {
+		@apply block w-full min-h-[520px] border-0;
+	}
+
 	/* Interior page content (generic page / single) */
 	.entry-content {
 		@apply text-base leading-[1.7] text-gray-700;

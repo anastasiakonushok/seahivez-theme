@@ -307,7 +307,7 @@ function seahivez_get_booking_steps() {
 		),
 		array(
 			'title'       => __( 'Submit booking', 'seahivez-theme' ),
-			'description' => __( 'Send your request through the booking form or SuperSaaS widget.', 'seahivez-theme' ),
+			'description' => __( 'Complete your reservation in the SuperSaaS calendar.', 'seahivez-theme' ),
 		),
 		array(
 			'title'       => __( 'Availability is confirmed', 'seahivez-theme' ),

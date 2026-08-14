@@ -16,6 +16,7 @@ if ( ! defined( '_S_VERSION' ) ) {
 	define( '_S_VERSION', SEAHIVEZ_VERSION );
 }
 
+require get_template_directory() . '/inc/booking.php';
 require get_template_directory() . '/inc/setup.php';
 require get_template_directory() . '/inc/menus.php';
 require get_template_directory() . '/inc/enqueue.php';
