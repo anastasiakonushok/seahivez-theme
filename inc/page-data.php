@@ -80,6 +80,65 @@ function seahivez_get_yacht_editorial_sections() {
 }
 
 /**
+ * Yacht page gallery mosaic items (more photos than homepage preview).
+ *
+ * @return array<int, array<string, mixed>>
+ */
+function seahivez_get_yacht_gallery_items() {
+	$items = array(
+		array(
+			'path'    => 'assets/images/photo/2.jpg',
+			'alt'     => __( 'Numarine 55 Fly exterior on the water', 'seahivez-theme' ),
+			'caption' => __( 'Numarine 55 Fly exterior on the water', 'seahivez-theme' ),
+			'span'    => 'md:col-span-2 md:row-span-2',
+		),
+		array(
+			'path'    => 'assets/images/photo/1.jpg',
+			'alt'     => __( 'Aerial view of SeaHivez yacht with guests swimming', 'seahivez-theme' ),
+			'caption' => __( 'Aerial view of SeaHivez yacht with guests swimming', 'seahivez-theme' ),
+			'span'    => '',
+		),
+		array(
+			'path'    => 'assets/images/photo/3.jpg',
+			'alt'     => __( 'Yacht anchored in a turquoise Mediterranean cove', 'seahivez-theme' ),
+			'caption' => __( 'Yacht anchored in a turquoise Mediterranean cove', 'seahivez-theme' ),
+			'span'    => '',
+		),
+		array(
+			'path'    => 'assets/images/photo/4.png',
+			'alt'     => __( 'Sunset charter aboard SeaHivez', 'seahivez-theme' ),
+			'caption' => __( 'Sunset light on the Numarine 55 Fly', 'seahivez-theme' ),
+			'span'    => 'md:col-span-2',
+		),
+		array(
+			'path'    => 'assets/images/photo/3.jpg',
+			'alt'     => __( 'Mediterranean cove from the yacht', 'seahivez-theme' ),
+			'caption' => __( 'Quiet anchorage along the Mallorca coast', 'seahivez-theme' ),
+			'span'    => '',
+		),
+		array(
+			'path'    => 'assets/images/photo/1.jpg',
+			'alt'     => __( 'Day on the water with SeaHivez', 'seahivez-theme' ),
+			'caption' => __( 'Swim stops and open deck living', 'seahivez-theme' ),
+			'span'    => '',
+		),
+		array(
+			'path'    => 'assets/images/photo/2.jpg',
+			'alt'     => __( 'SeaHivez yacht cruising Mallorca', 'seahivez-theme' ),
+			'caption' => __( 'Cruising the Balearic coastline', 'seahivez-theme' ),
+			'span'    => 'sm:col-span-2 md:col-span-1',
+		),
+	);
+
+	foreach ( $items as $index => $item ) {
+		$resolved        = seahivez_resolve_gallery_item_images( $item );
+		$items[ $index ] = array_merge( $item, $resolved );
+	}
+
+	return $items;
+}
+
+/**
  * Yacht page specification groups (ACF-ready titles).
  *
  * @return array<int, array<string, mixed>>

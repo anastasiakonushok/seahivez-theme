@@ -81,24 +81,7 @@ $posts_url = seahivez_get_posts_page_url();
 						<?php the_content(); ?>
 					</div>
 
-					<nav class="single-news__nav reveal mx-auto mt-14 flex max-w-[820px] flex-col gap-6 border-t border-gray-200 pt-8 sm:flex-row sm:items-start sm:justify-between" aria-label="<?php esc_attr_e( 'Post navigation', 'seahivez-theme' ); ?>">
-						<div class="single-news__nav-prev">
-							<?php
-							previous_post_link(
-								'%link',
-								seahivez_get_arrow_svg( 'left', array( 'size' => 'sm' ) ) . ' <span>' . esc_html__( 'Previous story', 'seahivez-theme' ) . '</span>'
-							);
-							?>
-						</div>
-						<div class="single-news__nav-next sm:text-right">
-							<?php
-							next_post_link(
-								'%link',
-								'<span>' . esc_html__( 'Next story', 'seahivez-theme' ) . '</span> ' . seahivez_get_arrow_svg( 'right', array( 'size' => 'sm' ) )
-							);
-							?>
-						</div>
-					</nav>
+					<?php get_template_part( 'template-parts/news/post-navigation' ); ?>
 				</div>
 			</div>
 		</article>

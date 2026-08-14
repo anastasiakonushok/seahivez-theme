@@ -11,6 +11,7 @@ import { Fancybox } from '@fancyapps/ui';
 const FANCYBOX_GROUPS = [
 	'[data-fancybox="seahivez-gallery"]',
 	'[data-fancybox="seahivez-full-gallery"]',
+	'[data-fancybox="seahivez-yacht-gallery"]',
 ];
 
 let fancyboxBound = false;

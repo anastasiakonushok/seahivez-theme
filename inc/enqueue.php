@@ -50,25 +50,7 @@ function seahivez_enqueue_assets() {
 add_action( 'wp_enqueue_scripts', 'seahivez_enqueue_assets' );
 
 /**
- * Enqueue block editor assets if needed in the future.
- */
-function seahivez_enqueue_block_editor_assets() {
-	$css_relative = 'assets/dist/main.css';
-	$css_path     = get_theme_file_path( $css_relative );
-
-	if ( file_exists( $css_path ) ) {
-		wp_enqueue_style(
-			'seahivez-main-editor',
-			get_theme_file_uri( $css_relative ),
-			array(),
-			seahivez_get_asset_version( $css_relative )
-		);
-	}
-}
-add_action( 'enqueue_block_editor_assets', 'seahivez_enqueue_block_editor_assets' );
-
-/**
- * Preload the self-hosted Satoshi variable font.
+ * Preload the self-hosted Satoshi variable font (frontend only).
  */
 function seahivez_preload_satoshi_font() {
 	$relative = 'assets/fonts/Satoshi-Variable.woff2';
