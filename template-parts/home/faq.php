@@ -12,7 +12,8 @@ if ( empty( $items ) ) {
 	return;
 }
 
-$contact_url = ! empty( $header['contact_url'] ) ? $header['contact_url'] : home_url( '/contact/' );
+$contact_url  = ! empty( $header['contact_url'] ) ? $header['contact_url'] : home_url( '/contact/' );
+$faq_page_url = seahivez_get_faq_page_url();
 ?>
 
 <section class="faq section-spacing bg-warm-white" id="faq" aria-labelledby="faq-heading">
@@ -26,6 +27,11 @@ $contact_url = ! empty( $header['contact_url'] ) ? $header['contact_url'] : home
 				<p class="type-body mt-4 max-w-md">
 					<?php echo esc_html( $header['description'] ); ?>
 				</p>
+
+				<a class="link-arrow mt-6 inline-flex" href="<?php echo esc_url( $faq_page_url ); ?>">
+					<?php esc_html_e( 'View all questions', 'seahivez-theme' ); ?>
+					<?php seahivez_render_link_arrow_icon( 'sm' ); ?>
+				</a>
 
 				<div class="faq__cta mt-8 hidden lg:block">
 					<p class="faq__cta-label"><?php echo esc_html( $header['cta_heading'] ); ?></p>

@@ -247,6 +247,39 @@ function seahivez_get_experience_included_items() {
 }
 
 /**
+ * FAQ page hero.
+ *
+ * @return array<string, mixed>
+ */
+function seahivez_get_faq_page_hero() {
+	return seahivez_get_page_hero_defaults(
+		array(
+			'eyebrow'     => __( 'FAQ', 'seahivez-theme' ),
+			'heading'     => __( 'Everything you need to know', 'seahivez-theme' ),
+			'description' => __( 'Practical answers before your day on the water with SeaHivez.', 'seahivez-theme' ),
+			'image'       => seahivez_get_theme_image_uri( 'assets/images/photo/3.jpg' ),
+			'image_alt'   => __( 'FAQ', 'seahivez-theme' ),
+			'compact'     => true,
+		)
+	);
+}
+
+/**
+ * FAQ page URL.
+ *
+ * @return string
+ */
+function seahivez_get_faq_page_url() {
+	$faq_page = get_page_by_path( 'faq' );
+
+	if ( $faq_page instanceof WP_Post ) {
+		return get_permalink( $faq_page );
+	}
+
+	return home_url( '/faq/' );
+}
+
+/**
  * FAQ page optional groups.
  *
  * @return array<int, array<string, mixed>>

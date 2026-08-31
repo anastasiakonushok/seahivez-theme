@@ -6,22 +6,17 @@
  */
 
 get_header();
+?>
 
-get_template_part(
-	'template-parts/page/page-hero',
-	null,
-	seahivez_get_page_hero_defaults(
-		array(
-			'eyebrow'     => __( 'FAQ', 'seahivez-theme' ),
-			'heading'     => __( 'Everything you need to know', 'seahivez-theme' ),
-			'description' => __( 'Practical answers before your day on the water with SeaHivez.', 'seahivez-theme' ),
-			'image'       => seahivez_get_theme_image_uri( 'assets/images/photo/3.jpg' ),
-			'image_alt'   => __( 'FAQ', 'seahivez-theme' ),
-			'compact'     => true,
-		)
-	)
-);
+<main id="primary" class="site-main flex-1">
 
-get_template_part( 'template-parts/faq/faq-page' );
+	<?php
+	get_template_part( 'template-parts/page/page-hero', null, seahivez_get_faq_page_hero() );
+	get_template_part( 'template-parts/faq/faq-page' );
+	get_template_part( 'template-parts/home/location-cta' );
+	?>
 
+</main>
+
+<?php
 get_footer();

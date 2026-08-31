@@ -105,3 +105,50 @@ function seahivez_get_booking_url() {
 
 	return home_url( '/booking/' );
 }
+
+/**
+ * Create required theme pages when missing (runs once per version).
+ */
+function seahivez_ensure_theme_pages() {
+	$pages_version = '1';
+
+	if ( get_option( 'seahivez_theme_pages_version' ) === $pages_version ) {
+		return;
+	}
+
+	$pages = array(
+		'faq' => array(
+			'post_title'   => 'FAQ',
+			'page_template' => 'page-faq.php',
+		),
+	);
+
+	foreach ( $pages as $slug => $page_data ) {
+		$existing = get_page_by_path( $slug );
+
+		if ( $existing instanceof WP_Post ) {
+			continue;
+		}
+
+		$page_id = wp_insert_post(
+			array(
+				'post_title'  => $page_data['post_title'],
+				'post_name'   => $slug,
+				'post_status' => 'publish',
+				'post_type'   => 'page',
+			),
+			true
+		);
+
+		if ( is_wp_error( $page_id ) || ! $page_id ) {
+			continue;
+		}
+
+		if ( ! empty( $page_data['page_template'] ) ) {
+			update_post_meta( $page_id, '_wp_page_template', $page_data['page_template'] );
+		}
+	}
+
+	update_option( 'seahivez_theme_pages_version', $pages_version );
+}
+add_action( 'init', 'seahivez_ensure_theme_pages' );
