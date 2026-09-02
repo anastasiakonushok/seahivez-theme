@@ -19,24 +19,22 @@ if ( $is_homepage_header ) {
 	<div class="site-container">
 		<div class="flex items-center justify-between gap-4 py-4 lg:py-5">
 			<div class="site-branding shrink-0">
-				<?php if ( has_custom_logo() ) : ?>
-					<div class="site-logo">
-						<?php the_custom_logo(); ?>
-					</div>
-				<?php else : ?>
-					<p class="site-title">
-						<a href="<?php echo esc_url( home_url( '/' ) ); ?>" rel="home">
-							<?php bloginfo( 'name' ); ?>
-						</a>
-					</p>
-				<?php endif; ?>
+				<?php
+				get_template_part(
+					'template-parts/components/site-logo',
+					null,
+					array(
+						'variant' => $is_homepage_header ? 'adaptive' : 'dark',
+					)
+				);
+				?>
 			</div>
 
 			<div class="hidden flex-1 items-center justify-center lg:flex">
 				<?php get_template_part( 'template-parts/header/primary-nav' ); ?>
 			</div>
 
-			<div class="hidden items-center gap-5 lg:flex">
+			<div class="site-header__actions hidden items-center gap-5 lg:flex">
 				<?php
 				get_template_part(
 					'template-parts/components/social-links',
@@ -48,11 +46,7 @@ if ( $is_homepage_header ) {
 				);
 				?>
 
-				<div class="language-switcher text-sm font-medium uppercase tracking-wide" aria-label="<?php esc_attr_e( 'Language', 'seahivez-theme' ); ?>">
-					<span aria-hidden="true">EN</span>
-				</div>
-
-				<a class="btn-primary site-header__cta" href="<?php echo esc_url( seahivez_get_booking_url() ); ?>">
+				<a class="btn-primary site-header__cta shrink-0" href="<?php echo esc_url( seahivez_get_booking_url() ); ?>">
 					<?php esc_html_e( 'Book Now', 'seahivez-theme' ); ?>
 				</a>
 			</div>

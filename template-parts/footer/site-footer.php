@@ -32,17 +32,16 @@ $yacht_fallback_links = array(
 	<div class="site-container section-spacing">
 		<div class="grid gap-10 md:grid-cols-2 lg:grid-cols-5">
 			<div class="space-y-4 lg:col-span-1">
-				<?php if ( has_custom_logo() ) : ?>
-					<div class="site-logo site-logo--footer">
-						<?php the_custom_logo(); ?>
-					</div>
-				<?php else : ?>
-					<p class="site-title text-white">
-						<a href="<?php echo esc_url( home_url( '/' ) ); ?>" rel="home">
-							<?php bloginfo( 'name' ); ?>
-						</a>
-					</p>
-				<?php endif; ?>
+				<?php
+				get_template_part(
+					'template-parts/components/site-logo',
+					null,
+					array(
+						'variant' => 'light',
+						'class'   => 'site-logo--footer',
+					)
+				);
+				?>
 
 				<?php if ( $footer_description ) : ?>
 					<p class="site-description max-w-sm text-sm leading-relaxed text-sand-100/80">
