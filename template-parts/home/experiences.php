@@ -5,16 +5,27 @@
  * @package seahivez-theme
  */
 
-$experiences = seahivez_get_home_experiences();
+$section_args  = ! empty( $args['section'] ) && is_array( $args['section'] ) ? $args['section'] : array();
+$experiences   = ! empty( $section_args['experiences'] ) ? $section_args['experiences'] : seahivez_get_home_experiences();
+$eyebrow       = ! empty( $section_args['eyebrow'] ) ? $section_args['eyebrow'] : __( 'Charter Services', 'seahivez-theme' );
+$heading       = ! empty( $section_args['heading'] ) ? $section_args['heading'] : __( 'Choose your experience', 'seahivez-theme' );
+
+if ( empty( $experiences ) ) {
+	return;
+}
 ?>
 
 <section class="experiences section-spacing bg-warm-white" id="experiences" aria-labelledby="experiences-heading">
 	<div class="site-container">
 		<div class="reveal max-w-2xl">
-			<p class="section-eyebrow"><?php esc_html_e( 'Charter Services', 'seahivez-theme' ); ?></p>
-			<h2 id="experiences-heading" class="section-heading mt-3">
-				<?php esc_html_e( 'Choose your experience', 'seahivez-theme' ); ?>
-			</h2>
+			<?php if ( $eyebrow ) : ?>
+				<p class="section-eyebrow"><?php echo esc_html( $eyebrow ); ?></p>
+			<?php endif; ?>
+			<?php if ( $heading ) : ?>
+				<h2 id="experiences-heading" class="section-heading mt-3">
+					<?php echo esc_html( $heading ); ?>
+				</h2>
+			<?php endif; ?>
 		</div>
 
 		<div class="experiences__grid mt-10 grid gap-8 md:grid-cols-2 lg:grid-cols-3">

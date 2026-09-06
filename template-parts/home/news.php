@@ -5,10 +5,13 @@
  * @package seahivez-theme
  */
 
+$posts_count = ! empty( $args['posts_count'] ) ? max( 1, (int) $args['posts_count'] ) : 3;
+$header      = ! empty( $args['header'] ) && is_array( $args['header'] ) ? $args['header'] : seahivez_get_home_news_header();
+
 $news_query = new WP_Query(
 	array(
 		'post_type'           => 'post',
-		'posts_per_page'      => 3,
+		'posts_per_page'      => $posts_count,
 		'post_status'         => 'publish',
 		'ignore_sticky_posts' => true,
 		'no_found_rows'       => true,
@@ -18,8 +21,6 @@ $news_query = new WP_Query(
 if ( ! $news_query->have_posts() ) {
 	return;
 }
-
-$header = seahivez_get_home_news_header();
 ?>
 
 <section class="news section-spacing bg-sand-50" aria-labelledby="news-heading">

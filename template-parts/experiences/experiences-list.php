@@ -5,7 +5,7 @@
  * @package seahivez-theme
  */
 
-$experiences = seahivez_get_home_experiences();
+$experiences = seahivez_get_experiences_page_packages();
 $included    = seahivez_get_experience_included_items();
 ?>
 

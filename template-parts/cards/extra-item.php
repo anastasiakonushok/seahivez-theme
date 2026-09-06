@@ -35,15 +35,15 @@ if ( empty( $args['title'] ) ) {
 $is_included  = (bool) $args['included'];
 $price_label  = seahivez_format_extra_price_label( $args['price'], $is_included );
 $status_class = $is_included ? 'extra-item--included' : 'extra-item--paid';
-$icon_slug    = sanitize_key( str_replace( '_', '-', $args['icon'] ) );
+$icon         = $args['icon'];
 ?>
 
 <article class="extra-item group <?php echo esc_attr( trim( $status_class . ' ' . $args['class'] ) ); ?>">
-	<?php if ( $icon_slug && seahivez_get_toy_icon_path( $icon_slug ) ) : ?>
+	<?php if ( seahivez_has_icon( $icon ) ) : ?>
 		<div class="extra-item__icon-wrap" aria-hidden="true">
 			<?php
-			seahivez_render_toy_icon(
-				$icon_slug,
+			seahivez_render_flexible_icon(
+				$icon,
 				array(
 					'class' => 'extra-item__icon h-10 w-10',
 				)

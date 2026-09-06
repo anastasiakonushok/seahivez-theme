@@ -5,7 +5,9 @@
  * @package seahivez-theme
  */
 
-$data = seahivez_get_home_location_data();
+$data = ! empty( $args['location'] ) && is_array( $args['location'] )
+	? $args['location']
+	: seahivez_get_page_booking_cta();
 $port = seahivez_get_port_location();
 ?>
 

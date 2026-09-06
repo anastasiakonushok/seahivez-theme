@@ -28,9 +28,14 @@ $has_languages = ! empty( $args['languages'] );
 ?>
 
 <div class="spec-item <?php echo esc_attr( $args['class'] ); ?>">
-	<?php if ( ! empty( $args['icon'] ) ) : ?>
+	<?php if ( seahivez_has_icon( $args['icon'] ) ) : ?>
 		<div class="spec-item__icon text-navy-900" aria-hidden="true">
-			<?php seahivez_render_spec_icon( $args['icon'], array( 'class' => 'spec-item__icon-svg h-7 w-7 md:h-8 md:w-8' ) ); ?>
+			<?php
+			seahivez_render_flexible_icon(
+				$args['icon'],
+				array( 'class' => 'spec-item__icon-svg h-7 w-7 md:h-8 md:w-8' )
+			);
+			?>
 		</div>
 	<?php endif; ?>
 

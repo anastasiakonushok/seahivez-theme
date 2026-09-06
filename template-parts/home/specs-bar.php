@@ -5,7 +5,7 @@
  * @package seahivez-theme
  */
 
-$items = seahivez_get_home_quick_specs();
+$items = ! empty( $args['specs'] ) && is_array( $args['specs'] ) ? $args['specs'] : seahivez_get_home_quick_specs();
 ?>
 
 <section class="specs-bar relative z-20 -mt-8 md:-mt-10" aria-label="<?php esc_attr_e( 'Yacht quick specifications', 'seahivez-theme' ); ?>">

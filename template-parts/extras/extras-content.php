@@ -5,7 +5,7 @@
  * @package seahivez-theme
  */
 
-$data = seahivez_get_home_extras_data();
+$data = seahivez_get_extras_page_data();
 ?>
 
 <section class="extras-page section-spacing bg-warm-white" aria-labelledby="extras-page-heading">

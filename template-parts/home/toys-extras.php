@@ -5,7 +5,7 @@
  * @package seahivez-theme
  */
 
-$data = seahivez_get_home_extras_data();
+$data = ! empty( $args['extras'] ) && is_array( $args['extras'] ) ? $args['extras'] : seahivez_get_home_extras_data();
 ?>
 
 <section class="toys-extras section-spacing bg-sand-50" id="toys-extras" aria-labelledby="toys-extras-heading">

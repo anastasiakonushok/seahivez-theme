@@ -5,7 +5,7 @@
  * @package seahivez-theme
  */
 
-$items = seahivez_get_home_gallery_items();
+$items = seahivez_get_gallery_page_items();
 
 if ( empty( $items ) ) {
 	return;

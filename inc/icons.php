@@ -1,12 +1,253 @@
 <?php
 /**
- * Toy/extra SVG icon helpers.
+ * SVG icon helpers.
  *
- * Maps safe icon identifiers to local SVG assets under assets/images/icons/toys/.
- * Compatible with future ACF select fields — only whitelisted slugs are allowed.
+ * All icon assets live in assets/images/icons/{slug}.svg
+ * for use in templates and future ACF image/icon fields.
  *
  * @package seahivez-theme
  */
+
+/**
+ * Relative theme path to the flat icons directory.
+ *
+ * @return string
+ */
+function seahivez_get_icons_base_relative_path() {
+	return 'assets/images/icons/';
+}
+
+/**
+ * Resolve an icon slug to an absolute file path.
+ *
+ * @param string $icon_name Icon slug, e.g. guests, jet-ski, instagram.
+ * @return string|false
+ */
+function seahivez_get_icon_path( $icon_name ) {
+	$icon_name = sanitize_key( str_replace( '_', '-', $icon_name ) );
+
+	if ( '' === $icon_name ) {
+		return false;
+	}
+
+	$relative = seahivez_get_icons_base_relative_path() . $icon_name . '.svg';
+	$path     = get_theme_file_path( $relative );
+
+	return file_exists( $path ) ? $path : false;
+}
+
+/**
+ * Public URL for an icon SVG (for ACF image fields and <img> tags).
+ *
+ * @param string $icon_name Icon slug.
+ * @return string
+ */
+function seahivez_get_icon_uri( $icon_name ) {
+	$icon_name = sanitize_key( str_replace( '_', '-', $icon_name ) );
+
+	if ( '' === $icon_name || ! seahivez_get_icon_path( $icon_name ) ) {
+		return '';
+	}
+
+	return get_theme_file_uri( seahivez_get_icons_base_relative_path() . $icon_name . '.svg' );
+}
+
+/**
+ * Combined registry of all icon slugs available in the icons folder.
+ *
+ * @return array<string, string>
+ */
+function seahivez_get_all_icon_choices() {
+	$choices = array_merge(
+		seahivez_get_allowed_spec_icons(),
+		seahivez_get_allowed_toy_icons()
+	);
+
+	if ( function_exists( 'seahivez_get_allowed_social_icons' ) ) {
+		$choices = array_merge( $choices, seahivez_get_allowed_social_icons() );
+	}
+
+	return $choices;
+}
+
+/**
+ * Normalize ACF icon field value (image array, attachment ID, or legacy slug).
+ *
+ * @param mixed  $icon         ACF icon field value.
+ * @param string $default_slug Fallback slug from hardcoded defaults.
+ * @return array{slug: string, url: string, attachment_id: int}
+ */
+function seahivez_normalize_acf_icon( $icon, $default_slug = '' ) {
+	$result = array(
+		'slug'            => '',
+		'url'             => '',
+		'attachment_id'   => 0,
+	);
+
+	if ( is_array( $icon ) && ! empty( $icon['url'] ) ) {
+		$result['url']           = (string) $icon['url'];
+		$result['attachment_id'] = ! empty( $icon['ID'] ) ? (int) $icon['ID'] : 0;
+
+		return $result;
+	}
+
+	if ( is_numeric( $icon ) ) {
+		$attachment_id = (int) $icon;
+		$url           = wp_get_attachment_url( $attachment_id );
+
+		if ( $url ) {
+			$result['url']           = $url;
+			$result['attachment_id'] = $attachment_id;
+		}
+
+		return $result;
+	}
+
+	$slug = sanitize_key( str_replace( '_', '-', (string) $icon ) );
+
+	if ( '' === $slug ) {
+		$slug = sanitize_key( str_replace( '_', '-', $default_slug ) );
+	}
+
+	if ( '' !== $slug ) {
+		$result['slug'] = $slug;
+		$result['url']  = seahivez_get_icon_uri( $slug );
+	}
+
+	return $result;
+}
+
+/**
+ * Whether normalized icon data has a renderable source.
+ *
+ * @param array{slug?: string, url?: string, attachment_id?: int}|string $icon Icon data or legacy slug.
+ * @return bool
+ */
+function seahivez_has_icon( $icon ) {
+	if ( is_string( $icon ) ) {
+		$icon = seahivez_normalize_acf_icon( $icon );
+	}
+
+	return ! empty( $icon['slug'] ) || ! empty( $icon['url'] ) || ! empty( $icon['attachment_id'] );
+}
+
+/**
+ * Load inline SVG markup from a local file path.
+ *
+ * @param string $path Absolute file path.
+ * @param array  $args Rendering arguments (class, aria_hidden).
+ * @return string
+ */
+function seahivez_get_inline_svg_from_path( $path, $args = array() ) {
+	$defaults = array(
+		'class'       => 'h-8 w-8',
+		'aria_hidden' => true,
+	);
+
+	$args = wp_parse_args( $args, $defaults );
+
+	if ( ! $path || ! file_exists( $path ) ) {
+		return '';
+	}
+
+	// phpcs:ignore WordPress.WP.AlternativeFunctions.file_get_contents_file_get_contents
+	$svg = file_get_contents( $path );
+
+	if ( false === $svg || '' === $svg ) {
+		return '';
+	}
+
+	$svg = str_ireplace( array( '#0B1F3A', '#070C26' ), 'currentColor', $svg );
+
+	$class_attr = esc_attr( $args['class'] );
+
+	if ( preg_match( '/<svg\b([^>]*)>/', $svg, $matches ) ) {
+		$attrs = $matches[1];
+
+		if ( false !== stripos( $attrs, 'class=' ) ) {
+			$svg = preg_replace(
+				'/<svg\b([^>]*)\bclass=(["\'])(.*?)\2/',
+				'<svg$1class=$2$3 ' . $class_attr . '$2',
+				$svg,
+				1
+			);
+		} else {
+			$svg = preg_replace(
+				'/<svg\b/',
+				'<svg class="' . $class_attr . '"',
+				$svg,
+				1
+			);
+		}
+
+		if ( $args['aria_hidden'] && false === stripos( $attrs, 'aria-hidden=' ) ) {
+			$svg = preg_replace( '/<svg\b/', '<svg aria-hidden="true"', $svg, 1 );
+		}
+	}
+
+	return wp_kses( $svg, seahivez_get_svg_allowed_html() );
+}
+
+/**
+ * Render an icon from ACF image field data or a legacy slug.
+ *
+ * @param array<string, mixed>|string $icon Normalized icon data, ACF image array, or slug.
+ * @param array                       $args Rendering arguments.
+ * @return void
+ */
+function seahivez_render_flexible_icon( $icon, $args = array() ) {
+	$defaults = array(
+		'class'       => 'h-8 w-8',
+		'aria_hidden' => true,
+	);
+
+	$args       = wp_parse_args( $args, $defaults );
+	$normalized = is_array( $icon ) && ( isset( $icon['slug'] ) || isset( $icon['url'] ) || isset( $icon['attachment_id'] ) )
+		? $icon
+		: seahivez_normalize_acf_icon( $icon );
+
+	if ( ! empty( $normalized['attachment_id'] ) ) {
+		$path = get_attached_file( (int) $normalized['attachment_id'] );
+
+		if ( $path && file_exists( $path ) && preg_match( '/\.svg$/i', $path ) ) {
+			// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+			echo seahivez_get_inline_svg_from_path( $path, $args );
+			return;
+		}
+	}
+
+	if ( ! empty( $normalized['slug'] ) ) {
+		$path = seahivez_get_icon_path( $normalized['slug'] );
+
+		if ( $path ) {
+			// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+			echo seahivez_get_inline_svg_from_path( $path, $args );
+			return;
+		}
+	}
+
+	if ( ! empty( $normalized['url'] ) ) {
+		printf(
+			'<img src="%1$s" alt="" class="%2$s"%3$s />',
+			esc_url( $normalized['url'] ),
+			esc_attr( $args['class'] ),
+			$args['aria_hidden'] ? ' aria-hidden="true"' : ''
+		);
+	}
+}
+
+function seahivez_get_acf_icon_field_schema( $key ) {
+	return array(
+		'key'           => $key,
+		'label'         => __( 'Icon', 'seahivez-theme' ),
+		'name'          => 'icon',
+		'type'          => 'image',
+		'return_format' => 'array',
+		'preview_size'  => 'thumbnail',
+		'mime_types'    => 'svg',
+		'instructions'  => __( 'Choose an SVG from assets/images/icons/ or upload your own.', 'seahivez-theme' ),
+	);
+}
 
 /**
  * Registry of allowed toy/extra icon identifiers.
@@ -44,28 +285,7 @@ function seahivez_get_toy_icon_path( $icon_name ) {
 		return false;
 	}
 
-	// Prefer designer-exported assets when present.
-	$file_map = array(
-		'snorkel'      => 'svg-snorkel-sets.svg',
-		'paddle-board' => 'svg-paddleboard.svg',
-		'flippers'     => 'svg-flippers.svg',
-		'towel'        => 'svg-towels.svg',
-		'seabob'       => 'svg-seabob.svg',
-		'jet-ski'      => 'svg-jet-ski.svg',
-		'efoil-air'    => 'svg-e-foil.svg',
-	);
-
-	$filename = $file_map[ $icon_name ] ?? ( $icon_name . '.svg' );
-	$relative = 'assets/images/icons/toys/' . $filename;
-	$path     = get_theme_file_path( $relative );
-
-	if ( ! file_exists( $path ) ) {
-		// Fallback to slug.svg (legacy stroke icons).
-		$fallback = get_theme_file_path( 'assets/images/icons/toys/' . $icon_name . '.svg' );
-		return file_exists( $fallback ) ? $fallback : false;
-	}
-
-	return $path;
+	return seahivez_get_icon_path( $icon_name );
 }
 
 /**
@@ -309,29 +529,7 @@ function seahivez_get_spec_icon_path( $icon_name ) {
 		return false;
 	}
 
-	$file_map = array(
-		'guests'    => 'svg-guests.svg',
-		'crew'      => 'svg-crew.svg',
-		'cabins'    => 'svg-cabins.svg',
-		'length'    => 'svg-length.svg',
-		'beam'      => 'svg-beam.svg',
-		'draft'     => 'svg-draft.svg',
-		'engines'   => 'svg-engines.svg',
-		'bathrooms' => 'svg-bathrooms.svg',
-		'speed'     => 'svg-speed.svg',
-	);
-
-	$filename = $file_map[ $icon_name ] ?? ( $icon_name . '.svg' );
-	$relative = 'assets/images/icons/specs/' . $filename;
-	$path     = get_theme_file_path( $relative );
-
-	if ( ! file_exists( $path ) ) {
-		// Fallback to legacy slug.svg when no designer export exists yet.
-		$fallback = get_theme_file_path( 'assets/images/icons/specs/' . $icon_name . '.svg' );
-		return file_exists( $fallback ) ? $fallback : false;
-	}
-
-	return $path;
+	return seahivez_get_icon_path( $icon_name );
 }
 
 /**

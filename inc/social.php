@@ -14,7 +14,7 @@
  * @return array<string, string>
  */
 function seahivez_get_social_contact_data() {
-	return array(
+	$defaults = array(
 		'instagram_url'    => 'https://instagram.com/seahivez',
 		'instagram_handle' => '@seahivez',
 		'whatsapp_number'  => '34000000000',
@@ -24,6 +24,12 @@ function seahivez_get_social_contact_data() {
 		'email'            => 'info@seahivez.com',
 		'address'          => __( "Mallorca / S'Arenal", 'seahivez-theme' ),
 	);
+
+	if ( function_exists( 'seahivez_get_theme_social_settings' ) ) {
+		return seahivez_get_theme_social_settings();
+	}
+
+	return $defaults;
 }
 
 /**
@@ -108,28 +114,13 @@ function seahivez_get_social_icon_path( $icon_name ) {
 		return false;
 	}
 
-	$file_map = array(
-		'instagram' => 'svg-instagram.svg',
-		'whatsapp'  => 'svg-whatsup.svg',
-		'telegram'  => 'svg-telegram.svg',
-	);
-
-	$filename = $file_map[ $icon_name ] ?? '';
-
-	if ( '' === $filename ) {
-		return false;
-	}
-
-	$relative = 'assets/images/icons/social-media/' . $filename;
-	$path     = get_theme_file_path( $relative );
-
-	return file_exists( $path ) ? $path : false;
+	return seahivez_get_icon_path( $icon_name );
 }
 
 /**
  * Build inline SVG markup for a social icon.
  *
- * Loads designer SVGs from assets/images/icons/social-media/.
+ * Loads SVGs from assets/images/icons/.
  *
  * @param string $icon_name Icon identifier.
  * @param array  $args {

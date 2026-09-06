@@ -11,11 +11,23 @@
  * @return array{light: string, dark: string, alt: string}
  */
 function seahivez_get_logo_assets() {
-	return array(
+	$defaults = array(
 		'light' => seahivez_get_theme_image_uri( 'assets/images/logo/logo-white.png' ),
 		'dark'  => seahivez_get_theme_image_uri( 'assets/images/logo/logo-dark.png' ),
 		'alt'   => get_bloginfo( 'name', 'display' ),
 	);
+
+	if ( function_exists( 'seahivez_get_header_settings' ) ) {
+		$header = seahivez_get_header_settings();
+
+		return array(
+			'light' => $header['logo_light'],
+			'dark'  => $header['logo_dark'],
+			'alt'   => $header['logo_alt'],
+		);
+	}
+
+	return $defaults;
 }
 
 /**

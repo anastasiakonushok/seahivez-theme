@@ -5,8 +5,16 @@
  * @package seahivez-theme
  */
 
-$footer_description = get_bloginfo( 'description', 'display' );
-$current_year       = gmdate( 'Y' );
+$footer_settings    = seahivez_get_footer_settings();
+$footer_description = ! empty( $footer_settings['description'] )
+	? $footer_settings['description']
+	: get_bloginfo( 'description', 'display' );
+
+if ( empty( $footer_description ) ) {
+	$footer_description = __( 'Private yacht charter experiences in Mallorca aboard the Numarine 55 Fly.', 'seahivez-theme' );
+}
+
+$current_year = gmdate( 'Y' );
 
 $yacht_fallback_links = array(
 	array(
@@ -46,10 +54,6 @@ $yacht_fallback_links = array(
 				<?php if ( $footer_description ) : ?>
 					<p class="site-description max-w-sm text-sm leading-relaxed text-sand-100/80">
 						<?php echo esc_html( $footer_description ); ?>
-					</p>
-				<?php else : ?>
-					<p class="max-w-sm text-sm leading-relaxed text-sand-100/80">
-						<?php esc_html_e( 'Private yacht charter experiences in Mallorca aboard the Numarine 55 Fly.', 'seahivez-theme' ); ?>
 					</p>
 				<?php endif; ?>
 
@@ -134,25 +138,35 @@ $yacht_fallback_links = array(
 					<?php esc_html_e( 'Contact', 'seahivez-theme' ); ?>
 				</h2>
 				<ul class="space-y-3 text-sm text-sand-100/80">
-					<li><?php esc_html_e( "Palma de Mallorca / S'Arenal", 'seahivez-theme' ); ?></li>
-					<li>
-						<a class="footer-link" href="mailto:info@seahivez.com">info@seahivez.com</a>
-					</li>
-					<li>
-						<a class="footer-link" href="tel:+34000000000">+34 000 000 000</a>
-					</li>
+					<?php if ( ! empty( $footer_settings['address'] ) ) : ?>
+						<li><?php echo esc_html( $footer_settings['address'] ); ?></li>
+					<?php endif; ?>
+					<?php if ( ! empty( $footer_settings['email'] ) ) : ?>
+						<li>
+							<a class="footer-link" href="mailto:<?php echo esc_attr( $footer_settings['email'] ); ?>">
+								<?php echo esc_html( $footer_settings['email'] ); ?>
+							</a>
+						</li>
+					<?php endif; ?>
+					<?php if ( ! empty( $footer_settings['phone'] ) ) : ?>
+						<li>
+							<a class="footer-link" href="tel:<?php echo esc_attr( preg_replace( '/\s+/', '', $footer_settings['phone'] ) ); ?>">
+								<?php echo esc_html( $footer_settings['phone'] ); ?>
+							</a>
+						</li>
+					<?php endif; ?>
 				</ul>
 			</div>
 
 			<div class="space-y-4">
 				<h2 class="type-eyebrow text-white">
-					<?php esc_html_e( 'Book Your Experience', 'seahivez-theme' ); ?>
+					<?php echo esc_html( $footer_settings['book_heading'] ); ?>
 				</h2>
 				<p class="text-sm leading-relaxed text-sand-100/80">
-					<?php esc_html_e( 'Plan your private charter day on the Mediterranean.', 'seahivez-theme' ); ?>
+					<?php echo esc_html( $footer_settings['book_description'] ); ?>
 				</p>
-				<a class="btn-ghost inline-flex" href="<?php echo esc_url( seahivez_get_booking_url() ); ?>">
-					<?php esc_html_e( 'Book Now', 'seahivez-theme' ); ?>
+				<a class="btn-ghost inline-flex" href="<?php echo esc_url( $footer_settings['book_cta_url'] ); ?>">
+					<?php echo esc_html( $footer_settings['book_cta_label'] ); ?>
 				</a>
 			</div>
 		</div>
@@ -160,11 +174,15 @@ $yacht_fallback_links = array(
 		<div class="mt-10 flex flex-col gap-4 border-t border-white/10 pt-6 text-sm text-sand-100/70 md:flex-row md:items-center md:justify-between">
 			<p>
 				<?php
-				printf(
-					/* translators: %s: current year */
-					esc_html__( '© %s SeaHivez. All rights reserved.', 'seahivez-theme' ),
-					esc_html( $current_year )
-				);
+				if ( ! empty( $footer_settings['copyright'] ) ) {
+					echo esc_html( $footer_settings['copyright'] );
+				} else {
+					printf(
+						/* translators: %s: current year */
+						esc_html__( '© %s SeaHivez. All rights reserved.', 'seahivez-theme' ),
+						esc_html( $current_year )
+					);
+				}
 				?>
 			</p>
 

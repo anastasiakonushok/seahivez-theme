@@ -5,13 +5,16 @@
  * @package seahivez-theme
  */
 
+$details  = seahivez_get_contact_page_details();
 $location = seahivez_get_home_location_data();
 ?>
 
 <div class="contact-details">
-	<p class="section-eyebrow"><?php esc_html_e( 'Follow / Contact us', 'seahivez-theme' ); ?></p>
+	<?php if ( ! empty( $details['eyebrow'] ) ) : ?>
+		<p class="section-eyebrow"><?php echo esc_html( $details['eyebrow'] ); ?></p>
+	<?php endif; ?>
 	<h2 id="contact-details-heading" class="section-heading mt-3">
-		<?php echo esc_html( $location['location'] ); ?>
+		<?php echo esc_html( $details['heading'] ); ?>
 	</h2>
 
 	<ul class="mt-8 space-y-4" role="list">
@@ -40,7 +43,7 @@ $location = seahivez_get_home_location_data();
 			'template-parts/components/social-links',
 			null,
 			array(
-				'heading' => __( 'Instagram & WhatsApp', 'seahivez-theme' ),
+				'heading' => $details['social_heading'],
 			)
 		);
 		?>

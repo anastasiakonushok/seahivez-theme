@@ -6,7 +6,7 @@
  */
 
 $items  = seahivez_get_yacht_gallery_items();
-$header = seahivez_get_home_gallery_header();
+$header = seahivez_get_yacht_gallery_header();
 
 if ( empty( $items ) ) {
 	return;
@@ -21,19 +21,23 @@ $total = count( $items );
 			<div class="reveal max-w-2xl">
 				<p class="section-eyebrow"><?php echo esc_html( $header['eyebrow'] ); ?></p>
 				<h2 id="yacht-gallery-heading" class="section-heading mt-3">
-					<?php esc_html_e( 'Life on board', 'seahivez-theme' ); ?>
+					<?php echo esc_html( $header['heading'] ); ?>
 				</h2>
-				<p class="type-body mt-4 max-w-xl">
-					<?php esc_html_e( 'Explore interiors, decks and Mediterranean moments aboard the Numarine 55 Fly.', 'seahivez-theme' ); ?>
-				</p>
+				<?php if ( ! empty( $header['description'] ) ) : ?>
+					<p class="type-body mt-4 max-w-xl">
+						<?php echo esc_html( $header['description'] ); ?>
+					</p>
+				<?php endif; ?>
 			</div>
 
+			<?php if ( ! empty( $header['cta_url'] ) && ! empty( $header['cta_label'] ) ) : ?>
 			<div class="reveal hidden shrink-0 lg:block">
 				<a class="btn-outline section-outline-cta link-arrow group" href="<?php echo esc_url( $header['cta_url'] ); ?>">
-					<?php esc_html_e( 'View full gallery', 'seahivez-theme' ); ?>
+					<?php echo esc_html( $header['cta_label'] ); ?>
 					<?php seahivez_render_link_arrow_icon( 'md' ); ?>
 				</a>
 			</div>
+			<?php endif; ?>
 		</div>
 
 		<ul
@@ -87,7 +91,7 @@ $total = count( $items );
 			</p>
 
 			<a class="btn-outline section-outline-cta link-arrow group lg:hidden" href="<?php echo esc_url( $header['cta_url'] ); ?>">
-				<?php esc_html_e( 'View full gallery', 'seahivez-theme' ); ?>
+				<?php echo esc_html( $header['cta_label'] ); ?>
 				<?php seahivez_render_link_arrow_icon( 'md' ); ?>
 			</a>
 		</div>

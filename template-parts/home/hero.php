@@ -5,7 +5,7 @@
  * @package seahivez-theme
  */
 
-$hero = seahivez_get_home_hero_data();
+$hero = ! empty( $args['hero'] ) && is_array( $args['hero'] ) ? $args['hero'] : seahivez_get_home_hero_data();
 ?>
 
 <section class="hero relative flex min-h-[70vh] items-end overflow-hidden md:min-h-[80vh] lg:min-h-[88vh]" aria-labelledby="hero-heading">

@@ -4,17 +4,23 @@
  *
  * @package seahivez-theme
  */
+
+$form = seahivez_get_contact_page_form();
 ?>
 
 <div class="contact-form">
-	<h3 class="text-xl font-semibold text-navy-900"><?php esc_html_e( 'Send a message', 'seahivez-theme' ); ?></h3>
-	<p class="mt-2 text-sm text-gray-600">
-		<?php esc_html_e( 'Questions about your charter? Write to us — for date reservations use the booking calendar.', 'seahivez-theme' ); ?>
-	</p>
+	<?php if ( ! empty( $form['heading'] ) ) : ?>
+		<h3 class="text-xl font-semibold text-navy-900"><?php echo esc_html( $form['heading'] ); ?></h3>
+	<?php endif; ?>
+	<?php if ( ! empty( $form['description'] ) ) : ?>
+		<p class="mt-2 text-sm text-gray-600">
+			<?php echo esc_html( $form['description'] ); ?>
+		</p>
+	<?php endif; ?>
 
 	<p class="mt-4">
 		<a class="link-arrow inline-flex text-sm" href="<?php echo esc_url( seahivez_get_booking_url() ); ?>">
-			<?php esc_html_e( 'Book a charter', 'seahivez-theme' ); ?>
+			<?php echo esc_html( $form['booking_link_label'] ); ?>
 			<?php seahivez_render_link_arrow_icon( 'sm' ); ?>
 		</a>
 	</p>

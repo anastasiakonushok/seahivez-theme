@@ -6,15 +6,20 @@
  */
 
 $init_script = seahivez_get_supersaas_init_script();
+$widget      = seahivez_get_booking_widget_content();
 ?>
 
 <div class="booking-widget" id="booking-widget">
-	<h2 class="section-heading text-[28px] md:text-[32px]">
-		<?php esc_html_e( 'Book Your Mallorca Yacht Rental', 'seahivez-theme' ); ?>
-	</h2>
-	<p class="type-body mt-3 max-w-xl">
-		<?php esc_html_e( 'Choose your experience and preferred date — availability updates in real time.', 'seahivez-theme' ); ?>
-	</p>
+	<?php if ( ! empty( $widget['heading'] ) ) : ?>
+		<h2 class="section-heading text-[28px] md:text-[32px]">
+			<?php echo esc_html( $widget['heading'] ); ?>
+		</h2>
+	<?php endif; ?>
+	<?php if ( ! empty( $widget['description'] ) ) : ?>
+		<p class="type-body mt-3 max-w-xl">
+			<?php echo esc_html( $widget['description'] ); ?>
+		</p>
+	<?php endif; ?>
 
 	<div class="booking-widget__frame mt-8">
 		<?php if ( $init_script ) : ?>

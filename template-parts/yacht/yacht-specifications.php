@@ -5,16 +5,21 @@
  * @package seahivez-theme
  */
 
-$groups = seahivez_get_yacht_specification_groups();
+$groups  = seahivez_get_yacht_specification_groups();
+$header  = seahivez_get_yacht_specifications_header();
 ?>
 
 <section class="yacht-specifications section-spacing bg-sand-50" aria-labelledby="yacht-specs-heading">
 	<div class="site-container">
 		<div class="reveal max-w-2xl">
-			<p class="section-eyebrow"><?php esc_html_e( 'Specifications', 'seahivez-theme' ); ?></p>
-			<h2 id="yacht-specs-heading" class="section-heading mt-3">
-				<?php esc_html_e( 'Key specifications', 'seahivez-theme' ); ?>
-			</h2>
+			<?php if ( ! empty( $header['eyebrow'] ) ) : ?>
+				<p class="section-eyebrow"><?php echo esc_html( $header['eyebrow'] ); ?></p>
+			<?php endif; ?>
+			<?php if ( ! empty( $header['heading'] ) ) : ?>
+				<h2 id="yacht-specs-heading" class="section-heading mt-3">
+					<?php echo esc_html( $header['heading'] ); ?>
+				</h2>
+			<?php endif; ?>
 		</div>
 
 		<div class="mt-12 space-y-14">

@@ -5,8 +5,8 @@
  * @package seahivez-theme
  */
 
-$header = seahivez_get_home_faq_header();
-$items  = seahivez_get_home_faq_items();
+$header = ! empty( $args['header'] ) && is_array( $args['header'] ) ? $args['header'] : seahivez_get_home_faq_header();
+$items  = ! empty( $args['items'] ) && is_array( $args['items'] ) ? $args['items'] : seahivez_get_home_faq_items();
 
 if ( empty( $items ) ) {
 	return;

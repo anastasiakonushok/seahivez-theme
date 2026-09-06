@@ -5,7 +5,7 @@
  * @package seahivez-theme
  */
 
-$header      = seahivez_get_home_faq_header();
+$header      = seahivez_get_faq_page_intro();
 $groups      = seahivez_get_faq_page_groups();
 $contact_url = ! empty( $header['contact_url'] ) ? $header['contact_url'] : home_url( '/contact/' );
 $global_index = 0;

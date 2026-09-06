@@ -6,6 +6,7 @@
  */
 
 $is_homepage_header = is_front_page();
+$header_settings    = seahivez_get_header_settings();
 $header_classes     = 'site-header w-full transition-all duration-300';
 
 if ( $is_homepage_header ) {
@@ -46,9 +47,11 @@ if ( $is_homepage_header ) {
 				);
 				?>
 
-				<a class="btn-primary site-header__cta shrink-0" href="<?php echo esc_url( seahivez_get_booking_url() ); ?>">
-					<?php esc_html_e( 'Book Now', 'seahivez-theme' ); ?>
-				</a>
+				<?php if ( ! empty( $header_settings['cta_url'] ) && ! empty( $header_settings['cta_label'] ) ) : ?>
+					<a class="btn-primary site-header__cta shrink-0" href="<?php echo esc_url( $header_settings['cta_url'] ); ?>">
+						<?php echo esc_html( $header_settings['cta_label'] ); ?>
+					</a>
+				<?php endif; ?>
 			</div>
 
 			<button

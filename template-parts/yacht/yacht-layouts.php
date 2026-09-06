@@ -27,12 +27,12 @@ if ( empty( $sections ) ) {
 	>
 		<div class="site-container">
 			<div class="yacht-layout__grid grid items-center gap-10 lg:grid-cols-2 lg:gap-16 xl:gap-20">
-				<?php if ( ! empty( $plan['path'] ) ) : ?>
+				<?php if ( ! empty( $plan['path'] ) || ! empty( $plan['url'] ) ) : ?>
 					<div class="yacht-layout__plan reveal order-2 lg:order-1">
 						<div class="yacht-layout__plan-frame yacht-layout__plan-frame--<?php echo esc_attr( $frame ); ?>">
 							<img
 								class="yacht-layout__plan-image"
-								src="<?php echo esc_url( seahivez_get_theme_image_uri( $plan['path'] ) ); ?>"
+								src="<?php echo esc_url( ! empty( $plan['url'] ) ? $plan['url'] : seahivez_get_theme_image_uri( $plan['path'] ) ); ?>"
 								alt="<?php echo esc_attr( $plan['alt'] ?? '' ); ?>"
 								width="480"
 								height="720"

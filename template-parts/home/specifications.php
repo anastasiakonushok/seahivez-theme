@@ -5,19 +5,42 @@
  * @package seahivez-theme
  */
 
-$groups = seahivez_get_home_specification_groups();
+$section_args    = ! empty( $args['section'] ) && is_array( $args['section'] ) ? $args['section'] : array();
+$default_groups  = seahivez_get_home_specification_groups();
+$groups          = ! empty( $section_args['groups'] ) ? $section_args['groups'] : $default_groups;
+$eyebrow         = ! empty( $section_args['eyebrow'] ) ? $section_args['eyebrow'] : __( 'The Yacht', 'seahivez-theme' );
+$heading         = ! empty( $section_args['heading'] ) ? $section_args['heading'] : __( 'Specifications', 'seahivez-theme' );
+$intro           = ! empty( $section_args['intro'] ) ? $section_args['intro'] : __( 'Everything you need to know about the Numarine 55 Fly.', 'seahivez-theme' );
+
+foreach ( $groups as $group_index => $group ) {
+	if ( empty( $group['grid_class'] ) && ! empty( $default_groups[ $group_index ]['grid_class'] ) ) {
+		$groups[ $group_index ]['grid_class'] = $default_groups[ $group_index ]['grid_class'];
+	} elseif ( empty( $group['grid_class'] ) ) {
+		$groups[ $group_index ]['grid_class'] = 'grid grid-cols-2 gap-x-6 gap-y-8 md:grid-cols-3';
+	}
+}
+
+if ( empty( $groups ) ) {
+	return;
+}
 ?>
 
 <section class="specifications section-spacing bg-sand-50" id="specifications" aria-labelledby="specifications-heading">
 	<div class="site-container">
 		<div class="reveal max-w-2xl">
-			<p class="section-eyebrow"><?php esc_html_e( 'The Yacht', 'seahivez-theme' ); ?></p>
-			<h2 id="specifications-heading" class="section-heading mt-3">
-				<?php esc_html_e( 'Specifications', 'seahivez-theme' ); ?>
-			</h2>
-			<p class="type-body mt-4">
-				<?php esc_html_e( 'Everything you need to know about the Numarine 55 Fly.', 'seahivez-theme' ); ?>
-			</p>
+			<?php if ( $eyebrow ) : ?>
+				<p class="section-eyebrow"><?php echo esc_html( $eyebrow ); ?></p>
+			<?php endif; ?>
+			<?php if ( $heading ) : ?>
+				<h2 id="specifications-heading" class="section-heading mt-3">
+					<?php echo esc_html( $heading ); ?>
+				</h2>
+			<?php endif; ?>
+			<?php if ( $intro ) : ?>
+				<p class="type-body mt-4">
+					<?php echo esc_html( $intro ); ?>
+				</p>
+			<?php endif; ?>
 		</div>
 
 		<div class="specifications__groups mt-12 space-y-12 lg:mt-14 lg:space-y-14">

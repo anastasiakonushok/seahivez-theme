@@ -5,7 +5,7 @@
  * @package seahivez-theme
  */
 
-$about = seahivez_get_home_about_data();
+$about = ! empty( $args['about'] ) && is_array( $args['about'] ) ? $args['about'] : seahivez_get_home_about_data();
 ?>
 
 <section class="about-yacht section-spacing bg-warm-white" aria-labelledby="about-yacht-heading">

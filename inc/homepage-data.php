@@ -473,13 +473,15 @@ function seahivez_get_posts_page_url() {
  * @return array<string, mixed>
  */
 function seahivez_get_home_location_data() {
+	$contact = seahivez_get_social_contact_data();
+
 	return array(
 		'heading'     => __( 'Ready to book your experience?', 'seahivez-theme' ),
 		'description' => __( 'Tell us your preferred date and charter style — our team will confirm availability and help plan a seamless day on the water.', 'seahivez-theme' ),
 		'cta_label'   => __( 'Book now', 'seahivez-theme' ),
 		'cta_url'     => seahivez_get_booking_url(),
-		'location'    => __( "Mallorca / S'Arenal", 'seahivez-theme' ),
-		'phone'       => '+34 000 000 000',
-		'email'       => 'info@seahivez.com',
+		'location'    => $contact['address'],
+		'phone'       => $contact['phone'],
+		'email'       => $contact['email'],
 	);
 }

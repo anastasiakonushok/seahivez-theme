@@ -7,20 +7,9 @@
 
 get_header();
 
-get_template_part(
-	'template-parts/page/page-hero',
-	null,
-	seahivez_get_page_hero_defaults(
-		array(
-			'eyebrow'     => __( 'Book your experience', 'seahivez-theme' ),
-			'heading'     => __( 'Your day on the Mediterranean starts here', 'seahivez-theme' ),
-			'description' => __( 'Choose your charter style and preferred date. Availability is confirmed by our team before departure.', 'seahivez-theme' ),
-			'image'       => seahivez_get_theme_image_uri( 'assets/images/photo/2.jpg' ),
-			'image_alt'   => __( 'Book a SeaHivez charter', 'seahivez-theme' ),
-			'compact'     => true,
-		)
-	)
-);
+$sidebar = seahivez_get_booking_sidebar_content();
+
+get_template_part( 'template-parts/page/page-hero', null, seahivez_get_booking_page_hero() );
 ?>
 
 <section class="booking-page section-spacing bg-warm-white">
@@ -32,7 +21,9 @@ get_template_part(
 
 			<div class="reveal reveal-delay-1 space-y-10">
 				<div>
-					<h2 class="text-xl font-semibold text-navy-900"><?php esc_html_e( 'Charter packages', 'seahivez-theme' ); ?></h2>
+					<?php if ( ! empty( $sidebar['packages_heading'] ) ) : ?>
+						<h2 class="text-xl font-semibold text-navy-900"><?php echo esc_html( $sidebar['packages_heading'] ); ?></h2>
+					<?php endif; ?>
 					<ul class="mt-5 divide-y divide-gray-200 border-y border-gray-200" role="list">
 						<?php foreach ( seahivez_get_home_experiences() as $experience ) : ?>
 							<li class="flex items-baseline justify-between gap-4 py-4">
@@ -44,7 +35,9 @@ get_template_part(
 				</div>
 
 				<div>
-					<h2 class="text-xl font-semibold text-navy-900"><?php esc_html_e( 'What happens next?', 'seahivez-theme' ); ?></h2>
+					<?php if ( ! empty( $sidebar['steps_heading'] ) ) : ?>
+						<h2 class="text-xl font-semibold text-navy-900"><?php echo esc_html( $sidebar['steps_heading'] ); ?></h2>
+					<?php endif; ?>
 					<ol class="mt-5 space-y-5">
 						<?php foreach ( seahivez_get_booking_steps() as $index => $step ) : ?>
 							<li class="flex gap-4">
@@ -65,7 +58,7 @@ get_template_part(
 				if ( $whatsapp ) :
 					?>
 					<a class="link-arrow inline-flex" href="<?php echo esc_url( $whatsapp ); ?>" target="_blank" rel="noopener noreferrer">
-						<?php esc_html_e( 'Chat on WhatsApp', 'seahivez-theme' ); ?>
+						<?php echo esc_html( $sidebar['whatsapp_label'] ); ?>
 						<?php seahivez_render_link_arrow_icon( 'sm' ); ?>
 					</a>
 				<?php endif; ?>
