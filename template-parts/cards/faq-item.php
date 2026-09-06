@@ -64,7 +64,7 @@ $button_id = 'faq-button-' . $index;
 	>
 		<div class="faq-item__panel-inner">
 			<div class="faq-item__answer type-body">
-				<?php echo esc_html( $args['answer'] ); ?>
+				<?php echo wp_kses_post( $args['answer'] ); ?>
 			</div>
 		</div>
 	</div>
