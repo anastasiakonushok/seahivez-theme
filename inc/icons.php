@@ -250,6 +250,41 @@ function seahivez_get_acf_icon_field_schema( $key ) {
 }
 
 /**
+ * Repeater sub-fields for a specification item row.
+ *
+ * @param string $prefix Unique field key prefix.
+ * @return array<int, array<string, mixed>>
+ */
+function seahivez_get_acf_spec_item_sub_fields( $prefix ) {
+	return array(
+		seahivez_get_acf_icon_field_schema( $prefix . '_icon' ),
+		array(
+			'key'   => $prefix . '_label',
+			'label' => __( 'Label', 'seahivez-theme' ),
+			'name'  => 'label',
+			'type'  => 'text',
+		),
+		array(
+			'key'          => $prefix . '_value',
+			'label'        => __( 'Value', 'seahivez-theme' ),
+			'name'         => 'value',
+			'type'         => 'text',
+			'instructions' => __( 'Leave empty when using Languages below.', 'seahivez-theme' ),
+		),
+		array(
+			'key'           => $prefix . '_languages',
+			'label'         => __( 'Languages', 'seahivez-theme' ),
+			'name'          => 'languages',
+			'type'          => 'checkbox',
+			'choices'       => seahivez_get_language_acf_choices(),
+			'return_format' => 'value',
+			'layout'        => 'horizontal',
+			'instructions'  => __( 'Optional. Shows flag chips instead of Value.', 'seahivez-theme' ),
+		),
+	);
+}
+
+/**
  * Registry of allowed toy/extra icon identifiers.
  *
  * Keys are icon slugs stored in ACF or hardcoded data.

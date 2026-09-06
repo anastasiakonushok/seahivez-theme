@@ -235,7 +235,30 @@
                                         "maxlength": "",
                                         "placeholder": "",
                                         "prepend": "",
-                                        "append": ""
+                                        "append": "",
+                                        "instructions": "Leave empty when using Languages below."
+                                    },
+                                    {
+                                        "required": 0,
+                                        "conditional_logic": 0,
+                                        "wrapper": {
+                                            "width": "",
+                                            "class": "",
+                                            "id": ""
+                                        },
+                                        "key": "field_shvz_specs_languages",
+                                        "label": "Languages",
+                                        "name": "languages",
+                                        "type": "checkbox",
+                                        "choices": {
+                                            "en": "EN",
+                                            "es": "ES",
+                                            "de": "DE"
+                                        },
+                                        "return_format": "value",
+                                        "layout": "horizontal",
+                                        "toggle": 0,
+                                        "instructions": "Optional. Shows flag chips instead of Value (e.g. for Languages row)."
                                     }
                                 ]
                             }
@@ -554,7 +577,30 @@
                                                 "maxlength": "",
                                                 "placeholder": "",
                                                 "prepend": "",
-                                                "append": ""
+                                                "append": "",
+                                                "instructions": "Leave empty when using Languages below."
+                                            },
+                                            {
+                                                "required": 0,
+                                                "conditional_logic": 0,
+                                                "wrapper": {
+                                                    "width": "",
+                                                    "class": "",
+                                                    "id": ""
+                                                },
+                                                "key": "field_shvz_specs_group_languages",
+                                                "label": "Languages",
+                                                "name": "languages",
+                                                "type": "checkbox",
+                                                "choices": {
+                                                    "en": "EN",
+                                                    "es": "ES",
+                                                    "de": "DE"
+                                                },
+                                                "return_format": "value",
+                                                "layout": "horizontal",
+                                                "toggle": 0,
+                                                "instructions": "Optional. Shows flag chips instead of Value (e.g. for Languages row)."
                                             }
                                         ]
                                     }
@@ -1472,6 +1518,6 @@
         "active": true,
         "description": "",
         "show_in_rest": 0,
-        "modified": 1788684802
+        "modified": 1788688653
     }
 ]

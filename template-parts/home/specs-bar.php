@@ -19,10 +19,11 @@ $items = ! empty( $args['specs'] ) && is_array( $args['specs'] ) ? $args['specs'
 							'template-parts/cards/spec-item',
 							null,
 							array(
-								'icon'  => $item['icon'],
-								'label' => $item['label'],
-								'value' => $item['value'],
-								'class' => 'spec-item--bar',
+								'icon'      => $item['icon'],
+								'label'     => $item['label'],
+								'value'     => $item['value'],
+								'languages' => $item['languages'] ?? array(),
+								'class'     => 'spec-item--bar',
 							)
 						);
 						?>

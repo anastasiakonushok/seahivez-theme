@@ -12,6 +12,7 @@ export function buildPageFieldGroups({
 	linkField,
 	imageField,
 	iconField,
+	checkboxField,
 	groupField,
 	repeaterField,
 	selectField,
@@ -51,16 +52,31 @@ export function buildPageFieldGroups({
 		);
 	}
 
+	function specItemSubFields(prefix) {
+		return [
+			iconField(`${prefix}_icon`, 'Icon', 'icon'),
+			textField(`${prefix}_label`, 'Label', 'label'),
+			textField(`${prefix}_value`, 'Value', 'value', {
+				instructions: 'Leave empty when using Languages below.',
+			}),
+			checkboxField(
+				`${prefix}_languages`,
+				'Languages',
+				'languages',
+				{ en: 'EN', es: 'ES', de: 'DE' },
+				{
+					instructions: 'Optional. Shows flag chips instead of Value.',
+				}
+			),
+		];
+	}
+
 	function specGroupItemsRepeater(prefix) {
 		return repeaterField(
 			`${prefix}_spec_group_items`,
 			'Items',
 			'items',
-			[
-				iconField(`${prefix}_spec_icon`, 'Icon', 'icon'),
-				textField(`${prefix}_spec_label`, 'Label', 'label'),
-				textField(`${prefix}_spec_value`, 'Value', 'value'),
-			],
+			specItemSubFields(prefix),
 			{ button_label: 'Add item' }
 		);
 	}

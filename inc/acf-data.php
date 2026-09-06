@@ -355,15 +355,20 @@ function seahivez_map_acf_specs_bar() {
 			the_row();
 			$icon = get_sub_field( 'icon' );
 
-			if ( ! seahivez_has_icon( $icon ) ) {
+			$row = seahivez_map_acf_spec_item_row(
+				array(
+					'icon'      => $icon,
+					'label'     => get_sub_field( 'label' ),
+					'value'     => get_sub_field( 'value' ),
+					'languages' => get_sub_field( 'languages' ),
+				)
+			);
+
+			if ( empty( $row['label'] ) && ! seahivez_has_icon( $row['icon'] ) && empty( $row['languages'] ) ) {
 				continue;
 			}
 
-			$items[] = array(
-				'icon'  => seahivez_normalize_acf_icon( $icon ),
-				'label' => (string) get_sub_field( 'label' ),
-				'value' => (string) get_sub_field( 'value' ),
-			);
+			$items[] = $row;
 		}
 	}
 

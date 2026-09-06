@@ -151,6 +151,39 @@ function selectField(key, label, name, choices, extra = {}) {
 	});
 }
 
+function checkboxField(key, label, name, choices, extra = {}) {
+	return fieldBase({
+		key,
+		label,
+		name,
+		type: 'checkbox',
+		choices,
+		return_format: 'value',
+		layout: 'horizontal',
+		toggle: 0,
+		...extra,
+	});
+}
+
+function specItemSubFields(prefix) {
+	return [
+		iconField(`${prefix}_icon`, 'Icon', 'icon'),
+		textField(`${prefix}_label`, 'Label', 'label'),
+		textField(`${prefix}_value`, 'Value', 'value', {
+			instructions: 'Leave empty when using Languages below.',
+		}),
+		checkboxField(
+			`${prefix}_languages`,
+			'Languages',
+			'languages',
+			{ en: 'EN', es: 'ES', de: 'DE' },
+			{
+				instructions: 'Optional. Shows flag chips instead of Value (e.g. for Languages row).',
+			}
+		),
+	];
+}
+
 function wysiwygField(key, label, name, extra = {}) {
 	return fieldBase({
 		key,
@@ -249,11 +282,7 @@ const pageSectionLayouts = {
 			'field_shvz_specs_items',
 			'Items',
 			'items',
-			[
-				iconField('field_shvz_specs_icon', 'Icon', 'icon'),
-				textField('field_shvz_specs_label', 'Label', 'label'),
-				textField('field_shvz_specs_value', 'Value', 'value'),
-			],
+			specItemSubFields('field_shvz_specs'),
 			{ button_label: 'Add spec' }
 		),
 	]),
@@ -285,11 +314,7 @@ const pageSectionLayouts = {
 					'field_shvz_specs_group_items',
 					'Items',
 					'items',
-					[
-						iconField('field_shvz_specs_group_icon', 'Icon', 'icon'),
-						textField('field_shvz_specs_group_label', 'Label', 'label'),
-						textField('field_shvz_specs_group_value', 'Value', 'value'),
-					],
+					specItemSubFields('field_shvz_specs_group'),
 					{ button_label: 'Add item' }
 				),
 			],
@@ -498,6 +523,7 @@ const pageGroups = buildPageFieldGroups({
 	linkField,
 	imageField,
 	iconField,
+	checkboxField,
 	groupField,
 	repeaterField,
 	selectField,

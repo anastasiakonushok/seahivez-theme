@@ -20,10 +20,13 @@ if ( have_rows( 'groups' ) ) {
 		if ( have_rows( 'items' ) ) {
 			while ( have_rows( 'items' ) ) {
 				the_row();
-				$group_items[] = array(
-					'icon'  => seahivez_normalize_acf_icon( get_sub_field( 'icon' ) ),
-					'label' => (string) get_sub_field( 'label' ),
-					'value' => (string) get_sub_field( 'value' ),
+				$group_items[] = seahivez_map_acf_spec_item_row(
+					array(
+						'icon'      => get_sub_field( 'icon' ),
+						'label'     => get_sub_field( 'label' ),
+						'value'     => get_sub_field( 'value' ),
+						'languages' => get_sub_field( 'languages' ),
+					)
 				);
 			}
 		}

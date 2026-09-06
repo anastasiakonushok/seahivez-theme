@@ -374,7 +374,7 @@
                                         "class": "",
                                         "id": ""
                                     },
-                                    "key": "field_shvz_yacht_group_spec_icon",
+                                    "key": "field_shvz_yacht_group_icon",
                                     "label": "Icon",
                                     "name": "icon",
                                     "type": "image",
@@ -398,7 +398,7 @@
                                         "class": "",
                                         "id": ""
                                     },
-                                    "key": "field_shvz_yacht_group_spec_label",
+                                    "key": "field_shvz_yacht_group_label",
                                     "label": "Label",
                                     "name": "label",
                                     "type": "text",
@@ -416,7 +416,7 @@
                                         "class": "",
                                         "id": ""
                                     },
-                                    "key": "field_shvz_yacht_group_spec_value",
+                                    "key": "field_shvz_yacht_group_value",
                                     "label": "Value",
                                     "name": "value",
                                     "type": "text",
@@ -424,7 +424,30 @@
                                     "maxlength": "",
                                     "placeholder": "",
                                     "prepend": "",
-                                    "append": ""
+                                    "append": "",
+                                    "instructions": "Leave empty when using Languages below."
+                                },
+                                {
+                                    "required": 0,
+                                    "conditional_logic": 0,
+                                    "wrapper": {
+                                        "width": "",
+                                        "class": "",
+                                        "id": ""
+                                    },
+                                    "key": "field_shvz_yacht_group_languages",
+                                    "label": "Languages",
+                                    "name": "languages",
+                                    "type": "checkbox",
+                                    "choices": {
+                                        "en": "EN",
+                                        "es": "ES",
+                                        "de": "DE"
+                                    },
+                                    "return_format": "value",
+                                    "layout": "horizontal",
+                                    "toggle": 0,
+                                    "instructions": "Optional. Shows flag chips instead of Value."
                                 }
                             ]
                         }
@@ -1124,5 +1147,5 @@
     "active": true,
     "description": "",
     "show_in_rest": 0,
-    "modified": 1788684802
+    "modified": 1788688653
 }

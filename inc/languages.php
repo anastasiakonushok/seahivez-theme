@@ -35,6 +35,21 @@ function seahivez_get_allowed_languages() {
 }
 
 /**
+ * Language choices for ACF checkbox fields.
+ *
+ * @return array<string, string>
+ */
+function seahivez_get_language_acf_choices() {
+	$choices = array();
+
+	foreach ( seahivez_get_allowed_languages() as $slug => $data ) {
+		$choices[ $slug ] = $data['code'];
+	}
+
+	return $choices;
+}
+
+/**
  * Resolve a language slug to a flag image URI.
  *
  * @param string $language_code Language identifier (en, es, de).

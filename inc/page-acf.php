@@ -74,6 +74,31 @@ function seahivez_map_acf_booking_cta( $defaults, $field = 'booking_cta' ) {
 }
 
 /**
+ * Map a single ACF specification row.
+ *
+ * @param array<string, mixed> $item ACF repeater row.
+ * @return array<string, mixed>
+ */
+function seahivez_map_acf_spec_item_row( $item ) {
+	$languages = array();
+
+	if ( ! empty( $item['languages'] ) && is_array( $item['languages'] ) ) {
+		$languages = array_values(
+			array_filter(
+				array_map( 'sanitize_key', $item['languages'] )
+			)
+		);
+	}
+
+	return array(
+		'icon'      => seahivez_normalize_acf_icon( $item['icon'] ?? '' ),
+		'label'     => (string) ( $item['label'] ?? '' ),
+		'value'     => empty( $languages ) ? (string) ( $item['value'] ?? '' ) : '',
+		'languages' => $languages,
+	);
+}
+
+/**
  * Map ACF specification groups repeater.
  *
  * @param array<int, array<string, mixed>> $defaults Default groups.
@@ -112,17 +137,7 @@ function seahivez_map_acf_specification_groups_from_rows( $rows, $defaults ) {
 		$items = array();
 
 		foreach ( $group['items'] as $item ) {
-			$icon = $item['icon'] ?? null;
-
-			if ( ! seahivez_has_icon( $icon ) && empty( $item['label'] ) ) {
-				continue;
-			}
-
-			$items[] = array(
-				'icon'  => seahivez_normalize_acf_icon( $icon ),
-				'label' => (string) ( $item['label'] ?? '' ),
-				'value' => (string) ( $item['value'] ?? '' ),
-			);
+			$items[] = seahivez_map_acf_spec_item_row( $item );
 		}
 
 		if ( empty( $items ) ) {
