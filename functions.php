@@ -20,6 +20,7 @@ require get_template_directory() . '/inc/booking.php';
 require get_template_directory() . '/inc/setup.php';
 require get_template_directory() . '/inc/menus.php';
 require get_template_directory() . '/inc/enqueue.php';
+require get_template_directory() . '/inc/analytics.php';
 require get_template_directory() . '/inc/logo.php';
 require get_template_directory() . '/inc/icons.php';
 require get_template_directory() . '/inc/arrows.php';
