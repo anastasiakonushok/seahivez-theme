@@ -868,6 +868,58 @@
 		@apply relative z-[1];
 	}
 
+	/* Contact Form 7 — match theme inputs */
+	.contact-form .wpcf7 form {
+		@apply mt-0 space-y-5;
+	}
+
+	.contact-form .wpcf7 form > p,
+	.contact-form .wpcf7 form .wpcf7-form-control-wrap {
+		@apply m-0;
+	}
+
+	.contact-form .wpcf7 label {
+		@apply mb-2 block text-sm font-medium text-navy-900;
+	}
+
+	.contact-form .wpcf7-form-control:not(.wpcf7-submit) {
+		@apply mt-0 w-full rounded-md border border-gray-200 bg-white px-4 py-3 text-navy-900 outline-none transition focus:border-gold/50;
+	}
+
+	.contact-form .wpcf7-textarea {
+		@apply min-h-[140px];
+	}
+
+	.contact-form .wpcf7-submit {
+		@apply btn-primary mt-2 cursor-pointer border-0;
+	}
+
+	.contact-form .wpcf7-not-valid-tip {
+		@apply mt-1 text-sm text-red-600;
+	}
+
+	.contact-form .wpcf7-response-output {
+		@apply mt-4 rounded-md border px-4 py-3 text-sm;
+	}
+
+	.contact-form .wpcf7 form.invalid .wpcf7-response-output,
+	.contact-form .wpcf7 form.unaccepted .wpcf7-response-output,
+	.contact-form .wpcf7 form.payment-required .wpcf7-response-output {
+		@apply border-red-200 bg-red-50 text-red-800;
+	}
+
+	.contact-form .wpcf7 form.sent .wpcf7-response-output {
+		@apply border-emerald-200 bg-emerald-50 text-emerald-900;
+	}
+
+	.contact-form__row {
+		@apply grid gap-5 sm:grid-cols-2;
+	}
+
+	.contact-form__col {
+		@apply sm:col-span-1;
+	}
+
 	.spec-item__icon {
 		@apply mb-3;
 	}

@@ -243,6 +243,10 @@ export function buildPageFieldGroups({
 				textField('field_shvz_contact_form_heading', 'Heading', 'heading'),
 				textareaField('field_shvz_contact_form_description', 'Description', 'description', { rows: 3 }),
 				textField('field_shvz_contact_form_booking_label', 'Booking link label', 'booking_link_label'),
+				textField('field_shvz_contact_form_cf7_shortcode', 'Contact Form 7 shortcode', 'cf7_shortcode', {
+					placeholder: '[contact-form-7 id="123" title="Contact"]',
+					instructions: 'Paste the shortcode from Contact → Contact Forms after creating the form.',
+				}),
 			]),
 			groupField('field_shvz_contact_map', 'Map', 'contact_map', [
 				textField('field_shvz_contact_map_eyebrow', 'Eyebrow', 'eyebrow'),

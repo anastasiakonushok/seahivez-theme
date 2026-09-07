@@ -843,6 +843,7 @@ function seahivez_get_contact_page_form() {
 		'heading'            => __( 'Send a message', 'seahivez-theme' ),
 		'description'        => __( 'Questions about your charter? Write to us — for date reservations use the booking calendar.', 'seahivez-theme' ),
 		'booking_link_label' => __( 'Book a charter', 'seahivez-theme' ),
+		'cf7_shortcode'      => '',
 	);
 
 	if ( ! seahivez_acf_is_active() ) {
@@ -859,6 +860,7 @@ function seahivez_get_contact_page_form() {
 		'heading'            => ! empty( $form['heading'] ) ? (string) $form['heading'] : $defaults['heading'],
 		'description'        => ! empty( $form['description'] ) ? (string) $form['description'] : $defaults['description'],
 		'booking_link_label' => ! empty( $form['booking_link_label'] ) ? (string) $form['booking_link_label'] : $defaults['booking_link_label'],
+		'cf7_shortcode'      => ! empty( $form['cf7_shortcode'] ) ? (string) $form['cf7_shortcode'] : '',
 	);
 }
 
