@@ -9,7 +9,7 @@ $groups  = seahivez_get_yacht_specification_groups();
 $header  = seahivez_get_yacht_specifications_header();
 ?>
 
-<section class="yacht-specifications section-spacing bg-sand-50" aria-labelledby="yacht-specs-heading">
+<section class="specifications yacht-specifications section-spacing bg-sand-50" aria-labelledby="yacht-specs-heading">
 	<div class="site-container">
 		<div class="reveal max-w-2xl">
 			<?php if ( ! empty( $header['eyebrow'] ) ) : ?>

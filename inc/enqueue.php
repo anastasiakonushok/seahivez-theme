@@ -21,6 +21,15 @@ function seahivez_enqueue_assets() {
 			array(),
 			seahivez_get_asset_version( $css_relative )
 		);
+
+		$specifications_line = 'assets/images/decor/specifications-line.png';
+
+		if ( file_exists( get_theme_file_path( $specifications_line ) ) ) {
+			wp_add_inline_style(
+				'seahivez-main',
+				':root { --seahivez-specifications-line: url("' . esc_url( get_theme_file_uri( $specifications_line ) ) . '"); }'
+			);
+		}
 	}
 
 	if ( file_exists( $js_path ) ) {
