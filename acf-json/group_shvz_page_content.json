@@ -659,144 +659,26 @@
                                 "class": "",
                                 "id": ""
                             },
-                            "key": "field_shvz_exp_items",
+                            "key": "field_shvz_exp_packages",
                             "label": "Packages",
-                            "name": "items",
-                            "type": "repeater",
-                            "layout": "block",
+                            "name": "packages",
+                            "type": "relationship",
+                            "post_type": [
+                                "package"
+                            ],
+                            "taxonomy": "",
+                            "filters": [
+                                "search",
+                                "post_type"
+                            ],
+                            "elements": [
+                                "featured_image"
+                            ],
                             "min": 0,
                             "max": 0,
-                            "collapsed": "",
-                            "button_label": "Add package",
-                            "sub_fields": [
-                                {
-                                    "required": 0,
-                                    "conditional_logic": 0,
-                                    "wrapper": {
-                                        "width": "",
-                                        "class": "",
-                                        "id": ""
-                                    },
-                                    "key": "field_shvz_exp_title",
-                                    "label": "Title",
-                                    "name": "title",
-                                    "type": "text",
-                                    "default_value": "",
-                                    "maxlength": "",
-                                    "placeholder": "",
-                                    "prepend": "",
-                                    "append": ""
-                                },
-                                {
-                                    "required": 0,
-                                    "conditional_logic": 0,
-                                    "wrapper": {
-                                        "width": "",
-                                        "class": "",
-                                        "id": ""
-                                    },
-                                    "key": "field_shvz_exp_duration",
-                                    "label": "Duration",
-                                    "name": "duration",
-                                    "type": "text",
-                                    "default_value": "",
-                                    "maxlength": "",
-                                    "placeholder": "",
-                                    "prepend": "",
-                                    "append": ""
-                                },
-                                {
-                                    "required": 0,
-                                    "conditional_logic": 0,
-                                    "wrapper": {
-                                        "width": "",
-                                        "class": "",
-                                        "id": ""
-                                    },
-                                    "key": "field_shvz_exp_time_slot",
-                                    "label": "Time slot",
-                                    "name": "time_slot",
-                                    "type": "text",
-                                    "default_value": "",
-                                    "maxlength": "",
-                                    "placeholder": "",
-                                    "prepend": "",
-                                    "append": ""
-                                },
-                                {
-                                    "required": 0,
-                                    "conditional_logic": 0,
-                                    "wrapper": {
-                                        "width": "",
-                                        "class": "",
-                                        "id": ""
-                                    },
-                                    "key": "field_shvz_exp_price",
-                                    "label": "Price",
-                                    "name": "price",
-                                    "type": "text",
-                                    "default_value": "",
-                                    "maxlength": "",
-                                    "placeholder": "",
-                                    "prepend": "",
-                                    "append": ""
-                                },
-                                {
-                                    "required": 0,
-                                    "conditional_logic": 0,
-                                    "wrapper": {
-                                        "width": "",
-                                        "class": "",
-                                        "id": ""
-                                    },
-                                    "key": "field_shvz_exp_description",
-                                    "label": "Description",
-                                    "name": "description",
-                                    "type": "textarea",
-                                    "default_value": "",
-                                    "maxlength": "",
-                                    "rows": 3,
-                                    "placeholder": "",
-                                    "new_lines": ""
-                                },
-                                {
-                                    "required": 0,
-                                    "conditional_logic": 0,
-                                    "wrapper": {
-                                        "width": "",
-                                        "class": "",
-                                        "id": ""
-                                    },
-                                    "key": "field_shvz_exp_image",
-                                    "label": "Image",
-                                    "name": "image",
-                                    "type": "image",
-                                    "return_format": "array",
-                                    "preview_size": "medium",
-                                    "library": "all",
-                                    "min_width": "",
-                                    "min_height": "",
-                                    "min_size": "",
-                                    "max_width": "",
-                                    "max_height": "",
-                                    "max_size": "",
-                                    "mime_types": ""
-                                },
-                                {
-                                    "required": 0,
-                                    "conditional_logic": 0,
-                                    "wrapper": {
-                                        "width": "",
-                                        "class": "",
-                                        "id": ""
-                                    },
-                                    "key": "field_shvz_exp_link",
-                                    "label": "Link",
-                                    "name": "link",
-                                    "type": "link",
-                                    "return_format": "array"
-                                }
-                            ]
+                            "return_format": "object",
+                            "layout": "block",
+                            "instructions": "Select packages to show. Leave empty to display all packages (menu order)."
                         }
                     ],
                     "min": "",
@@ -1517,5 +1399,5 @@
     "active": true,
     "description": "",
     "show_in_rest": 0,
-    "modified": 1788767713
+    "modified": 1788770527
 }

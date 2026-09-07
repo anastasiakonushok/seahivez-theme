@@ -6,7 +6,7 @@
  */
 
 $section_args  = ! empty( $args['section'] ) && is_array( $args['section'] ) ? $args['section'] : array();
-$experiences   = ! empty( $section_args['experiences'] ) ? $section_args['experiences'] : seahivez_get_home_experiences();
+$experiences   = ! empty( $section_args['experiences'] ) ? $section_args['experiences'] : seahivez_get_packages_for_display();
 $eyebrow       = ! empty( $section_args['eyebrow'] ) ? $section_args['eyebrow'] : __( 'Charter Services', 'seahivez-theme' );
 $heading       = ! empty( $section_args['heading'] ) ? $section_args['heading'] : __( 'Choose your experience', 'seahivez-theme' );
 

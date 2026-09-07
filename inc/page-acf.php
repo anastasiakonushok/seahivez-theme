@@ -158,7 +158,7 @@ function seahivez_map_acf_specification_groups_from_rows( $rows, $defaults ) {
 }
 
 /**
- * Map experience packages repeater from ACF.
+ * Map experience packages from ACF relationship or fall back to all packages.
  *
  * @param array<int, array<string, string>> $defaults Defaults.
  * @param string                            $field    Field name.
@@ -166,35 +166,11 @@ function seahivez_map_acf_specification_groups_from_rows( $rows, $defaults ) {
  */
 function seahivez_map_acf_experience_packages( $defaults, $field = 'packages' ) {
 	if ( ! seahivez_acf_is_active() ) {
-		return $defaults;
+		return seahivez_get_packages_for_display();
 	}
 
-	$rows = get_field( $field );
-
-	if ( empty( $rows ) || ! is_array( $rows ) ) {
-		return $defaults;
-	}
-
-	$packages = array();
-
-	foreach ( $rows as $row ) {
-		$link  = seahivez_parse_acf_link( $row['link'] ?? null, array( 'label' => '', 'url' => seahivez_get_booking_url() ) );
-		$image = $row['image'] ?? null;
-
-		if ( empty( $row['title'] ) ) {
-			continue;
-		}
-
-		$packages[] = array(
-			'title'       => (string) $row['title'],
-			'duration'    => (string) ( $row['duration'] ?? '' ),
-			'time_slot'   => (string) ( $row['time_slot'] ?? '' ),
-			'price'       => (string) ( $row['price'] ?? '' ),
-			'description' => (string) ( $row['description'] ?? '' ),
-			'image'       => seahivez_get_acf_image_url( $image, 'seahivez-card', '' ),
-			'url'         => $link['url'],
-		);
-	}
+	$selected = get_field( $field );
+	$packages = seahivez_get_packages_for_display( $selected );
 
 	return ! empty( $packages ) ? $packages : $defaults;
 }

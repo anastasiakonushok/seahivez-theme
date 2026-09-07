@@ -12,6 +12,7 @@
  *   acf-import/acf-experiences-page.json — Experiences template
  *   acf-import/acf-extras-page.json      — Extras template
  *   acf-import/acf-news-page.json        — News / Posts page
+ *   acf-import/acf-package.json            — Package post type
  *   acf-import/acf-export-all.json       — all field groups
  *
  * Usage: node acf-json/generate-import.mjs
@@ -255,6 +256,23 @@ function trueFalseField(key, label, name, extra = {}) {
 	});
 }
 
+function relationshipField(key, label, name, postTypes, extra = {}) {
+	return fieldBase({
+		key,
+		label,
+		name,
+		type: 'relationship',
+		post_type: postTypes,
+		taxonomy: '',
+		filters: ['search', 'post_type'],
+		elements: ['featured_image'],
+		min: 0,
+		max: 0,
+		return_format: 'object',
+		...extra,
+	});
+}
+
 function layoutBase(key, name, label, subFields, extra = {}) {
 	return {
 		key,
@@ -325,21 +343,10 @@ const pageSectionLayouts = {
 	layout_shvz_experiences: layoutBase('layout_shvz_experiences', 'experiences', 'Experiences', [
 		textField('field_shvz_exp_eyebrow', 'Eyebrow', 'eyebrow'),
 		textField('field_shvz_exp_heading', 'Heading', 'heading'),
-		repeaterField(
-			'field_shvz_exp_items',
-			'Packages',
-			'items',
-			[
-				textField('field_shvz_exp_title', 'Title', 'title'),
-				textField('field_shvz_exp_duration', 'Duration', 'duration'),
-				textField('field_shvz_exp_time_slot', 'Time slot', 'time_slot'),
-				textField('field_shvz_exp_price', 'Price', 'price'),
-				textareaField('field_shvz_exp_description', 'Description', 'description', { rows: 3 }),
-				imageField('field_shvz_exp_image', 'Image', 'image'),
-				linkField('field_shvz_exp_link', 'Link', 'link'),
-			],
-			{ layout: 'block', button_label: 'Add package' }
-		),
+		relationshipField('field_shvz_exp_packages', 'Packages', 'packages', ['package'], {
+			layout: 'block',
+			instructions: 'Select packages to show. Leave empty to display all packages (menu order).',
+		}),
 	]),
 	layout_shvz_toys_extras: layoutBase('layout_shvz_toys_extras', 'toys_extras', 'Toys & Extras', [
 		textField('field_shvz_extras_eyebrow', 'Eyebrow', 'eyebrow'),
@@ -527,6 +534,7 @@ const pageGroups = buildPageFieldGroups({
 	checkboxField,
 	groupField,
 	repeaterField,
+	relationshipField,
 	selectField,
 	wysiwygField,
 	galleryField,
@@ -547,6 +555,7 @@ const allGroups = [
 	pageGroups.experiencesPageGroup,
 	pageGroups.extrasPageGroup,
 	pageGroups.newsPageGroup,
+	pageGroups.packagePostGroup,
 ];
 
 if (!fs.existsSync(importDir)) {
@@ -565,6 +574,7 @@ const importFiles = {
 	'acf-experiences-page.json': [pageGroups.experiencesPageGroup],
 	'acf-extras-page.json': [pageGroups.extrasPageGroup],
 	'acf-news-page.json': [pageGroups.newsPageGroup],
+	'acf-package.json': [pageGroups.packagePostGroup],
 	'acf-export-all.json': allGroups,
 };
 

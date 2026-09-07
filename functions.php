@@ -32,6 +32,7 @@ require get_template_directory() . '/inc/acf-data.php';
 require get_template_directory() . '/inc/homepage-data.php';
 require get_template_directory() . '/inc/page-acf.php';
 require get_template_directory() . '/inc/page-data.php';
+require get_template_directory() . '/inc/packages.php';
 require get_template_directory() . '/inc/template-tags.php';
 require get_template_directory() . '/inc/template-functions.php';
 require get_template_directory() . '/inc/customizer.php';

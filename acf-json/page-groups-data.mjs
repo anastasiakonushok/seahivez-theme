@@ -15,6 +15,7 @@ export function buildPageFieldGroups({
 	checkboxField,
 	groupField,
 	repeaterField,
+	relationshipField,
 	selectField,
 	wysiwygField,
 	galleryField,
@@ -95,22 +96,11 @@ export function buildPageFieldGroups({
 		);
 	}
 
-	function experiencePackagesRepeater(prefix) {
-		return repeaterField(
-			`${prefix}_packages`,
-			'Packages',
-			'packages',
-			[
-				textField(`${prefix}_pkg_title`, 'Title', 'title'),
-				textField(`${prefix}_pkg_duration`, 'Duration', 'duration'),
-				textField(`${prefix}_pkg_time_slot`, 'Time slot', 'time_slot'),
-				textField(`${prefix}_pkg_price`, 'Price', 'price'),
-				textareaField(`${prefix}_pkg_description`, 'Description', 'description', { rows: 3 }),
-				imageField(`${prefix}_pkg_image`, 'Image', 'image'),
-				linkField(`${prefix}_pkg_link`, 'Link', 'link'),
-			],
-			{ layout: 'block', button_label: 'Add package' }
-		);
+	function packagesRelationshipField(prefix) {
+		return relationshipField(`${prefix}_packages`, 'Packages', 'packages', ['package'], {
+			layout: 'block',
+			instructions: 'Select packages to show. Leave empty to display all packages (menu order).',
+		});
 	}
 
 	const faqPageGroup = fieldGroupBase(
@@ -318,7 +308,7 @@ export function buildPageFieldGroups({
 				[textField('field_shvz_expp_included_text', 'Text', 'text')],
 				{ button_label: 'Add item' }
 			),
-			experiencePackagesRepeater('field_shvz_expp'),
+			packagesRelationshipField('field_shvz_expp'),
 			bookingCtaGroup('field_shvz_expp'),
 		],
 		template('page-experiences.php')
@@ -396,5 +386,45 @@ export function buildPageFieldGroups({
 		experiencesPageGroup,
 		extrasPageGroup,
 		newsPageGroup,
+		packagePostGroup: fieldGroupBase(
+			'group_shvz_package',
+			'Package',
+			[
+				textField('field_shvz_pkg_price', 'Price', 'price', {
+					instructions: 'Numbers only, e.g. 800. Currency is added automatically.',
+				}),
+				textField('field_shvz_pkg_duration', 'Duration label', 'duration', {
+					placeholder: 'Sunset · 2 Hours',
+				}),
+				textField('field_shvz_pkg_time_slot', 'Time slot', 'time_slot', {
+					placeholder: '18:00–20:00',
+				}),
+				textareaField('field_shvz_pkg_short_description', 'Short description', 'short_description', {
+					rows: 3,
+					instructions: 'Used on cards and hero. Falls back to excerpt if empty.',
+				}),
+				textareaField('field_shvz_pkg_hero_description', 'Hero description', 'hero_description', {
+					rows: 3,
+					instructions: 'Optional override for the package hero. Falls back to short description.',
+				}),
+				imageField('field_shvz_pkg_card_image', 'Card image', 'card_image', {
+					instructions: 'Optional. Falls back to featured image.',
+				}),
+				linkField('field_shvz_pkg_booking_link', 'Booking link', 'booking_link', {
+					instructions: 'Optional. Defaults to the site booking page.',
+				}),
+				repeaterField(
+					'field_shvz_pkg_included',
+					'Included items (override)',
+					'included_items',
+					[textField('field_shvz_pkg_included_text', 'Text', 'text')],
+					{
+						button_label: 'Add item',
+						instructions: 'Optional. Leave empty to use the shared list from the Experiences page.',
+					}
+				),
+			],
+			[[{ param: 'post_type', operator: '==', value: 'package' }]]
+		),
 	};
 }

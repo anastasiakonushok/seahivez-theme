@@ -1031,7 +1031,7 @@ function seahivez_get_experiences_page_hero() {
  * @return array<int, array<string, string>>
  */
 function seahivez_get_experiences_page_packages() {
-	return seahivez_map_acf_experience_packages( seahivez_get_home_experiences(), 'packages' );
+	return seahivez_get_packages_for_display( function_exists( 'get_field' ) ? get_field( 'packages' ) : null );
 }
 
 /**

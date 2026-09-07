@@ -14,6 +14,7 @@
  *     @type string $description Short description.
  *     @type string $image       Image URL.
  *     @type string $url         Link URL.
+ *     @type string $cta_label   CTA label.
  * }
  */
 
@@ -27,6 +28,7 @@ $args = wp_parse_args(
 		'description' => '',
 		'image'       => '',
 		'url'         => '',
+		'cta_label'   => __( 'View package', 'seahivez-theme' ),
 	)
 );
 
@@ -90,7 +92,7 @@ $price_label = seahivez_format_extra_price_label( $args['price'], false );
 
 			<?php if ( ! empty( $args['url'] ) ) : ?>
 				<a class="link-arrow experience-card__cta mt-4 inline-flex text-sm font-semibold uppercase tracking-wide" href="<?php echo esc_url( $args['url'] ); ?>">
-					<?php esc_html_e( 'Book this experience', 'seahivez-theme' ); ?>
+					<?php echo esc_html( $args['cta_label'] ); ?>
 					<?php seahivez_render_link_arrow_icon( 'sm' ); ?>
 				</a>
 			<?php endif; ?>
