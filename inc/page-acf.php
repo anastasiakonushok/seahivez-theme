@@ -10,14 +10,15 @@
  *
  * @param array<string, mixed> $defaults Default hero data.
  * @param string               $field    ACF field name.
+ * @param int|null             $post_id  Optional post ID (e.g. Posts page).
  * @return array<string, mixed>
  */
-function seahivez_map_acf_page_hero( $defaults, $field = 'hero' ) {
+function seahivez_map_acf_page_hero( $defaults, $field = 'hero', $post_id = null ) {
 	if ( ! seahivez_acf_is_active() ) {
 		return $defaults;
 	}
 
-	$hero = get_field( $field );
+	$hero = get_field( $field, $post_id );
 
 	if ( empty( $hero ) || ! is_array( $hero ) ) {
 		return $defaults;

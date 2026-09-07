@@ -19,6 +19,7 @@ export function buildPageFieldGroups({
 	wysiwygField,
 	galleryField,
 	trueFalseField,
+	numberField,
 	specIconChoices,
 	toyIconChoices,
 }) {
@@ -370,6 +371,22 @@ export function buildPageFieldGroups({
 		template('page-extras.php')
 	);
 
+	const newsPageGroup = fieldGroupBase(
+		'group_shvz_news_page',
+		'News Page',
+		[
+			heroGroup('field_shvz_news_page'),
+			groupField('field_shvz_news_page_archive', 'Archive', 'news_archive', [
+				numberField('field_shvz_news_page_posts_per_page', 'Posts per page', 'posts_per_page', {
+					default_value: 9,
+					min: 1,
+					max: 24,
+				}),
+			]),
+		],
+		[[{ param: 'page_type', operator: '==', value: 'posts_page' }]]
+	);
+
 	return {
 		faqPageGroup,
 		yachtPageGroup,
@@ -378,5 +395,6 @@ export function buildPageFieldGroups({
 		bookingPageGroup,
 		experiencesPageGroup,
 		extrasPageGroup,
+		newsPageGroup,
 	};
 }

@@ -11,6 +11,7 @@
  *   acf-import/acf-booking-page.json     — Booking template
  *   acf-import/acf-experiences-page.json — Experiences template
  *   acf-import/acf-extras-page.json      — Extras template
+ *   acf-import/acf-news-page.json        — News / Posts page
  *   acf-import/acf-export-all.json       — all field groups
  *
  * Usage: node acf-json/generate-import.mjs
@@ -530,6 +531,7 @@ const pageGroups = buildPageFieldGroups({
 	wysiwygField,
 	galleryField,
 	trueFalseField,
+	numberField,
 	specIconChoices,
 	toyIconChoices,
 });
@@ -544,6 +546,7 @@ const allGroups = [
 	pageGroups.bookingPageGroup,
 	pageGroups.experiencesPageGroup,
 	pageGroups.extrasPageGroup,
+	pageGroups.newsPageGroup,
 ];
 
 if (!fs.existsSync(importDir)) {
@@ -561,6 +564,7 @@ const importFiles = {
 	'acf-booking-page.json': [pageGroups.bookingPageGroup],
 	'acf-experiences-page.json': [pageGroups.experiencesPageGroup],
 	'acf-extras-page.json': [pageGroups.extrasPageGroup],
+	'acf-news-page.json': [pageGroups.newsPageGroup],
 	'acf-export-all.json': allGroups,
 };
 

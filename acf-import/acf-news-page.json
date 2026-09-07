@@ -1,7 +1,7 @@
 [
     {
-        "key": "group_shvz_gallery_page",
-        "title": "Gallery Page",
+        "key": "group_shvz_news_page",
+        "title": "News Page",
         "fields": [
             {
                 "required": 0,
@@ -11,7 +11,7 @@
                     "class": "",
                     "id": ""
                 },
-                "key": "field_shvz_galleryp_hero",
+                "key": "field_shvz_news_page_hero",
                 "label": "Hero",
                 "name": "hero",
                 "type": "group",
@@ -25,7 +25,7 @@
                             "class": "",
                             "id": ""
                         },
-                        "key": "field_shvz_galleryp_hero_eyebrow",
+                        "key": "field_shvz_news_page_hero_eyebrow",
                         "label": "Eyebrow",
                         "name": "eyebrow",
                         "type": "text",
@@ -43,7 +43,7 @@
                             "class": "",
                             "id": ""
                         },
-                        "key": "field_shvz_galleryp_hero_heading",
+                        "key": "field_shvz_news_page_hero_heading",
                         "label": "Heading",
                         "name": "heading",
                         "type": "text",
@@ -61,7 +61,7 @@
                             "class": "",
                             "id": ""
                         },
-                        "key": "field_shvz_galleryp_hero_description",
+                        "key": "field_shvz_news_page_hero_description",
                         "label": "Description",
                         "name": "description",
                         "type": "textarea",
@@ -79,7 +79,7 @@
                             "class": "",
                             "id": ""
                         },
-                        "key": "field_shvz_galleryp_hero_image",
+                        "key": "field_shvz_news_page_hero_image",
                         "label": "Background image",
                         "name": "image",
                         "type": "image",
@@ -102,7 +102,7 @@
                             "class": "",
                             "id": ""
                         },
-                        "key": "field_shvz_galleryp_hero_image_alt",
+                        "key": "field_shvz_news_page_hero_image_alt",
                         "label": "Image alt",
                         "name": "image_alt",
                         "type": "text",
@@ -120,7 +120,7 @@
                             "class": "",
                             "id": ""
                         },
-                        "key": "field_shvz_galleryp_hero_compact",
+                        "key": "field_shvz_news_page_hero_compact",
                         "label": "Compact height",
                         "name": "compact",
                         "type": "true_false",
@@ -140,35 +140,9 @@
                     "class": "",
                     "id": ""
                 },
-                "key": "field_shvz_galleryp_images",
-                "label": "Gallery images",
-                "name": "gallery_images",
-                "type": "gallery",
-                "return_format": "array",
-                "preview_size": "medium",
-                "insert": "append",
-                "library": "all",
-                "min": "",
-                "max": "",
-                "min_width": "",
-                "min_height": "",
-                "min_size": "",
-                "max_width": "",
-                "max_height": "",
-                "max_size": "",
-                "mime_types": ""
-            },
-            {
-                "required": 0,
-                "conditional_logic": 0,
-                "wrapper": {
-                    "width": "",
-                    "class": "",
-                    "id": ""
-                },
-                "key": "field_shvz_galleryp_booking_cta",
-                "label": "Booking CTA",
-                "name": "booking_cta",
+                "key": "field_shvz_news_page_archive",
+                "label": "Archive",
+                "name": "news_archive",
                 "type": "group",
                 "layout": "block",
                 "sub_fields": [
@@ -180,58 +154,27 @@
                             "class": "",
                             "id": ""
                         },
-                        "key": "field_shvz_galleryp_cta_heading",
-                        "label": "Heading",
-                        "name": "heading",
-                        "type": "text",
-                        "default_value": "",
-                        "maxlength": "",
+                        "key": "field_shvz_news_page_posts_per_page",
+                        "label": "Posts per page",
+                        "name": "posts_per_page",
+                        "type": "number",
+                        "default_value": 9,
+                        "min": 1,
+                        "max": 24,
+                        "step": "",
                         "placeholder": "",
                         "prepend": "",
                         "append": ""
-                    },
-                    {
-                        "required": 0,
-                        "conditional_logic": 0,
-                        "wrapper": {
-                            "width": "",
-                            "class": "",
-                            "id": ""
-                        },
-                        "key": "field_shvz_galleryp_cta_description",
-                        "label": "Description",
-                        "name": "description",
-                        "type": "textarea",
-                        "default_value": "",
-                        "maxlength": "",
-                        "rows": 3,
-                        "placeholder": "",
-                        "new_lines": ""
-                    },
-                    {
-                        "required": 0,
-                        "conditional_logic": 0,
-                        "wrapper": {
-                            "width": "",
-                            "class": "",
-                            "id": ""
-                        },
-                        "key": "field_shvz_galleryp_cta_button",
-                        "label": "CTA button",
-                        "name": "cta_button",
-                        "type": "link",
-                        "return_format": "array"
                     }
-                ],
-                "instructions": "Phone, email and location are taken from Theme Settings → Social & Contact."
+                ]
             }
         ],
         "location": [
             [
                 {
-                    "param": "page_template",
+                    "param": "page_type",
                     "operator": "==",
-                    "value": "page-gallery.php"
+                    "value": "posts_page"
                 }
             ]
         ],

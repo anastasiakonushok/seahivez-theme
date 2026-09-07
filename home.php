@@ -13,16 +13,7 @@ get_header();
 	get_template_part(
 		'template-parts/page/page-hero',
 		null,
-		seahivez_get_page_hero_defaults(
-			array(
-				'eyebrow'     => __( 'News & Inspiration', 'seahivez-theme' ),
-				'heading'     => __( 'Stories from Mallorca', 'seahivez-theme' ),
-				'description' => __( 'Discover local places, charter inspiration, hidden coves and life on the Mediterranean.', 'seahivez-theme' ),
-				'image'       => seahivez_get_theme_image_uri( 'assets/images/photo/1.jpg' ),
-				'image_alt'   => __( 'SeaHivez news and inspiration', 'seahivez-theme' ),
-				'compact'     => true,
-			)
-		)
+		seahivez_get_news_page_hero()
 	);
 	?>
 

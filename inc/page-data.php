@@ -556,6 +556,63 @@ function seahivez_get_experience_included_items() {
 }
 
 /**
+ * News / blog posts page hero.
+ *
+ * Fields are edited on the page set as "Posts page" in Settings → Reading.
+ *
+ * @return array<string, mixed>
+ */
+function seahivez_get_news_page_hero() {
+	$defaults = seahivez_get_page_hero_defaults(
+		array(
+			'eyebrow'     => __( 'News & Inspiration', 'seahivez-theme' ),
+			'heading'     => __( 'Stories from Mallorca', 'seahivez-theme' ),
+			'description' => __( 'Discover local places, charter inspiration, hidden coves and life on the Mediterranean.', 'seahivez-theme' ),
+			'image'       => seahivez_get_theme_image_uri( 'assets/images/photo/1.jpg' ),
+			'image_alt'   => __( 'SeaHivez news and inspiration', 'seahivez-theme' ),
+			'compact'     => true,
+		)
+	);
+
+	$posts_page_id = (int) get_option( 'page_for_posts' );
+
+	if ( $posts_page_id <= 0 ) {
+		return $defaults;
+	}
+
+	return seahivez_map_acf_page_hero( $defaults, 'hero', $posts_page_id );
+}
+
+/**
+ * Posts per page for the news archive.
+ *
+ * @return int
+ */
+function seahivez_get_news_posts_per_page() {
+	$default = 9;
+
+	if ( ! seahivez_acf_is_active() ) {
+		return $default;
+	}
+
+	$posts_page_id = (int) get_option( 'page_for_posts' );
+
+	if ( $posts_page_id <= 0 ) {
+		return $default;
+	}
+
+	$archive = get_field( 'news_archive', $posts_page_id );
+
+	if ( empty( $archive ) || ! is_array( $archive ) ) {
+		return $default;
+	}
+
+	$count = isset( $archive['posts_per_page'] ) ? (int) $archive['posts_per_page'] : 0;
+
+	return $count > 0 ? $count : $default;
+}
+
+/**
  * FAQ page hero.
  *
  * @return array<string, mixed>

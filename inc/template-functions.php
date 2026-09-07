@@ -48,7 +48,7 @@ function seahivez_news_posts_per_page( $query ) {
 	}
 
 	if ( $query->is_home() || $query->is_category() || $query->is_tag() || $query->is_author() || $query->is_date() ) {
-		$query->set( 'posts_per_page', 9 );
+		$query->set( 'posts_per_page', seahivez_get_news_posts_per_page() );
 	}
 }
 add_action( 'pre_get_posts', 'seahivez_news_posts_per_page' );

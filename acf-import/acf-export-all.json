@@ -1518,7 +1518,7 @@
         "active": true,
         "description": "",
         "show_in_rest": 0,
-        "modified": 1788688653
+        "modified": 1788767713
     },
     {
         "key": "group_shvz_theme_settings",
@@ -1937,7 +1937,7 @@
         "active": true,
         "description": "",
         "show_in_rest": 0,
-        "modified": 1788688653
+        "modified": 1788767713
     },
     {
         "key": "group_shvz_faq_page",
@@ -2336,7 +2336,7 @@
         "active": true,
         "description": "",
         "show_in_rest": 0,
-        "modified": 1788688653
+        "modified": 1788767713
     },
     {
         "key": "group_shvz_yacht_page",
@@ -3487,7 +3487,7 @@
         "active": true,
         "description": "",
         "show_in_rest": 0,
-        "modified": 1788688653
+        "modified": 1788767713
     },
     {
         "key": "group_shvz_contact_page",
@@ -3920,7 +3920,7 @@
         "active": true,
         "description": "",
         "show_in_rest": 0,
-        "modified": 1788688653
+        "modified": 1788767713
     },
     {
         "key": "group_shvz_gallery_page",
@@ -4167,7 +4167,7 @@
         "active": true,
         "description": "",
         "show_in_rest": 0,
-        "modified": 1788688653
+        "modified": 1788767713
     },
     {
         "key": "group_shvz_booking_page",
@@ -4499,7 +4499,7 @@
         "active": true,
         "description": "",
         "show_in_rest": 0,
-        "modified": 1788688653
+        "modified": 1788767713
     },
     {
         "key": "group_shvz_experiences_page",
@@ -4905,7 +4905,7 @@
         "active": true,
         "description": "",
         "show_in_rest": 0,
-        "modified": 1788688653
+        "modified": 1788767713
     },
     {
         "key": "group_shvz_extras_page",
@@ -5448,6 +5448,196 @@
         "active": true,
         "description": "",
         "show_in_rest": 0,
-        "modified": 1788688653
+        "modified": 1788767713
+    },
+    {
+        "key": "group_shvz_news_page",
+        "title": "News Page",
+        "fields": [
+            {
+                "required": 0,
+                "conditional_logic": 0,
+                "wrapper": {
+                    "width": "",
+                    "class": "",
+                    "id": ""
+                },
+                "key": "field_shvz_news_page_hero",
+                "label": "Hero",
+                "name": "hero",
+                "type": "group",
+                "layout": "block",
+                "sub_fields": [
+                    {
+                        "required": 0,
+                        "conditional_logic": 0,
+                        "wrapper": {
+                            "width": "",
+                            "class": "",
+                            "id": ""
+                        },
+                        "key": "field_shvz_news_page_hero_eyebrow",
+                        "label": "Eyebrow",
+                        "name": "eyebrow",
+                        "type": "text",
+                        "default_value": "",
+                        "maxlength": "",
+                        "placeholder": "",
+                        "prepend": "",
+                        "append": ""
+                    },
+                    {
+                        "required": 0,
+                        "conditional_logic": 0,
+                        "wrapper": {
+                            "width": "",
+                            "class": "",
+                            "id": ""
+                        },
+                        "key": "field_shvz_news_page_hero_heading",
+                        "label": "Heading",
+                        "name": "heading",
+                        "type": "text",
+                        "default_value": "",
+                        "maxlength": "",
+                        "placeholder": "",
+                        "prepend": "",
+                        "append": ""
+                    },
+                    {
+                        "required": 0,
+                        "conditional_logic": 0,
+                        "wrapper": {
+                            "width": "",
+                            "class": "",
+                            "id": ""
+                        },
+                        "key": "field_shvz_news_page_hero_description",
+                        "label": "Description",
+                        "name": "description",
+                        "type": "textarea",
+                        "default_value": "",
+                        "maxlength": "",
+                        "rows": 3,
+                        "placeholder": "",
+                        "new_lines": ""
+                    },
+                    {
+                        "required": 0,
+                        "conditional_logic": 0,
+                        "wrapper": {
+                            "width": "",
+                            "class": "",
+                            "id": ""
+                        },
+                        "key": "field_shvz_news_page_hero_image",
+                        "label": "Background image",
+                        "name": "image",
+                        "type": "image",
+                        "return_format": "array",
+                        "preview_size": "medium",
+                        "library": "all",
+                        "min_width": "",
+                        "min_height": "",
+                        "min_size": "",
+                        "max_width": "",
+                        "max_height": "",
+                        "max_size": "",
+                        "mime_types": ""
+                    },
+                    {
+                        "required": 0,
+                        "conditional_logic": 0,
+                        "wrapper": {
+                            "width": "",
+                            "class": "",
+                            "id": ""
+                        },
+                        "key": "field_shvz_news_page_hero_image_alt",
+                        "label": "Image alt",
+                        "name": "image_alt",
+                        "type": "text",
+                        "default_value": "",
+                        "maxlength": "",
+                        "placeholder": "",
+                        "prepend": "",
+                        "append": ""
+                    },
+                    {
+                        "required": 0,
+                        "conditional_logic": 0,
+                        "wrapper": {
+                            "width": "",
+                            "class": "",
+                            "id": ""
+                        },
+                        "key": "field_shvz_news_page_hero_compact",
+                        "label": "Compact height",
+                        "name": "compact",
+                        "type": "true_false",
+                        "default_value": 0,
+                        "ui": 1,
+                        "ui_on_text": "",
+                        "ui_off_text": "",
+                        "message": ""
+                    }
+                ]
+            },
+            {
+                "required": 0,
+                "conditional_logic": 0,
+                "wrapper": {
+                    "width": "",
+                    "class": "",
+                    "id": ""
+                },
+                "key": "field_shvz_news_page_archive",
+                "label": "Archive",
+                "name": "news_archive",
+                "type": "group",
+                "layout": "block",
+                "sub_fields": [
+                    {
+                        "required": 0,
+                        "conditional_logic": 0,
+                        "wrapper": {
+                            "width": "",
+                            "class": "",
+                            "id": ""
+                        },
+                        "key": "field_shvz_news_page_posts_per_page",
+                        "label": "Posts per page",
+                        "name": "posts_per_page",
+                        "type": "number",
+                        "default_value": 9,
+                        "min": 1,
+                        "max": 24,
+                        "step": "",
+                        "placeholder": "",
+                        "prepend": "",
+                        "append": ""
+                    }
+                ]
+            }
+        ],
+        "location": [
+            [
+                {
+                    "param": "page_type",
+                    "operator": "==",
+                    "value": "posts_page"
+                }
+            ]
+        ],
+        "menu_order": 0,
+        "position": "normal",
+        "style": "default",
+        "label_placement": "top",
+        "instruction_placement": "label",
+        "hide_on_screen": "",
+        "active": true,
+        "description": "",
+        "show_in_rest": 0,
+        "modified": 1788767713
     }
 ]
