@@ -35,18 +35,7 @@ get_header();
 					?>
 				</ul>
 
-				<nav class="news-pagination mt-14" aria-label="<?php esc_attr_e( 'News pagination', 'seahivez-theme' ); ?>">
-					<?php
-					the_posts_pagination(
-						array(
-							'mid_size'  => 2,
-							'prev_text' => seahivez_get_arrow_svg( 'left', array( 'size' => 'sm' ) ) . '<span class="screen-reader-text">' . esc_html__( 'Previous', 'seahivez-theme' ) . '</span>',
-							'next_text' => '<span class="screen-reader-text">' . esc_html__( 'Next', 'seahivez-theme' ) . '</span>' . seahivez_get_arrow_svg( 'right', array( 'size' => 'sm' ) ),
-							'class'     => 'pagination',
-						)
-					);
-					?>
-				</nav>
+				<?php get_template_part( 'template-parts/news/archive-pagination' ); ?>
 			<?php else : ?>
 				<div class="reveal mx-auto max-w-xl py-8 text-center">
 					<p class="type-body text-lg text-navy-900">
