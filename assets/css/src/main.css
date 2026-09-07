@@ -920,6 +920,27 @@
 		@apply sm:col-span-1;
 	}
 
+	.contact-form .wpcf7-list-item {
+		@apply m-0;
+	}
+
+	.contact-form .wpcf7-acceptance .wpcf7-list-item-label,
+	.contact-form .contact-form__consent-label {
+		@apply inline text-sm font-normal leading-relaxed text-gray-600;
+	}
+
+	.contact-form .contact-form__consent {
+		@apply flex items-start gap-3;
+	}
+
+	.contact-form .contact-form__consent input[type='checkbox'] {
+		@apply mt-1 h-4 w-4 shrink-0 rounded border-gray-300 text-navy-900 focus:ring-gold/40;
+	}
+
+	.contact-form .contact-form__consent a {
+		@apply text-navy-900 underline decoration-gray-300 underline-offset-2 transition-colors hover:text-gold-dark hover:decoration-gold/50;
+	}
+
 	.spec-item__icon {
 		@apply mb-3;
 	}
