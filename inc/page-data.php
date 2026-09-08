@@ -252,71 +252,10 @@ function seahivez_get_yacht_editorial_sections() {
 }
 
 /**
- * Mosaic span classes for a partial yacht-gallery block (fewer than 7 images).
- *
- * @param int $count Images in this block (1–6).
- * @return array<int, string>
- */
-function seahivez_get_yacht_gallery_span_remainder( $count ) {
-	switch ( (int) $count ) {
-		case 1:
-			return array( 'sm:col-span-2 md:col-span-3 md:row-span-2' );
-		case 2:
-			return array( 'sm:col-span-2 md:col-span-2', '' );
-		case 3:
-			return array(
-				'md:col-span-2 md:row-span-2',
-				'',
-				'',
-			);
-		case 4:
-			return array(
-				'md:col-span-2 md:row-span-2',
-				'',
-				'',
-				'sm:col-span-2 md:col-span-3',
-			);
-		case 5:
-			return array(
-				'md:col-span-2 md:row-span-2',
-				'',
-				'',
-				'md:col-span-2',
-				'',
-			);
-		case 6:
-			return array(
-				'md:col-span-2 md:row-span-2',
-				'',
-				'',
-				'',
-				'',
-				'',
-			);
-		default:
-			return array();
-	}
-}
-
-/**
- * Full 7-image mosaic block — dense 3-column layout without trailing gaps.
- *
- * @return array<int, string>
- */
-function seahivez_get_yacht_gallery_span_block() {
-	return array(
-		'md:col-span-2 md:row-span-2',
-		'',
-		'',
-		'md:col-span-2',
-		'',
-		'md:col-span-2',
-		'',
-	);
-}
-
-/**
  * Build per-item grid span classes for the yacht gallery mosaic.
+ *
+ * Repeats the featured trio: one tall image (2 cols × 2 rows) with two stacked
+ * images on the right. Remaining photos continue in the same rhythm.
  *
  * @param int $total Total gallery images.
  * @return array<int, string>
@@ -328,22 +267,33 @@ function seahivez_get_yacht_gallery_span_pattern( $total ) {
 		return array();
 	}
 
-	$spans  = array();
-	$offset = 0;
+	$hero = 'sm:col-span-1 sm:row-span-2 md:col-span-2 md:row-span-2';
+	$side = '';
+	$full = 'sm:col-span-2 md:col-span-3 md:row-span-2';
 
-	while ( $offset < $total ) {
-		$remaining = $total - $offset;
+	$spans = array();
+	$index = 0;
 
-		if ( $remaining >= 7 ) {
-			$block = seahivez_get_yacht_gallery_span_block();
-			$take  = 7;
-		} else {
-			$block = seahivez_get_yacht_gallery_span_remainder( $remaining );
-			$take  = $remaining;
+	while ( $index < $total ) {
+		$remaining = $total - $index;
+
+		if ( $remaining >= 3 ) {
+			$spans[] = $hero;
+			$spans[] = $side;
+			$spans[] = $side;
+			$index  += 3;
+			continue;
 		}
 
-		$spans  = array_merge( $spans, $block );
-		$offset += $take;
+		if ( 2 === $remaining ) {
+			$spans[] = $hero;
+			$spans[] = $side;
+			$index += 2;
+			continue;
+		}
+
+		$spans[] = $full;
+		++$index;
 	}
 
 	return $spans;

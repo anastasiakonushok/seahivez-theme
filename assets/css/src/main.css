@@ -636,6 +636,19 @@
 		@apply transition-transform duration-[350ms] ease-out group-hover:scale-[1.025];
 	}
 
+	.yacht-gallery__grid {
+		grid-auto-flow: row;
+	}
+
+	.yacht-gallery__cell {
+		@apply min-h-0;
+	}
+
+	.yacht-gallery__cell .gallery-item,
+	.yacht-gallery__cell .gallery-item__link {
+		@apply min-h-[200px] sm:min-h-0;
+	}
+
 	.section-outline-cta.btn-outline {
 		@apply transition-colors duration-300 hover:border-gold/45 hover:bg-transparent hover:text-gold-dark;
 	}

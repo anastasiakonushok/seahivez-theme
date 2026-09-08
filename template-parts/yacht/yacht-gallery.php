@@ -41,7 +41,7 @@ $total = count( $items );
 		</div>
 
 		<ul
-			class="yacht-gallery__grid mt-10 grid grid-cols-1 gap-3 sm:grid-cols-2 md:grid-cols-3 md:grid-flow-dense md:auto-rows-[200px] lg:auto-rows-[240px] lg:gap-4"
+			class="yacht-gallery__grid mt-10 grid grid-cols-1 gap-3 sm:grid-cols-2 sm:auto-rows-[minmax(160px,1fr)] md:grid-cols-3 md:auto-rows-[200px] lg:auto-rows-[240px] lg:gap-4"
 			role="list"
 		>
 			<?php foreach ( $items as $index => $item ) : ?>
@@ -51,10 +51,10 @@ $total = count( $items );
 				$caption = ! empty( $item['caption'] ) ? $item['caption'] : $item['alt'];
 				$span    = ! empty( $item['span'] ) ? $item['span'] : '';
 				?>
-				<li class="yacht-gallery__cell min-h-[220px] <?php echo esc_attr( $span ); ?> reveal<?php echo $index % 3 ? ' reveal-delay-' . min( $index % 3, 2 ) : ''; ?>">
-					<figure class="gallery-item group relative h-full min-h-[220px] overflow-hidden rounded-md">
+				<li class="yacht-gallery__cell <?php echo esc_attr( $span ); ?> reveal<?php echo $index % 3 ? ' reveal-delay-' . min( $index % 3, 2 ) : ''; ?>">
+					<figure class="gallery-item group relative h-full overflow-hidden rounded-md">
 						<a
-							class="gallery-item__link relative block h-full min-h-[220px] cursor-zoom-in focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-navy-700"
+							class="gallery-item__link relative block h-full cursor-zoom-in focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-navy-700"
 							href="<?php echo esc_url( $full ); ?>"
 							data-fancybox="seahivez-yacht-gallery"
 							data-caption="<?php echo esc_attr( $caption ); ?>"
