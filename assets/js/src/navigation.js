@@ -24,7 +24,17 @@ export function initNavigation() {
 		return toggle.getAttribute( 'aria-expanded' ) === 'true';
 	}
 
+	function syncHeaderHeight() {
+		if ( siteHeader ) {
+			document.documentElement.style.setProperty(
+				'--site-header-height',
+				`${ siteHeader.offsetHeight }px`
+			);
+		}
+	}
+
 	function openMenu() {
+		syncHeaderHeight();
 		toggle.setAttribute( 'aria-expanded', 'true' );
 		panel.hidden = false;
 		document.body.classList.add( 'overflow-hidden' );
@@ -78,6 +88,12 @@ export function initNavigation() {
 		link.addEventListener( 'click', () => {
 			closeMenu();
 		} );
+	} );
+
+	window.addEventListener( 'resize', () => {
+		if ( isOpen() ) {
+			syncHeaderHeight();
+		}
 	} );
 
 	// Submenu focus support for desktop navigation.

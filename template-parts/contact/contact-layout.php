@@ -16,7 +16,7 @@ $port     = seahivez_get_port_location();
 				<?php get_template_part( 'template-parts/contact/contact-details' ); ?>
 			</div>
 
-			<div class="reveal reveal-delay-1 space-y-10">
+			<div class="reveal reveal-delay-1 min-w-0 space-y-10">
 				<?php get_template_part( 'template-parts/contact/contact-map' ); ?>
 				<?php get_template_part( 'template-parts/contact/contact-form' ); ?>
 			</div>
