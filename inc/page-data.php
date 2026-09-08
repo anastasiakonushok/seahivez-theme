@@ -252,6 +252,104 @@ function seahivez_get_yacht_editorial_sections() {
 }
 
 /**
+ * Mosaic span classes for a partial yacht-gallery block (fewer than 7 images).
+ *
+ * @param int $count Images in this block (1–6).
+ * @return array<int, string>
+ */
+function seahivez_get_yacht_gallery_span_remainder( $count ) {
+	switch ( (int) $count ) {
+		case 1:
+			return array( 'sm:col-span-2 md:col-span-3 md:row-span-2' );
+		case 2:
+			return array( 'sm:col-span-2 md:col-span-2', '' );
+		case 3:
+			return array(
+				'md:col-span-2 md:row-span-2',
+				'',
+				'',
+			);
+		case 4:
+			return array(
+				'md:col-span-2 md:row-span-2',
+				'',
+				'',
+				'sm:col-span-2 md:col-span-3',
+			);
+		case 5:
+			return array(
+				'md:col-span-2 md:row-span-2',
+				'',
+				'',
+				'md:col-span-2',
+				'',
+			);
+		case 6:
+			return array(
+				'md:col-span-2 md:row-span-2',
+				'',
+				'',
+				'',
+				'',
+				'',
+			);
+		default:
+			return array();
+	}
+}
+
+/**
+ * Full 7-image mosaic block — dense 3-column layout without trailing gaps.
+ *
+ * @return array<int, string>
+ */
+function seahivez_get_yacht_gallery_span_block() {
+	return array(
+		'md:col-span-2 md:row-span-2',
+		'',
+		'',
+		'md:col-span-2',
+		'',
+		'md:col-span-2',
+		'',
+	);
+}
+
+/**
+ * Build per-item grid span classes for the yacht gallery mosaic.
+ *
+ * @param int $total Total gallery images.
+ * @return array<int, string>
+ */
+function seahivez_get_yacht_gallery_span_pattern( $total ) {
+	$total = max( 0, (int) $total );
+
+	if ( 0 === $total ) {
+		return array();
+	}
+
+	$spans  = array();
+	$offset = 0;
+
+	while ( $offset < $total ) {
+		$remaining = $total - $offset;
+
+		if ( $remaining >= 7 ) {
+			$block = seahivez_get_yacht_gallery_span_block();
+			$take  = 7;
+		} else {
+			$block = seahivez_get_yacht_gallery_span_remainder( $remaining );
+			$take  = $remaining;
+		}
+
+		$spans  = array_merge( $spans, $block );
+		$offset += $take;
+	}
+
+	return $spans;
+}
+
+/**
  * Yacht page gallery mosaic items (more photos than homepage preview).
  *
  * @return array<int, array<string, mixed>>
@@ -307,16 +405,6 @@ function seahivez_get_yacht_gallery_items() {
 		$items[ $index ] = array_merge( $item, $resolved );
 	}
 
-	$spans = array(
-		'md:col-span-2 md:row-span-2',
-		'',
-		'',
-		'md:col-span-2',
-		'',
-		'',
-		'sm:col-span-2 md:col-span-1',
-	);
-
 	$acf_images = null;
 
 	if ( seahivez_acf_is_active() ) {
@@ -330,11 +418,13 @@ function seahivez_get_yacht_gallery_items() {
 	$acf_items = seahivez_map_acf_gallery_image_array( $acf_images, array() );
 
 	if ( ! empty( $acf_items ) ) {
-		foreach ( $acf_items as $index => $acf_item ) {
-			$acf_items[ $index ]['span'] = $spans[ $index % count( $spans ) ];
-		}
+		$items = $acf_items;
+	}
 
-		return $acf_items;
+	$spans = seahivez_get_yacht_gallery_span_pattern( count( $items ) );
+
+	foreach ( $items as $index => $item ) {
+		$items[ $index ]['span'] = $spans[ $index ] ?? '';
 	}
 
 	return $items;

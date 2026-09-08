@@ -41,7 +41,7 @@ $total = count( $items );
 		</div>
 
 		<ul
-			class="yacht-gallery__grid mt-10 grid grid-cols-1 gap-3 sm:grid-cols-2 md:grid-cols-3 md:auto-rows-[200px] lg:auto-rows-[240px] lg:gap-4"
+			class="yacht-gallery__grid mt-10 grid grid-cols-1 gap-3 sm:grid-cols-2 md:grid-cols-3 md:grid-flow-dense md:auto-rows-[200px] lg:auto-rows-[240px] lg:gap-4"
 			role="list"
 		>
 			<?php foreach ( $items as $index => $item ) : ?>
