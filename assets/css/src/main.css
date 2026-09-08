@@ -372,10 +372,15 @@
 	}
 
 	.mobile-navigation {
-		@apply flex flex-col bg-white;
+		@apply bg-white;
+	}
+
+	.mobile-navigation[hidden] {
+		display: none !important;
 	}
 
 	.site-header.is-menu-open .mobile-navigation {
+		@apply flex flex-col;
 		position: fixed;
 		top: var(--site-header-height, 4.5rem);
 		right: 0;
