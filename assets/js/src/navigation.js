@@ -33,16 +33,28 @@ export function initNavigation() {
 		}
 	}
 
+	function setToggleState( expanded ) {
+		toggle.setAttribute( 'aria-expanded', expanded ? 'true' : 'false' );
+
+		const label = expanded
+			? toggle.dataset.labelClose
+			: toggle.dataset.labelOpen;
+
+		if ( label ) {
+			toggle.setAttribute( 'aria-label', label );
+		}
+	}
+
 	function openMenu() {
 		syncHeaderHeight();
-		toggle.setAttribute( 'aria-expanded', 'true' );
+		setToggleState( true );
 		panel.hidden = false;
 		document.body.classList.add( 'overflow-hidden' );
 		siteHeader?.classList.add( 'is-menu-open' );
 	}
 
 	function closeMenu() {
-		toggle.setAttribute( 'aria-expanded', 'false' );
+		setToggleState( false );
 		panel.hidden = true;
 		document.body.classList.remove( 'overflow-hidden' );
 		siteHeader?.classList.remove( 'is-menu-open' );

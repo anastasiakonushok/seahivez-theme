@@ -61,11 +61,20 @@ if ( $is_homepage_header ) {
 				aria-controls="mobile-navigation"
 				aria-expanded="false"
 				aria-label="<?php esc_attr_e( 'Open menu', 'seahivez-theme' ); ?>"
+				data-label-open="<?php esc_attr_e( 'Open menu', 'seahivez-theme' ); ?>"
+				data-label-close="<?php esc_attr_e( 'Close menu', 'seahivez-theme' ); ?>"
 			>
 				<span class="sr-only"><?php esc_html_e( 'Menu', 'seahivez-theme' ); ?></span>
-				<svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
-					<path stroke-linecap="round" d="M4 7h16M4 12h16M4 17h16" />
-				</svg>
+				<span class="site-header__toggle-icon site-header__toggle-icon--menu" aria-hidden="true">
+					<svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+						<path stroke-linecap="round" d="M4 7h16M4 12h16M4 17h16" />
+					</svg>
+				</span>
+				<span class="site-header__toggle-icon site-header__toggle-icon--close" aria-hidden="true">
+					<svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+						<path stroke-linecap="round" d="M6 6l12 12M18 6L6 18" />
+					</svg>
+				</span>
 			</button>
 		</div>
 	</div>

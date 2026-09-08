@@ -281,6 +281,22 @@
 		@apply items-center;
 	}
 
+	.site-header__toggle-icon {
+		@apply inline-flex items-center justify-center;
+	}
+
+	.site-header__toggle-icon--close {
+		@apply hidden;
+	}
+
+	.site-header__toggle[aria-expanded='true'] .site-header__toggle-icon--menu {
+		@apply hidden;
+	}
+
+	.site-header__toggle[aria-expanded='true'] .site-header__toggle-icon--close {
+		@apply inline-flex;
+	}
+
 	.site-header--overlay .site-title a,
 	.site-header--overlay .site-header__toggle {
 		@apply text-white;
