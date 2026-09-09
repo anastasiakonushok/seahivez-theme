@@ -1,5 +1,5 @@
 /**
- * SeaHivez Google Map — grayscale custom style + navy marker.
+ * SeaHivez Google Map — cloud Map ID with legacy style fallback.
  *
  * @package seahivez-theme
  */
@@ -64,6 +64,17 @@ const SEA_HIVEZ_MAP_STYLES = [
 	},
 ];
 
+const MAP_OPTIONS = {
+	zoom: 15,
+	disableDefaultUI: true,
+	zoomControl: true,
+	mapTypeControl: false,
+	streetViewControl: false,
+	fullscreenControl: false,
+	gestureHandling: 'greedy',
+	clickableIcons: false,
+};
+
 /**
  * Custom navy pin with gold center (SVG data URL).
  *
@@ -81,14 +92,13 @@ function getMarkerIconUrl() {
 }
 
 /**
- * Load the Google Maps JS API once.
- *
  * @param {string} apiKey
- * @returns {Promise<typeof google.maps>}
+ * @param {boolean} withMarkerLib
+ * @returns {Promise<{ mapsLib: google.maps.MapsLibrary, markerLib?: google.maps.MarkerLibrary }>}
  */
-function loadGoogleMapsApi( apiKey ) {
-	if ( window.google?.maps ) {
-		return Promise.resolve( window.google.maps );
+function loadGoogleMapsApi( apiKey, withMarkerLib ) {
+	if ( window.__seahivezMapsLibraries && ( ! withMarkerLib || window.__seahivezMapsLibraries.markerLib ) ) {
+		return Promise.resolve( window.__seahivezMapsLibraries );
 	}
 
 	if ( window.__seahivezMapsPromise ) {
@@ -97,14 +107,27 @@ function loadGoogleMapsApi( apiKey ) {
 
 	window.__seahivezMapsPromise = new Promise( ( resolve, reject ) => {
 		const script = document.createElement( 'script' );
-		script.src = `https://maps.googleapis.com/maps/api/js?key=${ encodeURIComponent( apiKey ) }`;
+		script.src = `https://maps.googleapis.com/maps/api/js?key=${ encodeURIComponent( apiKey ) }&loading=async`;
 		script.async = true;
 		script.defer = true;
-		script.onload = () => {
-			if ( window.google?.maps ) {
-				resolve( window.google.maps );
-			} else {
-				reject( new Error( 'Google Maps failed to initialize' ) );
+		script.onload = async () => {
+			try {
+				if ( ! window.google?.maps?.importLibrary ) {
+					reject( new Error( 'Google Maps failed to initialize' ) );
+					return;
+				}
+
+				const mapsLib = await window.google.maps.importLibrary( 'maps' );
+				const libraries = { mapsLib };
+
+				if ( withMarkerLib ) {
+					libraries.markerLib = await window.google.maps.importLibrary( 'marker' );
+				}
+
+				window.__seahivezMapsLibraries = libraries;
+				resolve( libraries );
+			} catch ( error ) {
+				reject( error );
 			}
 		};
 		script.onerror = () => reject( new Error( 'Google Maps script failed to load' ) );
@@ -131,10 +154,94 @@ function showMapFallback( root ) {
 }
 
 /**
- * @param {HTMLElement} root
- * @param {typeof google.maps} maps
+ * @param {string} label
+ * @param {string} place
+ * @param {string} mapsUrl
+ * @returns {google.maps.InfoWindow}
  */
-function initSingleMap( root, maps ) {
+function createInfoWindow( label, place, mapsUrl ) {
+	const openLink = mapsUrl
+		? `<p style="margin:8px 0 0;"><a href="${ mapsUrl }" target="_blank" rel="noopener noreferrer" style="color:#0B1F3A;text-decoration:underline;">Open in Google Maps</a></p>`
+		: '';
+
+	return new google.maps.InfoWindow( {
+		content: `
+			<div style="font-family:Satoshi,Arial,sans-serif;padding:4px 2px;max-width:200px;color:#0B1F3A;">
+				<strong style="display:block;font-size:14px;margin-bottom:2px;">${ label }</strong>
+				<span style="font-size:13px;color:#5C6570;">${ place }</span>
+				${ openLink }
+			</div>
+		`,
+	} );
+}
+
+/**
+ * @param {google.maps.Map} map
+ * @param {google.maps.LatLngLiteral} position
+ * @param {string} label
+ * @param {string} place
+ * @param {string} mapsUrl
+ * @returns {google.maps.Marker}
+ */
+function createClassicMarker( map, position, label, place, mapsUrl ) {
+	const marker = new google.maps.Marker( {
+		map,
+		position,
+		title: label,
+		icon: {
+			url: getMarkerIconUrl(),
+			scaledSize: new google.maps.Size( 40, 52 ),
+			anchor: new google.maps.Point( 20, 52 ),
+		},
+	} );
+
+	const info = createInfoWindow( label, place, mapsUrl );
+	marker.addListener( 'click', () => {
+		info.open( { map, anchor: marker } );
+	} );
+
+	return marker;
+}
+
+/**
+ * @param {HTMLElement} canvas
+ * @param {google.maps.MapsLibrary} mapsLib
+ * @param {google.maps.LatLngLiteral} position
+ * @param {string} mapId
+ * @returns {google.maps.Map}
+ */
+function createCloudMap( canvas, mapsLib, position, mapId ) {
+	const { Map } = mapsLib;
+
+	return new Map( canvas, {
+		...MAP_OPTIONS,
+		center: position,
+		mapId,
+	} );
+}
+
+/**
+ * @param {HTMLElement} canvas
+ * @param {google.maps.MapsLibrary} mapsLib
+ * @param {google.maps.LatLngLiteral} position
+ * @returns {google.maps.Map}
+ */
+function createLegacyMap( canvas, mapsLib, position ) {
+	const { Map } = mapsLib;
+
+	return new Map( canvas, {
+		...MAP_OPTIONS,
+		center: position,
+		styles: SEA_HIVEZ_MAP_STYLES,
+		backgroundColor: '#F4F1EA',
+	} );
+}
+
+/**
+ * @param {HTMLElement} root
+ * @param {{ mapsLib: google.maps.MapsLibrary, markerLib?: google.maps.MarkerLibrary }} libraries
+ */
+function initSingleMap( root, libraries ) {
 	const canvas = root.querySelector( '[data-map-canvas]' );
 	if ( ! canvas ) {
 		return;
@@ -145,6 +252,7 @@ function initSingleMap( root, maps ) {
 	const label = root.dataset.label || 'SeaHivez';
 	const place = root.dataset.place || "S'Arenal, Mallorca";
 	const mapsUrl = root.dataset.mapsUrl || '';
+	const mapId = window.seahivezData?.mapsMapId || '';
 
 	if ( Number.isNaN( lat ) || Number.isNaN( lng ) ) {
 		showMapFallback( root );
@@ -152,49 +260,41 @@ function initSingleMap( root, maps ) {
 	}
 
 	const position = { lat, lng };
+	let map;
 
-	const map = new maps.Map( canvas, {
-		center: position,
-		zoom: 13,
-		styles: SEA_HIVEZ_MAP_STYLES,
-		disableDefaultUI: true,
-		zoomControl: true,
-		mapTypeControl: false,
-		streetViewControl: false,
-		fullscreenControl: false,
-		gestureHandling: 'greedy',
-		clickableIcons: false,
-		backgroundColor: '#F4F1EA',
-	} );
+	try {
+		if ( mapId ) {
+			map = createCloudMap( canvas, libraries.mapsLib, position, mapId );
 
-	const marker = new maps.Marker( {
-		map,
-		position,
-		title: label,
-		icon: {
-			url: getMarkerIconUrl(),
-			scaledSize: new maps.Size( 40, 52 ),
-			anchor: new maps.Point( 20, 52 ),
-		},
-	} );
+			if ( libraries.markerLib?.AdvancedMarkerElement ) {
+				const markerImage = document.createElement( 'img' );
+				markerImage.src = getMarkerIconUrl();
+				markerImage.width = 40;
+				markerImage.height = 52;
+				markerImage.alt = '';
 
-	const openLink = mapsUrl
-		? `<p style="margin:8px 0 0;"><a href="${ mapsUrl }" target="_blank" rel="noopener noreferrer" style="color:#0B1F3A;text-decoration:underline;">Open in Google Maps</a></p>`
-		: '';
+				const marker = new libraries.markerLib.AdvancedMarkerElement( {
+					map,
+					position,
+					title: label,
+					content: markerImage,
+				} );
 
-	const info = new maps.InfoWindow( {
-		content: `
-			<div style="font-family:Satoshi,Arial,sans-serif;padding:4px 2px;max-width:200px;color:#0B1F3A;">
-				<strong style="display:block;font-size:14px;margin-bottom:2px;">${ label }</strong>
-				<span style="font-size:13px;color:#5C6570;">${ place }</span>
-				${ openLink }
-			</div>
-		`,
-	} );
-
-	marker.addListener( 'click', () => {
-		info.open( { map, anchor: marker } );
-	} );
+				const info = createInfoWindow( label, place, mapsUrl );
+				marker.addListener( 'click', () => {
+					info.open( { map, anchor: marker } );
+				} );
+			} else {
+				createClassicMarker( map, position, label, place, mapsUrl );
+			}
+		} else {
+			map = createLegacyMap( canvas, libraries.mapsLib, position );
+			createClassicMarker( map, position, label, place, mapsUrl );
+		}
+	} catch ( error ) {
+		map = createLegacyMap( canvas, libraries.mapsLib, position );
+		createClassicMarker( map, position, label, place, mapsUrl );
+	}
 
 	root.classList.add( 'is-ready' );
 }
@@ -209,15 +309,16 @@ export function initMap() {
 	}
 
 	const apiKey = window.seahivezData?.mapsApiKey || '';
+	const mapId = window.seahivezData?.mapsMapId || '';
 
 	if ( ! apiKey ) {
 		roots.forEach( ( root ) => showMapFallback( root ) );
 		return;
 	}
 
-	loadGoogleMapsApi( apiKey )
-		.then( ( maps ) => {
-			roots.forEach( ( root ) => initSingleMap( root, maps ) );
+	loadGoogleMapsApi( apiKey, Boolean( mapId ) )
+		.then( ( libraries ) => {
+			roots.forEach( ( root ) => initSingleMap( root, libraries ) );
 		} )
 		.catch( () => {
 			roots.forEach( ( root ) => showMapFallback( root ) );

@@ -1215,6 +1215,12 @@
 		@apply bg-transparent;
 	}
 
+	.location-cta__map-canvas img,
+	.contact-map__canvas img {
+		display: block;
+		max-width: none;
+	}
+
 	.location-cta__map-fallback {
 		@apply absolute inset-0 flex flex-col items-start justify-center bg-sand-100 p-8;
 	}

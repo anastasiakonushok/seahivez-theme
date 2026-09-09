@@ -13,8 +13,8 @@
  * @return array{lat: float, lng: float, label: string, place: string, maps_url: string}
  */
 function seahivez_get_port_location() {
-	$lat = 39.5128;
-	$lng = 2.7514;
+	$lat = 39.50087;
+	$lng = 2.74671;
 
 	return array(
 		'lat'      => $lat,
@@ -40,6 +40,22 @@ function seahivez_get_port_location() {
 function seahivez_get_google_maps_api_key() {
 	if ( defined( 'SEAHIVEZ_GOOGLE_MAPS_API_KEY' ) && SEAHIVEZ_GOOGLE_MAPS_API_KEY ) {
 		return (string) SEAHIVEZ_GOOGLE_MAPS_API_KEY;
+	}
+
+	return '';
+}
+
+/**
+ * Google Cloud Map ID (cloud-based map styling).
+ *
+ * Define in wp-config.php:
+ * define( 'SEAHIVEZ_GOOGLE_MAPS_MAP_ID', 'your-map-id' );
+ *
+ * @return string
+ */
+function seahivez_get_google_maps_map_id() {
+	if ( defined( 'SEAHIVEZ_GOOGLE_MAPS_MAP_ID' ) && SEAHIVEZ_GOOGLE_MAPS_MAP_ID ) {
+		return (string) SEAHIVEZ_GOOGLE_MAPS_MAP_ID;
 	}
 
 	return '';
