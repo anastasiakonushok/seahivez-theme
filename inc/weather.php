@@ -28,21 +28,21 @@ function seahivez_log_weather_error( $message ) {
 }
 
 /**
- * Cached Palma forecast for the homepage widget.
+ * Cached 3-day Palma forecast for the homepage widget.
  *
- * @return array<string, mixed>|null
+ * @return array{days: array<int, array<string, mixed>>}|null
  */
 function seahivez_get_palma_weather() {
-	$cached = get_transient( 'seahivez_palma_weather' );
+	$cached = get_transient( 'seahivez_palma_weather_3days' );
 
-	if ( is_array( $cached ) && ! empty( $cached['condition'] ) ) {
+	if ( is_array( $cached ) && ! empty( $cached['days'] ) && count( $cached['days'] ) >= 3 ) {
 		return $cached;
 	}
 
 	$fresh = seahivez_fetch_palma_weather_forecast();
 
 	if ( is_array( $fresh ) ) {
-		set_transient( 'seahivez_palma_weather', $fresh, 20 * MINUTE_IN_SECONDS );
+		set_transient( 'seahivez_palma_weather_3days', $fresh, 20 * MINUTE_IN_SECONDS );
 		return $fresh;
 	}
 
@@ -50,9 +50,9 @@ function seahivez_get_palma_weather() {
 }
 
 /**
- * Fetch today's forecast from Google Weather API.
+ * Fetch a 3-day forecast from Google Weather API.
  *
- * @return array<string, mixed>|null
+ * @return array{days: array<int, array<string, mixed>>}|null
  */
 function seahivez_fetch_palma_weather_forecast() {
 	$api_key = seahivez_get_weather_api_key();
@@ -69,7 +69,7 @@ function seahivez_fetch_palma_weather_forecast() {
 			'key'                => $api_key,
 			'location.latitude'  => $location['lat'],
 			'location.longitude' => $location['lng'],
-			'days'               => 1,
+			'days'               => 3,
 		),
 		'https://weather.googleapis.com/v1/forecast/days:lookup'
 	);
@@ -98,21 +98,41 @@ function seahivez_fetch_palma_weather_forecast() {
 
 	$body = json_decode( (string) wp_remote_retrieve_body( $response ), true );
 
-	if ( ! is_array( $body ) || empty( $body['forecastDays'][0] ) || ! is_array( $body['forecastDays'][0] ) ) {
+	if ( ! is_array( $body ) || empty( $body['forecastDays'] ) || ! is_array( $body['forecastDays'] ) ) {
 		seahivez_log_weather_error( 'Invalid or empty forecast response.' );
 		return null;
 	}
 
-	return seahivez_parse_palma_forecast_day( $body['forecastDays'][0] );
+	if ( count( $body['forecastDays'] ) < 3 ) {
+		seahivez_log_weather_error( 'Forecast response has fewer than 3 days.' );
+		return null;
+	}
+
+	$days = array();
+
+	for ( $index = 0; $index < 3; $index++ ) {
+		$parsed = seahivez_parse_palma_forecast_day( $body['forecastDays'][ $index ], $index );
+
+		if ( null === $parsed ) {
+			return null;
+		}
+
+		$days[] = $parsed;
+	}
+
+	return array(
+		'days' => $days,
+	);
 }
 
 /**
- * Normalize forecast day payload into a compact cached structure.
+ * Normalize a single forecast day into a compact cached structure.
  *
- * @param array<string, mixed> $day forecastDays[0].
+ * @param array<string, mixed> $day    forecastDays[n].
+ * @param int                  $index  0-based day offset.
  * @return array<string, mixed>|null
  */
-function seahivez_parse_palma_forecast_day( $day ) {
+function seahivez_parse_palma_forecast_day( $day, $index = 0 ) {
 	$daytime = isset( $day['daytimeForecast'] ) && is_array( $day['daytimeForecast'] )
 		? $day['daytimeForecast']
 		: array();
@@ -134,53 +154,43 @@ function seahivez_parse_palma_forecast_day( $day ) {
 		? (int) round( (float) $day['minTemperature']['degrees'] )
 		: null;
 
-	$rain = isset( $daytime['precipitation']['probability']['percent'] )
-		? (int) $daytime['precipitation']['probability']['percent']
-		: null;
-	$wind = isset( $daytime['wind']['speed']['value'] )
-		? (int) round( (float) $daytime['wind']['speed']['value'] )
-		: null;
-	$gust = isset( $daytime['wind']['gust']['value'] )
-		? (int) round( (float) $daytime['wind']['gust']['value'] )
-		: null;
-	$humidity = isset( $daytime['relativeHumidity'] )
-		? (int) $daytime['relativeHumidity']
-		: null;
-	$uv = isset( $daytime['uvIndex'] )
-		? (int) $daytime['uvIndex']
-		: null;
-
-	$date_label = '';
-	if ( ! empty( $day['displayDate'] ) && is_array( $day['displayDate'] ) ) {
-		$date_label = seahivez_format_palma_display_date( $day['displayDate'] );
+	$rain = null;
+	if ( isset( $daytime['precipitation']['probability']['percent'] ) ) {
+		$rain = (int) $daytime['precipitation']['probability']['percent'];
 	}
 
-	if ( '' === $condition || null === $max || null === $min || '' === $date_label ) {
-		seahivez_log_weather_error( 'Incomplete forecast data.' );
+	$label = '';
+	if ( ! empty( $day['displayDate'] ) && is_array( $day['displayDate'] ) ) {
+		$label = seahivez_format_palma_forecast_day_label( $index, $day['displayDate'] );
+	}
+
+	if ( '' === $condition || null === $max || null === $min || '' === $label ) {
+		seahivez_log_weather_error( 'Incomplete forecast data for day ' . ( $index + 1 ) . '.' );
 		return null;
 	}
 
 	return array(
+		'label'     => $label,
 		'condition' => $condition,
 		'icon'      => $icon,
 		'max'       => $max,
 		'min'       => $min,
 		'rain'      => $rain,
-		'wind'      => $wind,
-		'gust'      => $gust,
-		'humidity'  => $humidity,
-		'uv'        => $uv,
-		'date'      => $date_label,
 	);
 }
 
 /**
- * Format Google displayDate as "9 September 2026".
+ * Day column label: "Today" for index 0, otherwise short weekday (e.g. Thu).
  *
- * @param array<string, int> $display_date year, month, day.
+ * @param int                  $index        0-based day offset.
+ * @param array<string, int>   $display_date year, month, day.
  * @return string
  */
-function seahivez_format_palma_display_date( $display_date ) {
+function seahivez_format_palma_forecast_day_label( $index, $display_date ) {
+	if ( 0 === $index ) {
+		return __( 'Today', 'seahivez-theme' );
+	}
+
 	$year  = (int) ( $display_date['year'] ?? 0 );
 	$month = (int) ( $display_date['month'] ?? 0 );
 	$day   = (int) ( $display_date['day'] ?? 0 );
@@ -191,14 +201,5 @@ function seahivez_format_palma_display_date( $display_date ) {
 
 	$timestamp = gmmktime( 12, 0, 0, $month, $day, $year );
 
-	return wp_date( 'j F Y', $timestamp, new DateTimeZone( 'Europe/Madrid' ) );
-}
-
-/**
- * Fallback date when forecast is unavailable.
- *
- * @return string
- */
-function seahivez_get_palma_weather_fallback_date() {
-	return wp_date( 'j F Y', time(), new DateTimeZone( 'Europe/Madrid' ) );
+	return wp_date( 'D', $timestamp, new DateTimeZone( 'Europe/Madrid' ) );
 }
