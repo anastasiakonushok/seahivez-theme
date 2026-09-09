@@ -1400,7 +1400,7 @@
         "active": true,
         "description": "",
         "show_in_rest": 0,
-        "modified": 1788955166
+        "modified": 1788956122
     },
     {
         "key": "group_shvz_theme_settings",
@@ -1695,6 +1695,7 @@
                                 "type": "select",
                                 "choices": {
                                     "instagram": "Instagram",
+                                    "facebook": "Facebook",
                                     "whatsapp": "WhatsApp",
                                     "telegram": "Telegram"
                                 },
@@ -1874,7 +1875,7 @@
         "active": true,
         "description": "",
         "show_in_rest": 0,
-        "modified": 1788955166
+        "modified": 1788956122
     },
     {
         "key": "group_shvz_faq_page",
@@ -2273,7 +2274,7 @@
         "active": true,
         "description": "",
         "show_in_rest": 0,
-        "modified": 1788955166
+        "modified": 1788956122
     },
     {
         "key": "group_shvz_yacht_page",
@@ -3424,7 +3425,7 @@
         "active": true,
         "description": "",
         "show_in_rest": 0,
-        "modified": 1788955166
+        "modified": 1788956122
     },
     {
         "key": "group_shvz_contact_page",
@@ -3876,7 +3877,7 @@
         "active": true,
         "description": "",
         "show_in_rest": 0,
-        "modified": 1788955166
+        "modified": 1788956122
     },
     {
         "key": "group_shvz_gallery_page",
@@ -4123,7 +4124,7 @@
         "active": true,
         "description": "",
         "show_in_rest": 0,
-        "modified": 1788955166
+        "modified": 1788956122
     },
     {
         "key": "group_shvz_booking_page",
@@ -4455,7 +4456,7 @@
         "active": true,
         "description": "",
         "show_in_rest": 0,
-        "modified": 1788955166
+        "modified": 1788956122
     },
     {
         "key": "group_shvz_experiences_page",
@@ -4743,7 +4744,7 @@
         "active": true,
         "description": "",
         "show_in_rest": 0,
-        "modified": 1788955166
+        "modified": 1788956122
     },
     {
         "key": "group_shvz_extras_page",
@@ -5286,7 +5287,7 @@
         "active": true,
         "description": "",
         "show_in_rest": 0,
-        "modified": 1788955166
+        "modified": 1788956122
     },
     {
         "key": "group_shvz_news_page",
@@ -5476,7 +5477,7 @@
         "active": true,
         "description": "",
         "show_in_rest": 0,
-        "modified": 1788955166
+        "modified": 1788956122
     },
     {
         "key": "group_shvz_package",
@@ -5672,6 +5673,6 @@
         "active": true,
         "description": "",
         "show_in_rest": 0,
-        "modified": 1788955166
+        "modified": 1788956122
     }
 ]

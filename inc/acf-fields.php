@@ -139,6 +139,7 @@ acf_add_local_field_group(
 								'required'      => 1,
 								'choices'       => array(
 									'instagram' => 'Instagram',
+									'facebook'  => 'Facebook',
 									'whatsapp'  => 'WhatsApp',
 									'telegram'  => 'Telegram',
 								),

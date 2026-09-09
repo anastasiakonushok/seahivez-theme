@@ -107,6 +107,10 @@ function seahivez_get_theme_social_links() {
 			$subtitle = __( 'Chat with us', 'seahivez-theme' );
 		}
 
+		if ( '' === $subtitle && 'facebook' === $icon ) {
+			$subtitle = __( 'Follow us', 'seahivez-theme' );
+		}
+
 		if ( '' === $subtitle && 'telegram' === $icon ) {
 			$subtitle = __( 'Message us', 'seahivez-theme' );
 		}
@@ -252,6 +256,7 @@ function seahivez_get_whatsapp_url() {
 function seahivez_get_allowed_social_icons() {
 	return array(
 		'instagram' => __( 'Instagram', 'seahivez-theme' ),
+		'facebook'  => __( 'Facebook', 'seahivez-theme' ),
 		'whatsapp'  => __( 'WhatsApp', 'seahivez-theme' ),
 		'telegram'  => __( 'Telegram', 'seahivez-theme' ),
 	);

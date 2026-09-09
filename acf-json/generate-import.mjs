@@ -55,6 +55,7 @@ const toyIconChoices = {
 
 const socialIconChoices = {
 	instagram: 'Instagram',
+	facebook: 'Facebook',
 	whatsapp: 'WhatsApp',
 	telegram: 'Telegram',
 };
