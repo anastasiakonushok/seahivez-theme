@@ -1290,8 +1290,9 @@
 	}
 
 	.seahivez-map-marker__icon {
-		width: clamp(1.1rem, 3.2vw, 1.45rem);
-		height: clamp(1.1rem, 3.2vw, 1.45rem);
+		display: block;
+		font-size: clamp(1rem, 3vw, 1.35rem);
+		line-height: 1;
 	}
 
 	.location-cta__map-fallback-title {

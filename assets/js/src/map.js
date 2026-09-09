@@ -1,13 +1,14 @@
 /**
- * SeaHivez Google Map — Map ID + AdvancedMarkerElement.
+ * SeaHivez Google Map — Map ID + AdvancedMarkerElement (direct loader, no importLibrary).
  *
  * @package seahivez-theme
  */
 
 const LOG_PREFIX = '[SeaHivez Map]';
+const MAPS_CALLBACK_NAME = 'initSeaHivezMap';
 
 const MAP_OPTIONS = {
-	zoom: 15,
+	zoom: 16,
 	disableDefaultUI: true,
 	zoomControl: true,
 	mapTypeControl: false,
@@ -44,35 +45,88 @@ function logMapWarn( message, details ) {
 }
 
 /**
- * Round branded marker (anchor icon) for AdvancedMarkerElement.
- *
- * @returns {HTMLElement}
+ * @returns {boolean}
  */
-function createMarkerContent() {
-	const marker = document.createElement( 'div' );
-	marker.className = 'seahivez-map-marker';
-	marker.setAttribute( 'role', 'img' );
-	marker.innerHTML = `
-		<svg class="seahivez-map-marker__icon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-			<path d="M12 3c-2.8 0-5 2.2-5 5.1 0 3.7 5 9.9 5 9.9s5-6.2 5-9.9C17 5.2 14.8 3 12 3Z" stroke="currentColor" stroke-width="1.6"/>
-			<circle cx="12" cy="8.1" r="1.6" fill="currentColor"/>
-			<path d="M8.5 19.5h7" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
-			<path d="M10 17.2h4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
-		</svg>
-	`;
-
-	return marker;
+function isGoogleMapsReady() {
+	return Boolean(
+		window.google?.maps?.Map &&
+		window.google?.maps?.marker?.AdvancedMarkerElement
+	);
 }
 
 /**
- * Load Google Maps JS API once (maps + marker libraries).
+ * Flush pending loadGoogleMaps() resolvers.
+ *
+ * @param {'resolve'|'reject'} action
+ * @param {unknown} [reason]
+ */
+function flushMapsLoaders( action, reason ) {
+	const queue = window.__seahivezMapsResolvers || [];
+
+	window.__seahivezMapsResolvers = [];
+
+	queue.forEach( ( entry ) => {
+		if ( 'resolve' === action ) {
+			entry.resolve( window.google.maps );
+		} else {
+			entry.reject( reason );
+		}
+	} );
+}
+
+/**
+ * Global Maps bootstrap callback — must exist before the script tag is injected.
+ */
+function registerSeaHivezMapsCallback() {
+	if ( window.__seahivezMapsCallbackRegistered ) {
+		return;
+	}
+
+	window.__seahivezMapsCallbackRegistered = true;
+
+	window[ MAPS_CALLBACK_NAME ] = function () {
+		if ( ! isGoogleMapsReady() ) {
+			const error = new Error(
+				'Google Maps callback fired but Map or AdvancedMarkerElement is unavailable.'
+			);
+
+			logMapError( error.message, {
+				version: window.google?.maps?.version || null,
+				hasMap: Boolean( window.google?.maps?.Map ),
+				hasMarker: Boolean( window.google?.maps?.marker?.AdvancedMarkerElement ),
+			} );
+
+			flushMapsLoaders( 'reject', error );
+			return;
+		}
+
+		window.__seahivezMapsApiReady = true;
+		flushMapsLoaders( 'resolve' );
+	};
+}
+
+/**
+ * @returns {NodeListOf<HTMLScriptElement>}
+ */
+function getGoogleMapsScriptTags() {
+	return document.querySelectorAll( 'script[src*="maps.googleapis.com/maps/api/js"]' );
+}
+
+/**
+ * Singleton loader — one script tag, callback-based bootstrap.
  *
  * @param {string} apiKey
- * @returns {Promise<{ mapsLib: google.maps.MapsLibrary, markerLib: google.maps.MarkerLibrary }>}
+ * @returns {Promise<typeof google.maps>}
  */
-function loadGoogleMapsApi( apiKey ) {
-	if ( window.__seahivezMapsLibraries?.mapsLib && window.__seahivezMapsLibraries?.markerLib ) {
-		return Promise.resolve( window.__seahivezMapsLibraries );
+function loadGoogleMaps( apiKey ) {
+	registerSeaHivezMapsCallback();
+
+	if ( isGoogleMapsReady() ) {
+		return Promise.resolve( window.google.maps );
+	}
+
+	if ( window.__seahivezMapsApiReady && window.google?.maps ) {
+		return Promise.resolve( window.google.maps );
 	}
 
 	if ( window.__seahivezMapsPromise ) {
@@ -80,53 +134,64 @@ function loadGoogleMapsApi( apiKey ) {
 	}
 
 	window.__seahivezMapsPromise = new Promise( ( resolve, reject ) => {
-		const existing = document.querySelector( 'script[data-seahivez-maps-api]' );
+		window.__seahivezMapsResolvers = window.__seahivezMapsResolvers || [];
+		window.__seahivezMapsResolvers.push( { resolve, reject } );
 
-		if ( existing ) {
-			existing.addEventListener( 'load', () => resolveLibraries( resolve, reject ), { once: true } );
-			existing.addEventListener( 'error', () => reject( new Error( 'Google Maps script tag failed to load.' ) ), { once: true } );
+		const existingScripts = getGoogleMapsScriptTags();
+		const ownScript = document.querySelector( 'script[data-seahivez-maps-api="true"]' );
+
+		if ( existingScripts.length > 0 && ! ownScript ) {
+			logMapWarn(
+				'Another Google Maps script is already on the page. SeaHivez requires libraries=marker and callback=initSeaHivezMap.',
+				Array.from( existingScripts ).map( ( script ) => script.src )
+			);
+		}
+
+		if ( ownScript ) {
 			return;
 		}
 
-		const script = document.createElement( 'script' );
-		script.dataset.seahivezMapsApi = 'true';
-		script.src = `https://maps.googleapis.com/maps/api/js?key=${ encodeURIComponent( apiKey ) }&loading=async`;
-		script.async = true;
-		script.defer = true;
-		script.onload = () => resolveLibraries( resolve, reject );
-		script.onerror = () => reject( new Error( 'Google Maps script tag failed to load.' ) );
-		document.head.appendChild( script );
+		if ( existingScripts.length > 0 ) {
+			const foreignScript = existingScripts[ 0 ];
+
+			if (
+				foreignScript.src.includes( `callback=${ MAPS_CALLBACK_NAME }` ) &&
+				foreignScript.src.includes( 'libraries=marker' )
+			) {
+				foreignScript.dataset.seahivezMapsApi = 'true';
+				return;
+			}
+		}
+
+		if ( existingScripts.length === 0 ) {
+			const script = document.createElement( 'script' );
+			script.dataset.seahivezMapsApi = 'true';
+			script.async = true;
+			script.src = `https://maps.googleapis.com/maps/api/js?key=${ encodeURIComponent( apiKey ) }&v=weekly&libraries=marker&loading=async&callback=${ MAPS_CALLBACK_NAME }`;
+			script.onerror = () => {
+				const error = new Error( 'Google Maps script tag failed to load.' );
+				window.__seahivezMapsPromise = null;
+				flushMapsLoaders( 'reject', error );
+			};
+			document.head.appendChild( script );
+		}
 	} );
 
 	return window.__seahivezMapsPromise;
 }
 
 /**
- * @param {(value: { mapsLib: google.maps.MapsLibrary, markerLib: google.maps.MarkerLibrary }) => void} resolve
- * @param {(reason?: unknown) => void} reject
+ * Round branded marker for AdvancedMarkerElement.
+ *
+ * @returns {HTMLElement}
  */
-async function resolveLibraries( resolve, reject ) {
-	try {
-		if ( ! window.google?.maps?.importLibrary ) {
-			reject( new Error( 'google.maps.importLibrary is unavailable after script load.' ) );
-			return;
-		}
+function createMarkerContent() {
+	const marker = document.createElement( 'div' );
+	marker.className = 'seahivez-map-marker';
+	marker.setAttribute( 'role', 'img' );
+	marker.innerHTML = '<span class="seahivez-map-marker__icon" aria-hidden="true">⚓</span>';
 
-		const [ mapsLib, markerLib ] = await Promise.all( [
-			window.google.maps.importLibrary( 'maps' ),
-			window.google.maps.importLibrary( 'marker' ),
-		] );
-
-		if ( ! markerLib?.AdvancedMarkerElement ) {
-			reject( new Error( 'AdvancedMarkerElement library is unavailable.' ) );
-			return;
-		}
-
-		window.__seahivezMapsLibraries = { mapsLib, markerLib };
-		resolve( window.__seahivezMapsLibraries );
-	} catch ( error ) {
-		reject( error );
-	}
+	return marker;
 }
 
 /**
@@ -240,9 +305,8 @@ function waitForTiles( map ) {
 
 /**
  * @param {HTMLElement} root
- * @param {{ mapsLib: google.maps.MapsLibrary, markerLib: google.maps.MarkerLibrary }} libraries
  */
-async function initSingleMap( root, libraries ) {
+async function initSingleMap( root ) {
 	if ( root.dataset.mapInitialized === 'true' ) {
 		return;
 	}
@@ -266,22 +330,23 @@ async function initSingleMap( root, libraries ) {
 	}
 
 	if ( ! mapId ) {
-		showMapFallback(
-			root,
-			'Missing Google Maps Map ID. Add SEAHIVEZ_GOOGLE_MAPS_MAP_ID to wp-config.php or environment.',
-			{ mapsApiKeyPresent: Boolean( window.seahivezData?.mapsApiKey ) }
-		);
+		showMapFallback( root, 'Missing Google Maps Map ID.', {
+			mapsApiKeyPresent: Boolean( window.seahivezData?.mapsApiKey ),
+		} );
+		return;
+	}
+
+	if ( ! isGoogleMapsReady() ) {
+		showMapFallback( root, 'Google Maps marker library is not available.' );
 		return;
 	}
 
 	showMapLoading( root );
 
 	const position = { lat, lng };
-	const { Map } = libraries.mapsLib;
-	const { AdvancedMarkerElement } = libraries.markerLib;
 
 	try {
-		const map = new Map( canvas, {
+		const map = new google.maps.Map( canvas, {
 			...MAP_OPTIONS,
 			center: position,
 			mapId,
@@ -289,7 +354,7 @@ async function initSingleMap( root, libraries ) {
 
 		await waitForTiles( map );
 
-		const marker = new AdvancedMarkerElement( {
+		const marker = new google.maps.marker.AdvancedMarkerElement( {
 			map,
 			position,
 			title,
@@ -317,7 +382,7 @@ async function initSingleMap( root, libraries ) {
  * Initialize all SeaHivez map containers.
  */
 export function initMap() {
-	const roots = document.querySelectorAll( '[data-seahivez-map]:not([data-map-initialized])' );
+	const roots = document.querySelectorAll( '[data-seahivez-map]' );
 
 	if ( ! roots.length ) {
 		return;
@@ -327,34 +392,30 @@ export function initMap() {
 	const mapId = window.seahivezData?.mapsMapId || '';
 
 	roots.forEach( ( root ) => {
-		root.dataset.mapInitialized = 'pending';
-		showMapLoading( root );
+		if ( root.dataset.mapInitialized !== 'true' ) {
+			showMapLoading( root );
+		}
 	} );
 
 	if ( ! apiKey ) {
 		roots.forEach( ( root ) => {
-			root.dataset.mapInitialized = 'false';
-			showMapFallback(
-				root,
-				'Missing Google Maps API key. Set SEAHIVEZ_GOOGLE_MAPS_API_KEY in wp-config.php or server environment.',
-				{ mapsMapId: mapId || null }
-			);
+			showMapFallback( root, 'Missing Google Maps API key.', { mapsMapId: mapId || null } );
 		} );
 		return;
 	}
 
-	loadGoogleMapsApi( apiKey )
-		.then( async ( libraries ) => {
+	loadGoogleMaps( apiKey )
+		.then( async () => {
 			for ( const root of roots ) {
-				await initSingleMap( root, libraries );
+				await initSingleMap( root );
 			}
 		} )
 		.catch( ( error ) => {
 			roots.forEach( ( root ) => {
-				root.dataset.mapInitialized = 'false';
 				showMapFallback( root, 'Google Maps API failed to load.', {
 					error,
 					mapId: mapId || null,
+					scriptCount: getGoogleMapsScriptTags().length,
 				} );
 			} );
 		} );
