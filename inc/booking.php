@@ -24,11 +24,13 @@ function seahivez_get_supersaas_config() {
 		'seahivez_supersaas_config',
 		array(
 			'account'  => '634448:MAGICA_BOAT',
-			'schedule' => '843010:magica_yacht',
+			'schedule' => '843006:magica_boat',
 			'options'  => array(
 				'widget_type' => 'frame',
-				'view'        => 'week',
 				'modal_width' => '500px',
+				'cal_pos'     => 'left',
+				'slot_view'   => 'btn',
+				'legend'      => 'show',
 			),
 		)
 	);
