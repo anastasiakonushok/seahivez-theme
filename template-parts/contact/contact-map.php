@@ -34,7 +34,6 @@ $map = seahivez_get_contact_page_map();
 			data-map-canvas
 			role="region"
 			aria-label="<?php esc_attr_e( 'Map of SeaHivez departure location', 'seahivez-theme' ); ?>"
-			hidden
 		></div>
 		<div class="contact-map__fallback" data-map-fallback hidden>
 			<p class="font-medium text-navy-900"><?php echo esc_html( $map['place'] ); ?></p>

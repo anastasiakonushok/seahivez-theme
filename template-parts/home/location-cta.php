@@ -87,7 +87,7 @@ $port = seahivez_get_port_location();
 						<span class="seahivez-map__loading-pulse"></span>
 					</div>
 
-					<div class="location-cta__map-canvas" data-map-canvas role="region" aria-label="<?php esc_attr_e( 'Interactive map of SeaHivez port in S\'Arenal, Mallorca', 'seahivez-theme' ); ?>" hidden></div>
+					<div class="location-cta__map-canvas" data-map-canvas role="region" aria-label="<?php esc_attr_e( 'Interactive map of SeaHivez port in S\'Arenal, Mallorca', 'seahivez-theme' ); ?>"></div>
 
 					<div class="location-cta__map-fallback" data-map-fallback hidden>
 						<p class="location-cta__map-fallback-title"><?php echo esc_html( $port['place'] ); ?></p>

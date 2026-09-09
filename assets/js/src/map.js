@@ -202,14 +202,10 @@ function showMapLoading( root ) {
 	root.classList.remove( 'is-ready', 'is-fallback' );
 
 	const loading = root.querySelector( '[data-map-loading]' );
-	const canvas = root.querySelector( '[data-map-canvas]' );
 	const fallback = root.querySelector( '[data-map-fallback]' );
 
 	if ( loading ) {
 		loading.hidden = false;
-	}
-	if ( canvas ) {
-		canvas.hidden = true;
 	}
 	if ( fallback ) {
 		fallback.hidden = true;
@@ -287,18 +283,39 @@ function createInfoWindow( title, place, mapsUrl ) {
 }
 
 /**
+ * Wait until the map reports idle (tiles rendered). Never rejects — hidden containers
+ * and vector Map IDs can delay tile events without meaning the map failed.
+ *
  * @param {google.maps.Map} map
  * @returns {Promise<void>}
  */
-function waitForTiles( map ) {
-	return new Promise( ( resolve, reject ) => {
-		const timeout = window.setTimeout( () => {
-			reject( new Error( 'Map tiles did not load within 10 seconds.' ) );
-		}, 10000 );
+function waitForMapIdle( map ) {
+	return new Promise( ( resolve ) => {
+		let settled = false;
 
-		map.addListener( 'tilesloaded', () => {
-			window.clearTimeout( timeout );
+		const finish = () => {
+			if ( settled ) {
+				return;
+			}
+
+			settled = true;
 			resolve();
+		};
+
+		const timeout = window.setTimeout( finish, 12000 );
+
+		google.maps.event.addListenerOnce( map, 'idle', () => {
+			window.clearTimeout( timeout );
+			finish();
+		} );
+
+		google.maps.event.addListenerOnce( map, 'tilesloaded', () => {
+			window.clearTimeout( timeout );
+			finish();
+		} );
+
+		window.requestAnimationFrame( () => {
+			google.maps.event.trigger( map, 'resize' );
 		} );
 	} );
 }
@@ -346,13 +363,13 @@ async function initSingleMap( root ) {
 	const position = { lat, lng };
 
 	try {
+		canvas.hidden = false;
+
 		const map = new google.maps.Map( canvas, {
 			...MAP_OPTIONS,
 			center: position,
 			mapId,
 		} );
-
-		await waitForTiles( map );
 
 		const marker = new google.maps.marker.AdvancedMarkerElement( {
 			map,
@@ -368,6 +385,10 @@ async function initSingleMap( root ) {
 
 		root.dataset.mapInitialized = 'true';
 		showMapReady( root );
+
+		waitForMapIdle( map ).then( () => {
+			google.maps.event.trigger( map, 'resize' );
+		} );
 	} catch ( error ) {
 		delete root.dataset.mapInitialized;
 		showMapFallback( root, 'Map failed to initialize.', {
