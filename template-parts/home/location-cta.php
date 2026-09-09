@@ -46,17 +46,7 @@ $port = seahivez_get_port_location();
 					</li>
 				</ul>
 
-				<div
-					class="weather-card mt-8"
-					data-weather-widget
-					aria-live="polite"
-				>
-					<p class="weather-card__eyebrow"><?php esc_html_e( 'Palma today', 'seahivez-theme' ); ?></p>
-					<p class="weather-card__conditions" data-weather-conditions>
-						<span data-weather-temp>—</span><span class="weather-card__sep" aria-hidden="true"> · </span><span data-weather-condition><?php esc_html_e( 'Loading…', 'seahivez-theme' ); ?></span>
-					</p>
-					<p class="weather-card__date" data-weather-date></p>
-				</div>
+				<?php get_template_part( 'template-parts/components/weather-card' ); ?>
 
 				<div class="location-cta__social mt-8 border-t border-gray-200 pt-6">
 					<?php

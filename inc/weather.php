@@ -1,87 +1,83 @@
 <?php
 /**
- * Weather REST proxy with transient caching.
- *
- * Endpoint: GET /wp-json/seahivez/v1/weather
- * Uses fixed SeaHivez port coordinates and a server-side API key.
+ * Palma de Mallorca weather via Google Weather API (server-side).
  *
  * @package seahivez-theme
  */
 
 /**
- * Register weather REST routes.
+ * Palma de Mallorca coordinates for the homepage weather card.
+ *
+ * @return array{lat: float, lng: float, label: string}
  */
-function seahivez_register_weather_routes() {
-	register_rest_route(
-		'seahivez/v1',
-		'/weather',
-		array(
-			'methods'             => WP_REST_Server::READABLE,
-			'callback'            => 'seahivez_rest_get_weather',
-			'permission_callback' => '__return_true',
-		)
+function seahivez_get_palma_weather_location() {
+	return array(
+		'lat'   => 39.5696,
+		'lng'   => 2.6502,
+		'label' => 'Palma de Mallorca, Spain',
 	);
 }
-add_action( 'rest_api_init', 'seahivez_register_weather_routes' );
 
 /**
- * REST callback: current weather for the SeaHivez port.
+ * Log a weather error without exposing secrets.
  *
- * @return WP_REST_Response|WP_Error
+ * @param string $message Short error description.
  */
-function seahivez_rest_get_weather() {
-	$cached = get_transient( 'seahivez_weather_cache' );
-
-	if ( is_array( $cached ) && isset( $cached['temperature'], $cached['condition'] ) ) {
-		$cached['cached'] = true;
-		return rest_ensure_response( $cached );
-	}
-
-	$payload = seahivez_fetch_google_weather();
-
-	if ( is_wp_error( $payload ) ) {
-		return $payload;
-	}
-
-	set_transient( 'seahivez_weather_cache', $payload, 15 * MINUTE_IN_SECONDS );
-
-	$payload['cached'] = false;
-
-	return rest_ensure_response( $payload );
+function seahivez_log_weather_error( $message ) {
+	error_log( '[SeaHivez Weather] ' . $message );
 }
 
 /**
- * Call Google Weather API for fixed port coordinates.
+ * Cached Palma forecast for the homepage widget.
  *
- * @return array<string, mixed>|WP_Error
+ * @return array<string, mixed>|null
  */
-function seahivez_fetch_google_weather() {
+function seahivez_get_palma_weather() {
+	$cached = get_transient( 'seahivez_palma_weather' );
+
+	if ( is_array( $cached ) && ! empty( $cached['condition'] ) ) {
+		return $cached;
+	}
+
+	$fresh = seahivez_fetch_palma_weather_forecast();
+
+	if ( is_array( $fresh ) ) {
+		set_transient( 'seahivez_palma_weather', $fresh, 20 * MINUTE_IN_SECONDS );
+		return $fresh;
+	}
+
+	return null;
+}
+
+/**
+ * Fetch today's forecast from Google Weather API.
+ *
+ * @return array<string, mixed>|null
+ */
+function seahivez_fetch_palma_weather_forecast() {
 	$api_key = seahivez_get_weather_api_key();
 
 	if ( '' === $api_key ) {
-		return new WP_Error(
-			'seahivez_weather_missing_key',
-			__( 'Weather API key is not configured.', 'seahivez-theme' ),
-			array( 'status' => 503 )
-		);
+		seahivez_log_weather_error( 'API key not configured (SEAHIVEZ_WEATHER_API_KEY).' );
+		return null;
 	}
 
-	$port = seahivez_get_port_location();
+	$location = seahivez_get_palma_weather_location();
 
 	$url = add_query_arg(
 		array(
-			'key'                 => $api_key,
-			'location.latitude'   => $port['lat'],
-			'location.longitude'  => $port['lng'],
-			'unitsSystem'         => 'METRIC',
+			'key'                => $api_key,
+			'location.latitude'  => $location['lat'],
+			'location.longitude' => $location['lng'],
+			'days'               => 1,
 		),
-		'https://weather.googleapis.com/v1/currentConditions:lookup'
+		'https://weather.googleapis.com/v1/forecast/days:lookup'
 	);
 
 	$response = wp_remote_get(
 		$url,
 		array(
-			'timeout' => 8,
+			'timeout' => 6,
 			'headers' => array(
 				'Accept' => 'application/json',
 			),
@@ -89,60 +85,120 @@ function seahivez_fetch_google_weather() {
 	);
 
 	if ( is_wp_error( $response ) ) {
-		return new WP_Error(
-			'seahivez_weather_request_failed',
-			__( 'Unable to reach the weather service.', 'seahivez-theme' ),
-			array( 'status' => 502 )
-		);
+		seahivez_log_weather_error( 'Request failed: ' . $response->get_error_message() );
+		return null;
 	}
 
 	$code = (int) wp_remote_retrieve_response_code( $response );
+
+	if ( 200 !== $code ) {
+		seahivez_log_weather_error( 'HTTP ' . $code );
+		return null;
+	}
+
 	$body = json_decode( (string) wp_remote_retrieve_body( $response ), true );
 
-	if ( 200 !== $code || ! is_array( $body ) ) {
-		return new WP_Error(
-			'seahivez_weather_bad_response',
-			__( 'Weather service returned an unexpected response.', 'seahivez-theme' ),
-			array( 'status' => 502 )
-		);
+	if ( ! is_array( $body ) || empty( $body['forecastDays'][0] ) || ! is_array( $body['forecastDays'][0] ) ) {
+		seahivez_log_weather_error( 'Invalid or empty forecast response.' );
+		return null;
 	}
 
-	$temperature = null;
-	if ( isset( $body['temperature']['degrees'] ) ) {
-		$temperature = (int) round( (float) $body['temperature']['degrees'] );
-	}
+	return seahivez_parse_palma_forecast_day( $body['forecastDays'][0] );
+}
+
+/**
+ * Normalize forecast day payload into a compact cached structure.
+ *
+ * @param array<string, mixed> $day forecastDays[0].
+ * @return array<string, mixed>|null
+ */
+function seahivez_parse_palma_forecast_day( $day ) {
+	$daytime = isset( $day['daytimeForecast'] ) && is_array( $day['daytimeForecast'] )
+		? $day['daytimeForecast']
+		: array();
 
 	$condition = '';
-	if ( ! empty( $body['weatherCondition']['description']['text'] ) ) {
-		$condition = sanitize_text_field( $body['weatherCondition']['description']['text'] );
-	} elseif ( ! empty( $body['weatherCondition']['type'] ) ) {
-		$condition = sanitize_text_field( ucwords( strtolower( str_replace( '_', ' ', $body['weatherCondition']['type'] ) ) ) );
+	if ( ! empty( $daytime['weatherCondition']['description']['text'] ) ) {
+		$condition = sanitize_text_field( $daytime['weatherCondition']['description']['text'] );
 	}
 
 	$icon = '';
-	if ( ! empty( $body['weatherCondition']['iconBaseUri'] ) ) {
-		// Google provides a base URI; append .svg for a lightweight icon.
-		$icon = esc_url_raw( $body['weatherCondition']['iconBaseUri'] . '.svg' );
+	if ( ! empty( $daytime['weatherCondition']['iconBaseUri'] ) ) {
+		$icon = esc_url_raw( $daytime['weatherCondition']['iconBaseUri'] . '.svg' );
 	}
 
-	$wind = null;
-	if ( isset( $body['wind']['speed']['value'] ) ) {
-		$wind = (int) round( (float) $body['wind']['speed']['value'] );
+	$max = isset( $day['maxTemperature']['degrees'] )
+		? (int) round( (float) $day['maxTemperature']['degrees'] )
+		: null;
+	$min = isset( $day['minTemperature']['degrees'] )
+		? (int) round( (float) $day['minTemperature']['degrees'] )
+		: null;
+
+	$rain = isset( $daytime['precipitation']['probability']['percent'] )
+		? (int) $daytime['precipitation']['probability']['percent']
+		: null;
+	$wind = isset( $daytime['wind']['speed']['value'] )
+		? (int) round( (float) $daytime['wind']['speed']['value'] )
+		: null;
+	$gust = isset( $daytime['wind']['gust']['value'] )
+		? (int) round( (float) $daytime['wind']['gust']['value'] )
+		: null;
+	$humidity = isset( $daytime['relativeHumidity'] )
+		? (int) $daytime['relativeHumidity']
+		: null;
+	$uv = isset( $daytime['uvIndex'] )
+		? (int) $daytime['uvIndex']
+		: null;
+
+	$date_label = '';
+	if ( ! empty( $day['displayDate'] ) && is_array( $day['displayDate'] ) ) {
+		$date_label = seahivez_format_palma_display_date( $day['displayDate'] );
 	}
 
-	if ( null === $temperature || '' === $condition ) {
-		return new WP_Error(
-			'seahivez_weather_incomplete',
-			__( 'Weather data is incomplete.', 'seahivez-theme' ),
-			array( 'status' => 502 )
-		);
+	if ( '' === $condition || null === $max || null === $min || '' === $date_label ) {
+		seahivez_log_weather_error( 'Incomplete forecast data.' );
+		return null;
 	}
 
 	return array(
-		'temperature' => $temperature,
-		'condition'   => $condition,
-		'icon'        => $icon,
-		'wind'        => $wind,
-		'updated_at'  => gmdate( 'c' ),
+		'condition' => $condition,
+		'icon'      => $icon,
+		'max'       => $max,
+		'min'       => $min,
+		'rain'      => $rain,
+		'wind'      => $wind,
+		'gust'      => $gust,
+		'humidity'  => $humidity,
+		'uv'        => $uv,
+		'date'      => $date_label,
 	);
+}
+
+/**
+ * Format Google displayDate as "9 September 2026".
+ *
+ * @param array<string, int> $display_date year, month, day.
+ * @return string
+ */
+function seahivez_format_palma_display_date( $display_date ) {
+	$year  = (int) ( $display_date['year'] ?? 0 );
+	$month = (int) ( $display_date['month'] ?? 0 );
+	$day   = (int) ( $display_date['day'] ?? 0 );
+
+	if ( $year < 1 || $month < 1 || $day < 1 ) {
+		return '';
+	}
+
+	$timestamp = gmmktime( 12, 0, 0, $month, $day, $year );
+
+	return wp_date( 'j F Y', $timestamp, new DateTimeZone( 'Europe/Madrid' ) );
+}
+
+/**
+ * Fallback date when forecast is unavailable.
+ *
+ * @return string
+ */
+function seahivez_get_palma_weather_fallback_date() {
+	return wp_date( 'j F Y', time(), new DateTimeZone( 'Europe/Madrid' ) );
 }

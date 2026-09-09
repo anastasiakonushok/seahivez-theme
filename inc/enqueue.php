@@ -47,10 +47,9 @@ function seahivez_enqueue_assets()
 			'seahivez-main',
 			'seahivezData',
 			array(
-				'weatherEndpoint' => esc_url_raw(rest_url('seahivez/v1/weather')),
-				'mapsApiKey'      => seahivez_get_google_maps_api_key(),
-				'mapsMapId'       => seahivez_get_google_maps_map_id(),
-				'port'            => seahivez_get_port_location(),
+				'mapsApiKey' => seahivez_get_google_maps_api_key(),
+				'mapsMapId'  => seahivez_get_google_maps_map_id(),
+				'port'       => seahivez_get_port_location(),
 			)
 		);
 	}

@@ -1195,12 +1195,36 @@
 		@apply text-[11px] font-medium uppercase leading-[1.2] tracking-[0.16em] text-gold-dark md:text-xs;
 	}
 
-	.weather-card__conditions {
+	.weather-card__hero {
+		@apply mt-2 flex items-center gap-2.5;
+	}
+
+	.weather-card__icon {
+		@apply h-10 w-10 shrink-0 object-contain;
+	}
+
+	.weather-card__temp {
+		@apply text-xl font-semibold leading-none text-navy-900 md:text-2xl;
+	}
+
+	.weather-card__condition {
+		@apply mt-1.5 text-base font-medium leading-snug text-navy-900;
+	}
+
+	.weather-card__range {
+		@apply mt-0.5 text-sm text-gray-600;
+	}
+
+	.weather-card__meta {
+		@apply mt-1 hidden text-sm text-gray-500 sm:block;
+	}
+
+	.weather-card__unavailable {
 		@apply mt-2 text-base font-medium text-navy-900;
 	}
 
 	.weather-card__date {
-		@apply mt-1 text-sm text-gray-500;
+		@apply mt-1.5 text-sm text-gray-500;
 	}
 
 	.location-cta__map,

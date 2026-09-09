@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SeaHivez location coordinates and map/weather shared config.
  *
@@ -10,19 +11,20 @@
  *
  * @return array{lat: float, lng: float, label: string, place: string, maps_url: string}
  */
-function seahivez_get_port_location() {
+function seahivez_get_port_location()
+{
 	$lat = 39.50087;
 	$lng = 2.74671;
 
 	return array(
 		'lat'      => $lat,
 		'lng'      => $lng,
-		'label'    => __( "S'Arenal Marina", 'seahivez-theme' ),
-		'place'    => __( "S'Arenal, Mallorca", 'seahivez-theme' ),
+		'label'    => __("S'Arenal Marina", 'seahivez-theme'),
+		'place'    => __("S'Arenal, Mallorca", 'seahivez-theme'),
 		'maps_url' => sprintf(
 			'https://www.google.com/maps/search/?api=1&query=%s,%s',
-			rawurlencode( (string) $lat ),
-			rawurlencode( (string) $lng )
+			rawurlencode((string) $lat),
+			rawurlencode((string) $lng)
 		),
 	);
 }
@@ -32,7 +34,8 @@ function seahivez_get_port_location() {
  *
  * @return string
  */
-function seahivez_get_google_maps_api_key() {
+function seahivez_get_google_maps_api_key()
+{
 	return 'AIzaSyDbfR3ucylbi6DwwkPD64Q1KS0gOdwQsms';
 }
 
@@ -41,7 +44,8 @@ function seahivez_get_google_maps_api_key() {
  *
  * @return string
  */
-function seahivez_get_google_maps_map_id() {
+function seahivez_get_google_maps_map_id()
+{
 	return '7b593fc817ebc3b4aa8f9fad';
 }
 
@@ -50,10 +54,11 @@ function seahivez_get_google_maps_map_id() {
  *
  * @return string
  */
-function seahivez_get_weather_api_key() {
-	if ( defined( 'SEAHIVEZ_WEATHER_API_KEY' ) && SEAHIVEZ_WEATHER_API_KEY ) {
+function seahivez_get_weather_api_key()
+{
+	if (defined('SEAHIVEZ_WEATHER_API_KEY') && SEAHIVEZ_WEATHER_API_KEY) {
 		return (string) SEAHIVEZ_WEATHER_API_KEY;
 	}
 
-	return '';
+	return 'AIzaSyBnT1IMmwGJ-CL__i2zcZRdu22cZA3F0Uk';
 }
