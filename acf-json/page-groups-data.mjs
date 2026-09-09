@@ -284,7 +284,9 @@ export function buildPageFieldGroups({
 			groupField('field_shvz_booking_sidebar', 'Sidebar', 'booking_sidebar', [
 				textField('field_shvz_booking_packages_heading', 'Packages heading', 'packages_heading'),
 				textField('field_shvz_booking_steps_heading', 'Steps heading', 'steps_heading'),
+				textField('field_shvz_booking_contact_heading', 'Contact heading', 'contact_heading'),
 				textField('field_shvz_booking_whatsapp_label', 'WhatsApp label', 'whatsapp_label'),
+				textField('field_shvz_booking_social_heading', 'Social heading', 'social_heading'),
 			]),
 			repeaterField(
 				'field_shvz_booking_steps',

@@ -53,15 +53,7 @@ get_template_part( 'template-parts/page/page-hero', null, seahivez_get_booking_p
 					</ol>
 				</div>
 
-				<?php
-				$whatsapp = seahivez_get_whatsapp_url();
-				if ( $whatsapp ) :
-					?>
-					<a class="link-arrow inline-flex" href="<?php echo esc_url( $whatsapp ); ?>" target="_blank" rel="noopener noreferrer">
-						<?php echo esc_html( $sidebar['whatsapp_label'] ); ?>
-						<?php seahivez_render_link_arrow_icon( 'sm' ); ?>
-					</a>
-				<?php endif; ?>
+				<?php get_template_part( 'template-parts/booking/booking-contact' ); ?>
 			</div>
 		</div>
 	</div>

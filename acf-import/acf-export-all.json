@@ -1400,7 +1400,7 @@
         "active": true,
         "description": "",
         "show_in_rest": 0,
-        "modified": 1788956122
+        "modified": 1788956665
     },
     {
         "key": "group_shvz_theme_settings",
@@ -1875,7 +1875,7 @@
         "active": true,
         "description": "",
         "show_in_rest": 0,
-        "modified": 1788956122
+        "modified": 1788956665
     },
     {
         "key": "group_shvz_faq_page",
@@ -2274,7 +2274,7 @@
         "active": true,
         "description": "",
         "show_in_rest": 0,
-        "modified": 1788956122
+        "modified": 1788956665
     },
     {
         "key": "group_shvz_yacht_page",
@@ -3425,7 +3425,7 @@
         "active": true,
         "description": "",
         "show_in_rest": 0,
-        "modified": 1788956122
+        "modified": 1788956665
     },
     {
         "key": "group_shvz_contact_page",
@@ -3877,7 +3877,7 @@
         "active": true,
         "description": "",
         "show_in_rest": 0,
-        "modified": 1788956122
+        "modified": 1788956665
     },
     {
         "key": "group_shvz_gallery_page",
@@ -4124,7 +4124,7 @@
         "active": true,
         "description": "",
         "show_in_rest": 0,
-        "modified": 1788956122
+        "modified": 1788956665
     },
     {
         "key": "group_shvz_booking_page",
@@ -4369,9 +4369,45 @@
                             "class": "",
                             "id": ""
                         },
+                        "key": "field_shvz_booking_contact_heading",
+                        "label": "Contact heading",
+                        "name": "contact_heading",
+                        "type": "text",
+                        "default_value": "",
+                        "maxlength": "",
+                        "placeholder": "",
+                        "prepend": "",
+                        "append": ""
+                    },
+                    {
+                        "required": 0,
+                        "conditional_logic": 0,
+                        "wrapper": {
+                            "width": "",
+                            "class": "",
+                            "id": ""
+                        },
                         "key": "field_shvz_booking_whatsapp_label",
                         "label": "WhatsApp label",
                         "name": "whatsapp_label",
+                        "type": "text",
+                        "default_value": "",
+                        "maxlength": "",
+                        "placeholder": "",
+                        "prepend": "",
+                        "append": ""
+                    },
+                    {
+                        "required": 0,
+                        "conditional_logic": 0,
+                        "wrapper": {
+                            "width": "",
+                            "class": "",
+                            "id": ""
+                        },
+                        "key": "field_shvz_booking_social_heading",
+                        "label": "Social heading",
+                        "name": "social_heading",
                         "type": "text",
                         "default_value": "",
                         "maxlength": "",
@@ -4456,7 +4492,7 @@
         "active": true,
         "description": "",
         "show_in_rest": 0,
-        "modified": 1788956122
+        "modified": 1788956665
     },
     {
         "key": "group_shvz_experiences_page",
@@ -4744,7 +4780,7 @@
         "active": true,
         "description": "",
         "show_in_rest": 0,
-        "modified": 1788956122
+        "modified": 1788956665
     },
     {
         "key": "group_shvz_extras_page",
@@ -5287,7 +5323,7 @@
         "active": true,
         "description": "",
         "show_in_rest": 0,
-        "modified": 1788956122
+        "modified": 1788956665
     },
     {
         "key": "group_shvz_news_page",
@@ -5477,7 +5513,7 @@
         "active": true,
         "description": "",
         "show_in_rest": 0,
-        "modified": 1788956122
+        "modified": 1788956665
     },
     {
         "key": "group_shvz_package",
@@ -5673,6 +5709,6 @@
         "active": true,
         "description": "",
         "show_in_rest": 0,
-        "modified": 1788956122
+        "modified": 1788956665
     }
 ]

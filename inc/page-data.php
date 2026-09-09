@@ -1027,7 +1027,9 @@ function seahivez_get_booking_sidebar_content() {
 	$defaults = array(
 		'packages_heading' => __( 'Charter packages', 'seahivez-theme' ),
 		'steps_heading'    => __( 'What happens next?', 'seahivez-theme' ),
+		'contact_heading'  => __( 'Contact for booking', 'seahivez-theme' ),
 		'whatsapp_label'   => __( 'Chat on WhatsApp', 'seahivez-theme' ),
+		'social_heading'   => __( 'Follow us', 'seahivez-theme' ),
 	);
 
 	if ( ! seahivez_acf_is_active() ) {
@@ -1043,7 +1045,9 @@ function seahivez_get_booking_sidebar_content() {
 	return array(
 		'packages_heading' => ! empty( $sidebar['packages_heading'] ) ? (string) $sidebar['packages_heading'] : $defaults['packages_heading'],
 		'steps_heading'    => ! empty( $sidebar['steps_heading'] ) ? (string) $sidebar['steps_heading'] : $defaults['steps_heading'],
+		'contact_heading'  => ! empty( $sidebar['contact_heading'] ) ? (string) $sidebar['contact_heading'] : $defaults['contact_heading'],
 		'whatsapp_label'   => ! empty( $sidebar['whatsapp_label'] ) ? (string) $sidebar['whatsapp_label'] : $defaults['whatsapp_label'],
+		'social_heading'   => ! empty( $sidebar['social_heading'] ) ? (string) $sidebar['social_heading'] : $defaults['social_heading'],
 	);
 }
 
