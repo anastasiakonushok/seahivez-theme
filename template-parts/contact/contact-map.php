@@ -25,14 +25,20 @@ $map = seahivez_get_contact_page_map();
 		data-place="<?php echo esc_attr( $map['place'] ); ?>"
 		data-maps-url="<?php echo esc_url( $map['maps_url'] ); ?>"
 	>
+		<div class="seahivez-map__loading" data-map-loading aria-hidden="true">
+			<span class="seahivez-map__loading-pulse"></span>
+		</div>
+
 		<div
-			class="contact-map__canvas aspect-[16/10] w-full"
+			class="contact-map__canvas w-full"
 			data-map-canvas
 			role="region"
 			aria-label="<?php esc_attr_e( 'Map of SeaHivez departure location', 'seahivez-theme' ); ?>"
+			hidden
 		></div>
-		<div class="contact-map__fallback p-6 text-sm text-gray-500" data-map-fallback hidden>
-			<?php esc_html_e( 'Map unavailable. Please check the location details or try again later.', 'seahivez-theme' ); ?>
+		<div class="contact-map__fallback" data-map-fallback hidden>
+			<p class="font-medium text-navy-900"><?php echo esc_html( $map['place'] ); ?></p>
+			<p class="mt-2"><?php esc_html_e( 'Map is temporarily unavailable.', 'seahivez-theme' ); ?></p>
 		</div>
 	</div>
 </div>

@@ -83,12 +83,16 @@ $port = seahivez_get_port_location();
 					data-place="<?php echo esc_attr( $port['place'] ); ?>"
 					data-maps-url="<?php echo esc_url( $port['maps_url'] ); ?>"
 				>
-					<div class="location-cta__map-canvas" data-map-canvas role="region" aria-label="<?php esc_attr_e( 'Interactive map of SeaHivez port in S\'Arenal, Mallorca', 'seahivez-theme' ); ?>"></div>
+					<div class="seahivez-map__loading" data-map-loading aria-hidden="true">
+						<span class="seahivez-map__loading-pulse"></span>
+					</div>
+
+					<div class="location-cta__map-canvas" data-map-canvas role="region" aria-label="<?php esc_attr_e( 'Interactive map of SeaHivez port in S\'Arenal, Mallorca', 'seahivez-theme' ); ?>" hidden></div>
 
 					<div class="location-cta__map-fallback" data-map-fallback hidden>
-						<p class="location-cta__map-fallback-title"><?php echo esc_html( $data['location'] ); ?></p>
+						<p class="location-cta__map-fallback-title"><?php echo esc_html( $port['place'] ); ?></p>
 						<p class="location-cta__map-fallback-text">
-							<?php esc_html_e( 'Map could not be loaded.', 'seahivez-theme' ); ?>
+							<?php esc_html_e( 'Map is temporarily unavailable.', 'seahivez-theme' ); ?>
 						</p>
 						<a class="link-arrow mt-4 inline-flex" href="<?php echo esc_url( $port['maps_url'] ); ?>" target="_blank" rel="noopener noreferrer">
 							<?php esc_html_e( 'Open in Google Maps', 'seahivez-theme' ); ?>

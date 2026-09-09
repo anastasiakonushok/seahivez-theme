@@ -1203,8 +1203,16 @@
 		@apply mt-1 text-sm text-gray-500;
 	}
 
+	.location-cta__map,
+	.contact-map__frame {
+		--seahivez-map-marker-bg: #0b1f3a;
+		--seahivez-map-marker-border: #ffffff;
+		--seahivez-map-marker-icon: #c7a46a;
+		--seahivez-map-marker-shadow: 0 6px 18px rgba(7, 20, 40, 0.28);
+	}
+
 	.location-cta__map {
-		@apply relative min-h-[300px] overflow-hidden rounded-md border border-gray-200 bg-sand-100 lg:min-h-[420px];
+		@apply relative min-h-[340px] w-full overflow-hidden rounded-md border border-gray-200 bg-sand-100 md:min-h-[440px] lg:min-h-[500px];
 	}
 
 	.location-cta__map-canvas {
@@ -1215,14 +1223,75 @@
 		@apply bg-transparent;
 	}
 
-	.location-cta__map-canvas img,
-	.contact-map__canvas img {
-		display: block;
-		max-width: none;
+	.location-cta__map-fallback[hidden],
+	.contact-map__fallback[hidden],
+	.seahivez-map__loading[hidden] {
+		display: none !important;
+	}
+
+	.location-cta__map.is-fallback .location-cta__map-canvas,
+	.contact-map__frame.is-fallback .contact-map__canvas {
+		display: none;
 	}
 
 	.location-cta__map-fallback {
 		@apply absolute inset-0 flex flex-col items-start justify-center bg-sand-100 p-8;
+	}
+
+	.contact-map__frame {
+		@apply relative min-h-[340px] w-full md:min-h-[440px] lg:min-h-[500px];
+	}
+
+	.contact-map__frame .contact-map__canvas {
+		@apply absolute inset-0 h-full w-full bg-sand-100;
+	}
+
+	.contact-map__frame.is-ready .contact-map__canvas {
+		@apply bg-transparent;
+	}
+
+	.contact-map__fallback {
+		@apply absolute inset-0 flex flex-col items-start justify-center bg-sand-100 p-6 text-sm text-gray-500;
+	}
+
+	.seahivez-map__loading {
+		@apply absolute inset-0 z-[1] flex items-center justify-center bg-sand-100;
+	}
+
+	.seahivez-map__loading-pulse {
+		@apply block h-12 w-12 rounded-full bg-sand-200;
+		animation: seahivez-map-pulse 1.2s ease-in-out infinite;
+	}
+
+	@keyframes seahivez-map-pulse {
+		0%,
+		100% {
+			opacity: 0.45;
+			transform: scale(0.92);
+		}
+
+		50% {
+			opacity: 1;
+			transform: scale(1);
+		}
+	}
+
+	.seahivez-map-marker {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		width: clamp(2.5rem, 7vw, 3.25rem);
+		height: clamp(2.5rem, 7vw, 3.25rem);
+		border: 3px solid var(--seahivez-map-marker-border);
+		border-radius: 9999px;
+		background: var(--seahivez-map-marker-bg);
+		box-shadow: var(--seahivez-map-marker-shadow);
+		color: var(--seahivez-map-marker-icon);
+	}
+
+	.seahivez-map-marker__icon {
+		width: clamp(1.1rem, 3.2vw, 1.45rem);
+		height: clamp(1.1rem, 3.2vw, 1.45rem);
 	}
 
 	.location-cta__map-fallback-title {

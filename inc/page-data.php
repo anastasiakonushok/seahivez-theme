@@ -916,7 +916,7 @@ function seahivez_get_contact_page_map() {
 		'heading'  => ! empty( $port['label'] ) ? $port['label'] : __( "S'Arenal / Mallorca", 'seahivez-theme' ),
 		'lat'      => isset( $port['lat'] ) ? (string) $port['lat'] : '',
 		'lng'      => isset( $port['lng'] ) ? (string) $port['lng'] : '',
-		'label'    => isset( $port['label'] ) ? $port['label'] : 'SeaHivez',
+		'label'    => isset( $port['label'] ) ? $port['label'] : __( "S'Arenal Marina", 'seahivez-theme' ),
 		'place'    => isset( $port['place'] ) ? $port['place'] : '',
 		'maps_url' => isset( $port['maps_url'] ) ? $port['maps_url'] : '',
 	);
