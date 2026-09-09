@@ -183,11 +183,8 @@ function seahivez_get_footer_settings() {
  */
 function seahivez_get_theme_social_settings() {
 	$defaults = array(
-		'instagram_url'    => 'https://instagram.com/seahivez',
 		'instagram_handle' => '@seahivez',
 		'whatsapp_number'  => '34000000000',
-		'whatsapp_url'     => '',
-		'telegram_url'     => 'https://t.me/seahivez',
 		'phone'            => '+34 000 000 000',
 		'email'            => 'info@seahivez.com',
 		'address'          => __( "Mallorca / S'Arenal", 'seahivez-theme' ),

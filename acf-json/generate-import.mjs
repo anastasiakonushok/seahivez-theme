@@ -53,6 +53,12 @@ const toyIconChoices = {
 	swimming: 'Swimming',
 };
 
+const socialIconChoices = {
+	instagram: 'Instagram',
+	whatsapp: 'WhatsApp',
+	telegram: 'Telegram',
+};
+
 function fieldBase(extra = {}) {
 	return {
 		required: 0,
@@ -504,11 +510,33 @@ const themeSettingsGroup = fieldGroupBase(
 			'Social & Contact',
 			'social_contact',
 			[
-				urlField('field_shvz_social_instagram_url', 'Instagram URL', 'instagram_url'),
-				textField('field_shvz_social_instagram_handle', 'Instagram handle', 'instagram_handle'),
-				textField('field_shvz_social_whatsapp_number', 'WhatsApp number', 'whatsapp_number'),
-				urlField('field_shvz_social_whatsapp_url', 'WhatsApp URL (optional override)', 'whatsapp_url'),
-				urlField('field_shvz_social_telegram_url', 'Telegram URL', 'telegram_url'),
+				repeaterField(
+					'field_shvz_social_links',
+					'Social links',
+					'social_links',
+					[
+						selectField('field_shvz_social_links_icon', 'Icon', 'icon', socialIconChoices, {
+							required: 1,
+						}),
+						urlField('field_shvz_social_links_url', 'URL', 'url', { required: 1 }),
+						textField('field_shvz_social_links_label', 'Label (optional)', 'label', {
+							instructions: 'Accessibility label. Defaults to the icon name.',
+						}),
+						textField('field_shvz_social_links_subtitle', 'Subtitle (optional)', 'subtitle'),
+					],
+					{
+						layout: 'block',
+						button_label: 'Add social link',
+						instructions:
+							'Header, footer, contact, FAQ and other social rows use this list site-wide.',
+					}
+				),
+				textField('field_shvz_social_instagram_handle', 'Instagram handle', 'instagram_handle', {
+					instructions: 'Optional display handle (e.g. @seahivez).',
+				}),
+				textField('field_shvz_social_whatsapp_number', 'WhatsApp number', 'whatsapp_number', {
+					instructions: 'Used when a WhatsApp link is built from the phone number.',
+				}),
 				textField('field_shvz_social_phone', 'Phone', 'phone'),
 				emailField('field_shvz_social_email', 'Email', 'email'),
 				textField('field_shvz_social_address', 'Address / location', 'address'),

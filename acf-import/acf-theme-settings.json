@@ -268,12 +268,95 @@
                             "class": "",
                             "id": ""
                         },
-                        "key": "field_shvz_social_instagram_url",
-                        "label": "Instagram URL",
-                        "name": "instagram_url",
-                        "type": "url",
-                        "default_value": "",
-                        "placeholder": ""
+                        "key": "field_shvz_social_links",
+                        "label": "Social links",
+                        "name": "social_links",
+                        "type": "repeater",
+                        "layout": "block",
+                        "min": 0,
+                        "max": 0,
+                        "collapsed": "",
+                        "button_label": "Add social link",
+                        "sub_fields": [
+                            {
+                                "required": 1,
+                                "conditional_logic": 0,
+                                "wrapper": {
+                                    "width": "",
+                                    "class": "",
+                                    "id": ""
+                                },
+                                "key": "field_shvz_social_links_icon",
+                                "label": "Icon",
+                                "name": "icon",
+                                "type": "select",
+                                "choices": {
+                                    "instagram": "Instagram",
+                                    "whatsapp": "WhatsApp",
+                                    "telegram": "Telegram"
+                                },
+                                "default_value": false,
+                                "return_format": "value",
+                                "multiple": 0,
+                                "allow_null": 0,
+                                "ui": 0,
+                                "ajax": 0,
+                                "placeholder": ""
+                            },
+                            {
+                                "required": 1,
+                                "conditional_logic": 0,
+                                "wrapper": {
+                                    "width": "",
+                                    "class": "",
+                                    "id": ""
+                                },
+                                "key": "field_shvz_social_links_url",
+                                "label": "URL",
+                                "name": "url",
+                                "type": "url",
+                                "default_value": "",
+                                "placeholder": ""
+                            },
+                            {
+                                "required": 0,
+                                "conditional_logic": 0,
+                                "wrapper": {
+                                    "width": "",
+                                    "class": "",
+                                    "id": ""
+                                },
+                                "key": "field_shvz_social_links_label",
+                                "label": "Label (optional)",
+                                "name": "label",
+                                "type": "text",
+                                "default_value": "",
+                                "maxlength": "",
+                                "placeholder": "",
+                                "prepend": "",
+                                "append": "",
+                                "instructions": "Accessibility label. Defaults to the icon name."
+                            },
+                            {
+                                "required": 0,
+                                "conditional_logic": 0,
+                                "wrapper": {
+                                    "width": "",
+                                    "class": "",
+                                    "id": ""
+                                },
+                                "key": "field_shvz_social_links_subtitle",
+                                "label": "Subtitle (optional)",
+                                "name": "subtitle",
+                                "type": "text",
+                                "default_value": "",
+                                "maxlength": "",
+                                "placeholder": "",
+                                "prepend": "",
+                                "append": ""
+                            }
+                        ],
+                        "instructions": "Header, footer, contact, FAQ and other social rows use this list site-wide."
                     },
                     {
                         "required": 0,
@@ -291,7 +374,8 @@
                         "maxlength": "",
                         "placeholder": "",
                         "prepend": "",
-                        "append": ""
+                        "append": "",
+                        "instructions": "Optional display handle (e.g. @seahivez)."
                     },
                     {
                         "required": 0,
@@ -309,37 +393,8 @@
                         "maxlength": "",
                         "placeholder": "",
                         "prepend": "",
-                        "append": ""
-                    },
-                    {
-                        "required": 0,
-                        "conditional_logic": 0,
-                        "wrapper": {
-                            "width": "",
-                            "class": "",
-                            "id": ""
-                        },
-                        "key": "field_shvz_social_whatsapp_url",
-                        "label": "WhatsApp URL (optional override)",
-                        "name": "whatsapp_url",
-                        "type": "url",
-                        "default_value": "",
-                        "placeholder": ""
-                    },
-                    {
-                        "required": 0,
-                        "conditional_logic": 0,
-                        "wrapper": {
-                            "width": "",
-                            "class": "",
-                            "id": ""
-                        },
-                        "key": "field_shvz_social_telegram_url",
-                        "label": "Telegram URL",
-                        "name": "telegram_url",
-                        "type": "url",
-                        "default_value": "",
-                        "placeholder": ""
+                        "append": "",
+                        "instructions": "Used when a WhatsApp link is built from the phone number."
                     },
                     {
                         "required": 0,
@@ -416,6 +471,6 @@
         "active": true,
         "description": "",
         "show_in_rest": 0,
-        "modified": 1788773742
+        "modified": 1788955166
     }
 ]

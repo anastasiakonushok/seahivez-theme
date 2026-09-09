@@ -2,9 +2,6 @@
 /**
  * Social and contact configuration helpers.
  *
- * Central source for social URLs and contact details.
- * Phase 4: replace placeholders with ACF Options → Social & Contact fields.
- *
  * @package seahivez-theme
  */
 
@@ -15,11 +12,8 @@
  */
 function seahivez_get_social_contact_data() {
 	$defaults = array(
-		'instagram_url'    => 'https://instagram.com/seahivez',
 		'instagram_handle' => '@seahivez',
 		'whatsapp_number'  => '34000000000',
-		'whatsapp_url'     => '',
-		'telegram_url'     => 'https://t.me/seahivez',
 		'phone'            => '+34 000 000 000',
 		'email'            => 'info@seahivez.com',
 		'address'          => __( "Mallorca / S'Arenal", 'seahivez-theme' ),
@@ -33,14 +27,185 @@ function seahivez_get_social_contact_data() {
 }
 
 /**
+ * Default social link rows when ACF is empty.
+ *
+ * @return array<int, array<string, string>>
+ */
+function seahivez_get_default_social_links() {
+	return array(
+		array(
+			'key'      => 'instagram',
+			'url'      => 'https://instagram.com/seahivez',
+			'label'    => __( 'Instagram', 'seahivez-theme' ),
+			'subtitle' => '@seahivez',
+		),
+		array(
+			'key'      => 'whatsapp',
+			'url'      => 'https://wa.me/34000000000',
+			'label'    => __( 'WhatsApp', 'seahivez-theme' ),
+			'subtitle' => __( 'Chat with us', 'seahivez-theme' ),
+		),
+		array(
+			'key'      => 'telegram',
+			'url'      => 'https://t.me/seahivez',
+			'label'    => __( 'Telegram', 'seahivez-theme' ),
+			'subtitle' => __( 'Message us', 'seahivez-theme' ),
+		),
+	);
+}
+
+/**
+ * Social links from Theme Settings repeater.
+ *
+ * @return array<int, array<string, string>>
+ */
+function seahivez_get_theme_social_links() {
+	if ( ! function_exists( 'seahivez_acf_is_active' ) || ! seahivez_acf_is_active() ) {
+		return seahivez_get_default_social_links();
+	}
+
+	$social = get_field( 'social_contact', 'option' );
+
+	if ( empty( $social ) || ! is_array( $social ) ) {
+		return seahivez_get_default_social_links();
+	}
+
+	$rows = ! empty( $social['social_links'] ) && is_array( $social['social_links'] )
+		? $social['social_links']
+		: array();
+
+	if ( empty( $rows ) ) {
+		return seahivez_build_social_links_from_legacy( $social );
+	}
+
+	$allowed = seahivez_get_allowed_social_icons();
+	$links   = array();
+
+	foreach ( $rows as $row ) {
+		if ( empty( $row ) || ! is_array( $row ) ) {
+			continue;
+		}
+
+		$icon = sanitize_key( $row['icon'] ?? '' );
+		$url  = ! empty( $row['url'] ) ? esc_url_raw( $row['url'] ) : '';
+
+		if ( ! $icon || ! isset( $allowed[ $icon ] ) || ! $url ) {
+			continue;
+		}
+
+		$label = ! empty( $row['label'] )
+			? sanitize_text_field( $row['label'] )
+			: $allowed[ $icon ];
+
+		$subtitle = ! empty( $row['subtitle'] ) ? sanitize_text_field( $row['subtitle'] ) : '';
+
+		if ( '' === $subtitle && 'instagram' === $icon && ! empty( $social['instagram_handle'] ) ) {
+			$subtitle = sanitize_text_field( $social['instagram_handle'] );
+		}
+
+		if ( '' === $subtitle && 'whatsapp' === $icon ) {
+			$subtitle = __( 'Chat with us', 'seahivez-theme' );
+		}
+
+		if ( '' === $subtitle && 'telegram' === $icon ) {
+			$subtitle = __( 'Message us', 'seahivez-theme' );
+		}
+
+		$links[] = array(
+			'key'      => $icon,
+			'url'      => $url,
+			'label'    => $label,
+			'subtitle' => $subtitle,
+		);
+	}
+
+	if ( empty( $links ) ) {
+		return seahivez_get_default_social_links();
+	}
+
+	return $links;
+}
+
+/**
+ * Build social links from legacy flat URL fields (pre-repeater saves).
+ *
+ * @param array<string, mixed> $social social_contact option data.
+ * @return array<int, array<string, string>>
+ */
+function seahivez_build_social_links_from_legacy( $social ) {
+	$links = array();
+
+	if ( ! empty( $social['instagram_url'] ) ) {
+		$links[] = array(
+			'key'      => 'instagram',
+			'url'      => esc_url_raw( $social['instagram_url'] ),
+			'label'    => __( 'Instagram', 'seahivez-theme' ),
+			'subtitle' => ! empty( $social['instagram_handle'] ) ? sanitize_text_field( $social['instagram_handle'] ) : __( 'Follow us', 'seahivez-theme' ),
+		);
+	}
+
+	$whatsapp_url = '';
+	if ( ! empty( $social['whatsapp_url'] ) ) {
+		$whatsapp_url = esc_url_raw( $social['whatsapp_url'] );
+	} elseif ( ! empty( $social['whatsapp_number'] ) ) {
+		$whatsapp_url = seahivez_format_whatsapp_url( $social['whatsapp_number'] );
+	}
+
+	if ( $whatsapp_url ) {
+		$links[] = array(
+			'key'      => 'whatsapp',
+			'url'      => $whatsapp_url,
+			'label'    => __( 'WhatsApp', 'seahivez-theme' ),
+			'subtitle' => __( 'Chat with us', 'seahivez-theme' ),
+		);
+	}
+
+	if ( ! empty( $social['telegram_url'] ) ) {
+		$links[] = array(
+			'key'      => 'telegram',
+			'url'      => esc_url_raw( $social['telegram_url'] ),
+			'label'    => __( 'Telegram', 'seahivez-theme' ),
+			'subtitle' => __( 'Message us', 'seahivez-theme' ),
+		);
+	}
+
+	if ( empty( $links ) ) {
+		return seahivez_get_default_social_links();
+	}
+
+	return $links;
+}
+
+/**
+ * Find a social URL by icon slug.
+ *
+ * @param string $icon_name Icon identifier.
+ * @return string
+ */
+function seahivez_get_social_link_url( $icon_name ) {
+	$icon_name = sanitize_key( $icon_name );
+
+	foreach ( seahivez_get_social_links() as $link ) {
+		if ( $link['key'] === $icon_name && ! empty( $link['url'] ) ) {
+			return $link['url'];
+		}
+	}
+
+	if ( 'whatsapp' === $icon_name ) {
+		$data = seahivez_get_social_contact_data();
+		return seahivez_format_whatsapp_url( $data['whatsapp_number'] ?? '' );
+	}
+
+	return '';
+}
+
+/**
  * Instagram profile URL.
  *
  * @return string
  */
 function seahivez_get_instagram_url() {
-	$data = seahivez_get_social_contact_data();
-
-	return ! empty( $data['instagram_url'] ) ? $data['instagram_url'] : '';
+	return seahivez_get_social_link_url( 'instagram' );
 }
 
 /**
@@ -73,18 +238,10 @@ function seahivez_format_whatsapp_url( $number ) {
 /**
  * WhatsApp chat URL.
  *
- * Uses whatsapp_url when set, otherwise builds from whatsapp_number.
- *
  * @return string
  */
 function seahivez_get_whatsapp_url() {
-	$data = seahivez_get_social_contact_data();
-
-	if ( ! empty( $data['whatsapp_url'] ) ) {
-		return $data['whatsapp_url'];
-	}
-
-	return seahivez_format_whatsapp_url( $data['whatsapp_number'] ?? '' );
+	return seahivez_get_social_link_url( 'whatsapp' );
 }
 
 /**
@@ -120,8 +277,6 @@ function seahivez_get_social_icon_path( $icon_name ) {
 /**
  * Build inline SVG markup for a social icon.
  *
- * Loads SVGs from assets/images/icons/.
- *
  * @param string $icon_name Icon identifier.
  * @param array  $args {
  *     Optional. Rendering arguments.
@@ -152,7 +307,7 @@ function seahivez_get_social_icon_svg( $icon_name, $args = array() ) {
 
 	$svg = str_ireplace( array( '#0B1F3A', '#070C26' ), 'currentColor', $svg );
 
-	$classes = trim( 'icon-social h-6 w-6 ' . $args['class'] );
+	$classes    = trim( 'icon-social h-6 w-6 ' . $args['class'] );
 	$class_attr = esc_attr( $classes );
 
 	if ( preg_match( '/<svg\b([^>]*)>/', $svg, $matches ) ) {
@@ -199,37 +354,5 @@ function seahivez_render_social_icon( $icon_name, $args = array() ) {
  * @return array<int, array<string, string>>
  */
 function seahivez_get_social_links() {
-	$data  = seahivez_get_social_contact_data();
-	$links = array();
-
-	if ( ! empty( $data['instagram_url'] ) ) {
-		$links[] = array(
-			'key'      => 'instagram',
-			'url'      => $data['instagram_url'],
-			'label'    => __( 'Instagram', 'seahivez-theme' ),
-			'subtitle' => ! empty( $data['instagram_handle'] ) ? $data['instagram_handle'] : __( 'Follow us', 'seahivez-theme' ),
-		);
-	}
-
-	$whatsapp_url = seahivez_get_whatsapp_url();
-
-	if ( ! empty( $whatsapp_url ) ) {
-		$links[] = array(
-			'key'      => 'whatsapp',
-			'url'      => $whatsapp_url,
-			'label'    => __( 'WhatsApp', 'seahivez-theme' ),
-			'subtitle' => __( 'Chat with us', 'seahivez-theme' ),
-		);
-	}
-
-	if ( ! empty( $data['telegram_url'] ) ) {
-		$links[] = array(
-			'key'      => 'telegram',
-			'url'      => $data['telegram_url'],
-			'label'    => __( 'Telegram', 'seahivez-theme' ),
-			'subtitle' => __( 'Message us', 'seahivez-theme' ),
-		);
-	}
-
-	return $links;
+	return seahivez_get_theme_social_links();
 }

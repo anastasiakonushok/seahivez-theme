@@ -35,12 +35,13 @@ function seahivez_schema_entity_id( $fragment ) {
  * @return array<int, string>
  */
 function seahivez_schema_get_same_as() {
-	$contact = seahivez_get_social_contact_data();
-	$urls    = array(
-		seahivez_get_instagram_url(),
-		seahivez_get_whatsapp_url(),
-		! empty( $contact['telegram_url'] ) ? $contact['telegram_url'] : '',
-	);
+	$urls = array();
+
+	foreach ( seahivez_get_social_links() as $link ) {
+		if ( ! empty( $link['url'] ) ) {
+			$urls[] = $link['url'];
+		}
+	}
 
 	$urls = array_values(
 		array_filter(
