@@ -13,7 +13,7 @@
 function seahivez_get_social_contact_data() {
 	$defaults = array(
 		'instagram_handle' => '@seahivez',
-		'whatsapp_number'  => '34000000000',
+		'whatsapp_number'  => '34610451775',
 		'phone'            => '+34 000 000 000',
 		'email'            => 'info@seahivez.com',
 		'address'          => __( "Mallorca / S'Arenal", 'seahivez-theme' ),
@@ -40,8 +40,14 @@ function seahivez_get_default_social_links() {
 			'subtitle' => '@seahivez',
 		),
 		array(
+			'key'      => 'facebook',
+			'url'      => 'https://www.facebook.com/profile.php?id=100092691156231',
+			'label'    => __( 'Facebook', 'seahivez-theme' ),
+			'subtitle' => __( 'Follow us', 'seahivez-theme' ),
+		),
+		array(
 			'key'      => 'whatsapp',
-			'url'      => 'https://wa.me/34000000000',
+			'url'      => 'https://wa.me/34610451775?text=Hello%2C%20I%20would%20like%20to%20rent%20a%20yacht%20in%20Mallorca.',
 			'label'    => __( 'WhatsApp', 'seahivez-theme' ),
 			'subtitle' => __( 'Chat with us', 'seahivez-theme' ),
 		),
