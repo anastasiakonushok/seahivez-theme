@@ -48,4 +48,8 @@ $location = seahivez_get_home_location_data();
 		);
 		?>
 	</div>
+
+	<div class="mt-10">
+		<?php get_template_part( 'template-parts/contact/contact-map' ); ?>
+	</div>
 </div>
