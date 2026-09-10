@@ -34,13 +34,16 @@ $data = ! empty( $args['extras'] ) && is_array( $args['extras'] ) ? $args['extra
 						</span>
 					</div>
 				</div>
-				<ul class="extras-grid mt-6">
-					<?php foreach ( $data['included'] as $item ) : ?>
-						<li class="extras-grid__item w-full min-w-0">
-							<?php get_template_part( 'template-parts/cards/extra-item', null, $item ); ?>
-						</li>
-					<?php endforeach; ?>
-				</ul>
+				<?php
+				get_template_part(
+					'template-parts/components/extras-grid',
+					null,
+					array(
+						'items' => $data['included'],
+						'class' => 'mt-6',
+					)
+				);
+				?>
 			</div>
 
 			<div class="extras-group extras-group--paid reveal reveal-delay-1">
@@ -56,13 +59,16 @@ $data = ! empty( $args['extras'] ) && is_array( $args['extras'] ) ? $args['extra
 						</span>
 					</div>
 				</div>
-				<ul class="extras-grid mt-6">
-					<?php foreach ( $data['paid'] as $item ) : ?>
-						<li class="extras-grid__item w-full min-w-0">
-							<?php get_template_part( 'template-parts/cards/extra-item', null, $item ); ?>
-						</li>
-					<?php endforeach; ?>
-				</ul>
+				<?php
+				get_template_part(
+					'template-parts/components/extras-grid',
+					null,
+					array(
+						'items' => $data['paid'],
+						'class' => 'mt-6',
+					)
+				);
+				?>
 			</div>
 		</div>
 

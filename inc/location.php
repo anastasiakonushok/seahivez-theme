@@ -13,8 +13,8 @@
  */
 function seahivez_get_port_location()
 {
-	$lat = 39.50087;
-	$lng = 2.74671;
+	$lat = 39.501457098007364;
+	$lng = 2.746069652847715;
 
 	return array(
 		'lat'      => $lat,

@@ -24,13 +24,16 @@ $data = seahivez_get_extras_page_data();
 					<h3 class="extras-group__title"><?php echo esc_html( $data['included_heading'] ); ?></h3>
 					<p class="extras-group__helper"><?php echo esc_html( $data['included_helper'] ); ?></p>
 				</div>
-				<ul class="extras-grid mt-6" role="list">
-					<?php foreach ( $data['included'] as $item ) : ?>
-						<li class="extras-grid__item">
-							<?php get_template_part( 'template-parts/cards/extra-item', null, $item ); ?>
-						</li>
-					<?php endforeach; ?>
-				</ul>
+				<?php
+				get_template_part(
+					'template-parts/components/extras-grid',
+					null,
+					array(
+						'items' => $data['included'],
+						'class' => 'mt-6',
+					)
+				);
+				?>
 			</div>
 
 			<div class="extras-group extras-group--paid reveal reveal-delay-1">
@@ -38,13 +41,16 @@ $data = seahivez_get_extras_page_data();
 					<h3 class="extras-group__title"><?php echo esc_html( $data['paid_heading'] ); ?></h3>
 					<p class="extras-group__helper"><?php echo esc_html( $data['paid_helper'] ); ?></p>
 				</div>
-				<ul class="extras-grid mt-6" role="list">
-					<?php foreach ( $data['paid'] as $item ) : ?>
-						<li class="extras-grid__item">
-							<?php get_template_part( 'template-parts/cards/extra-item', null, $item ); ?>
-						</li>
-					<?php endforeach; ?>
-				</ul>
+				<?php
+				get_template_part(
+					'template-parts/components/extras-grid',
+					null,
+					array(
+						'items' => $data['paid'],
+						'class' => 'mt-6',
+					)
+				);
+				?>
 			</div>
 		</div>
 
