@@ -128,6 +128,29 @@ function seahivez_maybe_seed_default_packages() {
 		update_field( 'price', $package['price'], $post_id );
 		update_field( 'short_description', $package['description'], $post_id );
 
+		$package_key = seahivez_get_experience_package_key( $package );
+		$charter     = $package_key ? seahivez_get_experience_charter_details( $package_key ) : null;
+
+		if ( $charter ) {
+			update_field( 'charter_details', seahivez_charter_details_to_acf_value( $charter ), $post_id );
+
+			if ( ! empty( $charter['included'] ) && is_array( $charter['included'] ) ) {
+				$included_rows = array();
+
+				foreach ( $charter['included'] as $line ) {
+					if ( '' !== (string) $line ) {
+						$included_rows[] = array(
+							'text' => (string) $line,
+						);
+					}
+				}
+
+				if ( ! empty( $included_rows ) ) {
+					update_field( 'included_items', $included_rows, $post_id );
+				}
+			}
+		}
+
 		if ( ! empty( $package['image'] ) ) {
 			update_post_meta( $post_id, '_seahivez_card_image_url', esc_url_raw( $package['image'] ) );
 		}

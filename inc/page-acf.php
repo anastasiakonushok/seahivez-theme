@@ -26,7 +26,7 @@ function seahivez_map_acf_page_hero( $defaults, $field = 'hero', $post_id = null
 
 	$image = $hero['image'] ?? null;
 
-	return array(
+	$mapped = array(
 		'eyebrow'     => ! empty( $hero['eyebrow'] ) ? (string) $hero['eyebrow'] : $defaults['eyebrow'],
 		'heading'     => ! empty( $hero['heading'] ) ? (string) $hero['heading'] : $defaults['heading'],
 		'description' => ! empty( $hero['description'] ) ? (string) $hero['description'] : $defaults['description'],
@@ -35,6 +35,8 @@ function seahivez_map_acf_page_hero( $defaults, $field = 'hero', $post_id = null
 		'overlay'     => isset( $defaults['overlay'] ) ? (bool) $defaults['overlay'] : true,
 		'compact'     => ! empty( $hero['compact'] ),
 	);
+
+	return array_merge( $defaults, $mapped );
 }
 
 /**
@@ -284,4 +286,426 @@ function seahivez_map_acf_faq_groups( $defaults, $field = 'faq_groups' ) {
 	}
 
 	return ! empty( $mapped ) ? $mapped : $defaults;
+}
+
+/**
+ * Map ACF included equipment rows for the Extras page.
+ *
+ * @param array<int, array<string, mixed>> $defaults Default equipment rows.
+ * @param array<int, array<string, mixed>> $rows     ACF repeater rows.
+ * @return array<int, array<string, mixed>>
+ */
+function seahivez_map_acf_extras_included_equipment( $defaults, $rows ) {
+	if ( empty( $rows ) || ! is_array( $rows ) ) {
+		return $defaults;
+	}
+
+	$defaults_by_title = array();
+
+	foreach ( $defaults as $item ) {
+		$title = strtolower( trim( (string) ( $item['title'] ?? '' ) ) );
+
+		if ( $title ) {
+			$defaults_by_title[ $title ] = $item;
+		}
+	}
+
+	$mapped = array();
+
+	foreach ( $rows as $row ) {
+		if ( ! is_array( $row ) ) {
+			continue;
+		}
+
+		$title    = (string) ( $row['title'] ?? '' );
+		$fallback = $defaults_by_title[ strtolower( trim( $title ) ) ] ?? null;
+
+		if ( '' === $title && empty( $fallback ) ) {
+			continue;
+		}
+
+		$mapped[] = array(
+			'icon'        => seahivez_normalize_acf_icon( $row['icon'] ?? '' ) ?: (string) ( $fallback['icon'] ?? '' ),
+			'title'       => $title ? $title : (string) ( $fallback['title'] ?? '' ),
+			'status'      => ! empty( $row['status'] )
+				? (string) $row['status']
+				: (string) ( $fallback['status'] ?? __( 'Included', 'seahivez-theme' ) ),
+			'description' => isset( $row['description'] ) && (string) $row['description'] !== ''
+				? (string) $row['description']
+				: (string) ( $fallback['description'] ?? '' ),
+		);
+	}
+
+	return ! empty( $mapped ) ? $mapped : $defaults;
+}
+
+/**
+ * Map ACF included service rows for the Extras page.
+ *
+ * @param array<int, array<string, string>> $defaults Default service rows.
+ * @param array<int, array<string, mixed>>  $rows     ACF repeater rows.
+ * @return array<int, array<string, string>>
+ */
+function seahivez_map_acf_extras_included_services( $defaults, $rows ) {
+	if ( empty( $rows ) || ! is_array( $rows ) ) {
+		return $defaults;
+	}
+
+	$mapped = array();
+
+	foreach ( $rows as $row ) {
+		if ( ! is_array( $row ) ) {
+			continue;
+		}
+
+		$label = (string) ( $row['label'] ?? '' );
+
+		if ( '' === $label ) {
+			continue;
+		}
+
+		$mapped[] = array(
+			'icon'  => seahivez_normalize_acf_icon( $row['icon'] ?? '' ),
+			'label' => $label,
+		);
+	}
+
+	return ! empty( $mapped ) ? $mapped : $defaults;
+}
+
+/**
+ * Map ACF paid extras rows for the Extras page.
+ *
+ * @param array<int, array<string, mixed>> $defaults Default paid rows.
+ * @param array<int, array<string, mixed>> $rows     ACF repeater rows.
+ * @return array<int, array<string, mixed>>
+ */
+function seahivez_map_acf_extras_paid_items( $defaults, $rows ) {
+	if ( empty( $rows ) || ! is_array( $rows ) ) {
+		return $defaults;
+	}
+
+	$defaults_by_id = array();
+
+	foreach ( $defaults as $item ) {
+		$id = (string) ( $item['id'] ?? '' );
+
+		if ( $id ) {
+			$defaults_by_id[ $id ] = $item;
+		}
+	}
+
+	$mapped = array();
+
+	foreach ( $rows as $row ) {
+		if ( ! is_array( $row ) ) {
+			continue;
+		}
+
+		$row_id   = sanitize_key( (string) ( $row['item_id'] ?? '' ) );
+		$fallback = $row_id ? ( $defaults_by_id[ $row_id ] ?? null ) : null;
+		$title    = (string) ( $row['title'] ?? '' );
+
+		if ( '' === $title && empty( $fallback ) ) {
+			continue;
+		}
+
+		$mapped[] = array(
+			'id'          => $row_id ? $row_id : (string) ( $fallback['id'] ?? sanitize_key( $title ) ),
+			'icon'        => seahivez_normalize_acf_icon( $row['icon'] ?? '' ) ?: (string) ( $fallback['icon'] ?? '' ),
+			'title'       => $title ? $title : (string) ( $fallback['title'] ?? '' ),
+			'price'       => isset( $row['price'] ) && '' !== (string) $row['price']
+				? (int) $row['price']
+				: (int) ( $fallback['price'] ?? 0 ),
+			'description' => isset( $row['description'] ) && (string) $row['description'] !== ''
+				? (string) $row['description']
+				: (string) ( $fallback['description'] ?? '' ),
+		);
+	}
+
+	return ! empty( $mapped ) ? $mapped : $defaults;
+}
+
+/**
+ * Map ACF food & drinks rows for the Extras page.
+ *
+ * @param array<string, mixed> $defaults Default section payload.
+ * @param array<string, mixed> $acf      ACF group values.
+ * @return array<string, mixed>
+ */
+function seahivez_map_acf_extras_food_drinks_section( $defaults, $acf ) {
+	if ( empty( $acf ) || ! is_array( $acf ) ) {
+		return $defaults;
+	}
+
+	foreach ( array( 'eyebrow', 'status', 'note' ) as $key ) {
+		if ( ! empty( $acf[ $key ] ) ) {
+			$defaults[ $key ] = (string) $acf[ $key ];
+		}
+	}
+
+	if ( empty( $acf['items'] ) || ! is_array( $acf['items'] ) ) {
+		return $defaults;
+	}
+
+	$defaults_by_id = array();
+
+	foreach ( $defaults['items'] as $item ) {
+		$id = (string) ( $item['id'] ?? '' );
+
+		if ( $id ) {
+			$defaults_by_id[ $id ] = $item;
+		}
+	}
+
+	$items = array();
+
+	foreach ( $acf['items'] as $row ) {
+		if ( ! is_array( $row ) ) {
+			continue;
+		}
+
+		$row_id   = sanitize_key( (string) ( $row['item_id'] ?? '' ) );
+		$fallback = $row_id ? ( $defaults_by_id[ $row_id ] ?? null ) : null;
+		$title    = (string) ( $row['title'] ?? '' );
+
+		if ( '' === $title && empty( $fallback ) ) {
+			continue;
+		}
+
+		$description_list = array();
+
+		if ( ! empty( $row['description_list'] ) ) {
+			$description_list = array_values(
+				array_filter(
+					array_map(
+						'trim',
+						preg_split( '/\r\n|\r|\n/', (string) $row['description_list'] )
+					)
+				)
+			);
+		} elseif ( ! empty( $fallback['description_list'] ) && is_array( $fallback['description_list'] ) ) {
+			$description_list = $fallback['description_list'];
+		}
+
+		$items[] = array(
+			'id'               => $row_id ? $row_id : (string) ( $fallback['id'] ?? sanitize_key( $title ) ),
+			'icon'             => seahivez_normalize_acf_icon( $row['icon'] ?? '' ) ?: ( $fallback['icon'] ?? '' ),
+			'title'            => $title ? $title : (string) ( $fallback['title'] ?? '' ),
+			'price'            => isset( $row['price'] ) && '' !== (string) $row['price']
+				? (int) $row['price']
+				: (int) ( $fallback['price'] ?? 0 ),
+			'unit'             => ! empty( $row['unit'] )
+				? (string) $row['unit']
+				: (string) ( $fallback['unit'] ?? '' ),
+			'description'      => isset( $row['description'] ) && (string) $row['description'] !== ''
+				? (string) $row['description']
+				: (string) ( $fallback['description'] ?? '' ),
+			'description_list' => $description_list,
+		);
+	}
+
+	if ( ! empty( $items ) ) {
+		$defaults['items'] = $items;
+	}
+
+	return $defaults;
+}
+
+/**
+ * Map ACF good-to-know notes for the Extras page.
+ *
+ * @param array<int, string>             $defaults Default notes.
+ * @param array<string, mixed>|null      $acf      ACF group values.
+ * @param string                         $title_default Default section title.
+ * @return array{title: string, items: array<int, string>}
+ */
+function seahivez_map_acf_extras_good_to_know( $defaults, $acf, $title_default ) {
+	$result = array(
+		'title' => $title_default,
+		'items' => $defaults,
+	);
+
+	if ( empty( $acf ) || ! is_array( $acf ) ) {
+		return $result;
+	}
+
+	if ( ! empty( $acf['title'] ) ) {
+		$result['title'] = (string) $acf['title'];
+	}
+
+	if ( empty( $acf['items'] ) || ! is_array( $acf['items'] ) ) {
+		return $result;
+	}
+
+	$items = array();
+
+	foreach ( $acf['items'] as $row ) {
+		if ( ! is_array( $row ) ) {
+			continue;
+		}
+
+		$text = trim( (string) ( $row['text'] ?? '' ) );
+
+		if ( '' !== $text ) {
+			$items[] = $text;
+		}
+	}
+
+	if ( ! empty( $items ) ) {
+		$result['items'] = $items;
+	}
+
+	return $result;
+}
+
+/**
+ * Map ACF gallery section for the Extras page.
+ *
+ * @param array<string, mixed>             $header_defaults Default header.
+ * @param array<int, array<string, mixed>> $items_defaults  Default gallery items.
+ * @param array<string, mixed>|null        $acf             ACF group values.
+ * @return array{header: array<string, string>, items: array<int, array<string, mixed>>}
+ */
+function seahivez_map_acf_extras_gallery_section( $header_defaults, $items_defaults, $acf ) {
+	$header = $header_defaults;
+	$items  = $items_defaults;
+
+	if ( empty( $acf ) || ! is_array( $acf ) ) {
+		return array(
+			'header' => $header,
+			'items'  => $items,
+		);
+	}
+
+	foreach ( array( 'eyebrow', 'heading', 'description' ) as $key ) {
+		if ( ! empty( $acf[ $key ] ) ) {
+			$header[ $key ] = (string) $acf[ $key ];
+		}
+	}
+
+	if ( ! empty( $acf['images'] ) && is_array( $acf['images'] ) ) {
+		$mapped_items = seahivez_map_acf_gallery_image_array( $acf['images'], $items_defaults );
+
+		if ( ! empty( $mapped_items ) ) {
+			$spans = seahivez_get_yacht_gallery_span_pattern( count( $mapped_items ) );
+
+			foreach ( $mapped_items as $index => $item ) {
+				$mapped_items[ $index ]['span'] = $spans[ $index ] ?? '';
+			}
+
+			$items = $mapped_items;
+		}
+	}
+
+	return array(
+		'header' => $header,
+		'items'  => $items,
+	);
+}
+
+/**
+ * Merge ACF Extras page fields onto theme defaults.
+ *
+ * @param array<string, mixed> $defaults Default sections payload.
+ * @return array<string, mixed>
+ */
+function seahivez_map_acf_extras_page_sections( $defaults ) {
+	if ( ! seahivez_acf_is_active() ) {
+		return $defaults;
+	}
+
+	$intro = get_field( 'intro' );
+
+	if ( ! empty( $intro ) ) {
+		$defaults['intro'] = (string) $intro;
+	}
+
+	$included_section = get_field( 'included_section' );
+
+	if ( ! empty( $included_section ) && is_array( $included_section ) ) {
+		if ( ! empty( $included_section['included_heading'] ) ) {
+			$defaults['included_heading'] = (string) $included_section['included_heading'];
+		}
+
+		if ( ! empty( $included_section['included_helper'] ) ) {
+			$defaults['included_helper'] = (string) $included_section['included_helper'];
+		}
+
+		$defaults['included_equipment'] = seahivez_map_acf_extras_included_equipment(
+			$defaults['included_equipment'],
+			$included_section['included_equipment'] ?? array()
+		);
+
+		$defaults['included_services'] = seahivez_map_acf_extras_included_services(
+			$defaults['included_services'],
+			$included_section['included_services'] ?? array()
+		);
+	}
+
+	$paid_section = get_field( 'paid_section' );
+
+	if ( ! empty( $paid_section ) && is_array( $paid_section ) ) {
+		if ( ! empty( $paid_section['paid_heading'] ) ) {
+			$defaults['paid_heading'] = (string) $paid_section['paid_heading'];
+		}
+
+		if ( ! empty( $paid_section['paid_helper'] ) ) {
+			$defaults['paid_helper'] = (string) $paid_section['paid_helper'];
+		}
+
+		$defaults['paid_items'] = seahivez_map_acf_extras_paid_items(
+			$defaults['paid_items'],
+			$paid_section['paid_items'] ?? array()
+		);
+	}
+
+	$food_drinks = get_field( 'food_drinks' );
+
+	$defaults['food_drinks'] = seahivez_map_acf_extras_food_drinks_section(
+		$defaults['food_drinks'],
+		is_array( $food_drinks ) ? $food_drinks : array()
+	);
+
+	$good_to_know = seahivez_map_acf_extras_good_to_know(
+		$defaults['good_to_know'],
+		get_field( 'good_to_know' ),
+		(string) $defaults['good_to_know_title']
+	);
+
+	$defaults['good_to_know_title'] = $good_to_know['title'];
+	$defaults['good_to_know']       = $good_to_know['items'];
+
+	$calculator = get_field( 'calculator' );
+
+	if ( ! empty( $calculator ) && is_array( $calculator ) ) {
+		$defaults['calculator'] = array_merge(
+			$defaults['calculator'],
+			array_filter(
+				array(
+					'eyebrow'     => ! empty( $calculator['eyebrow'] ) ? (string) $calculator['eyebrow'] : '',
+					'heading'     => ! empty( $calculator['heading'] ) ? (string) $calculator['heading'] : '',
+					'description' => ! empty( $calculator['description'] ) ? (string) $calculator['description'] : '',
+				)
+			)
+		);
+
+		$selected_packages = $calculator['packages'] ?? null;
+
+		if ( ! empty( $selected_packages ) ) {
+			$defaults['calculator_packages'] = seahivez_get_extras_page_calculator_packages( $selected_packages );
+			$defaults['calculator_configs']  = seahivez_get_extras_page_calculator_configs( $defaults['calculator_packages'] );
+		}
+	}
+
+	$gallery = seahivez_map_acf_extras_gallery_section(
+		$defaults['gallery_header'],
+		$defaults['gallery_items'],
+		get_field( 'gallery' )
+	);
+
+	$defaults['gallery_header'] = $gallery['header'];
+	$defaults['gallery_items']  = $gallery['items'];
+
+	return $defaults;
 }

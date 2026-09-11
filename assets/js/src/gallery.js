@@ -12,6 +12,7 @@ const FANCYBOX_GROUPS = [
 	'[data-fancybox="seahivez-gallery"]',
 	'[data-fancybox="seahivez-full-gallery"]',
 	'[data-fancybox="seahivez-yacht-gallery"]',
+	'[data-fancybox="extras-gallery"]',
 ];
 
 let fancyboxBound = false;

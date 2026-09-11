@@ -30,6 +30,9 @@ const toyIconChoices = {
 	water: 'Drinking Water',
 	flippers: 'Flippers',
 	swimming: 'Swimming',
+	food: 'Food',
+	drinks: 'Drinks',
+	'children-menu': "Children's Menu",
 };
 
 const baseGroup = {
@@ -264,6 +267,31 @@ const layouts = {
 				type: 'repeater',
 				button_label: 'Add amenity',
 				sub_fields: [{ key: 'field_shvz_extras_amenity_text', label: 'Text', name: 'text', type: 'text' }],
+			},
+			{ key: 'field_shvz_extras_food_eyebrow', label: 'Food & drinks eyebrow', name: 'food_drinks_eyebrow', type: 'text' },
+			{ key: 'field_shvz_extras_food_status', label: 'Food & drinks status', name: 'food_drinks_status', type: 'text' },
+			{ key: 'field_shvz_extras_food_note', label: 'Food & drinks note', name: 'food_drinks_note', type: 'text' },
+			{
+				key: 'field_shvz_extras_food_items',
+				label: 'Food & drinks items',
+				name: 'food_drinks_items',
+				type: 'repeater',
+				button_label: 'Add food / drink item',
+				sub_fields: [
+					{
+						key: 'field_shvz_extras_food_item_id',
+						label: 'Item ID',
+						name: 'item_id',
+						type: 'select',
+						choices: { food: 'Food', drinks: 'Drinks', children: "Children's Menu" },
+						allow_null: 1,
+					},
+					{ key: 'field_shvz_extras_food_icon', label: 'Icon', name: 'icon', type: 'select', choices: toyIconChoices },
+					{ key: 'field_shvz_extras_food_title', label: 'Title', name: 'title', type: 'text' },
+					{ key: 'field_shvz_extras_food_price', label: 'Price', name: 'price', type: 'number', min: 0 },
+					{ key: 'field_shvz_extras_food_unit', label: 'Unit', name: 'unit', type: 'text' },
+					{ key: 'field_shvz_extras_food_description', label: 'Description', name: 'description', type: 'textarea', rows: 2 },
+				],
 			},
 		],
 	},

@@ -567,7 +567,8 @@ function seahivez_get_yacht_crew_header() {
  */
 function seahivez_get_experience_included_items() {
 	$defaults = array(
-		__( 'Professional captain & deckhand', 'seahivez-theme' ),
+		__( '6 snorkel sets', 'seahivez-theme' ),
+		__( '2 paddle boards', 'seahivez-theme' ),
 		__( 'Towel service', 'seahivez-theme' ),
 		__( 'Final cleaning', 'seahivez-theme' ),
 		__( 'Insurance & taxes', 'seahivez-theme' ),
@@ -1090,11 +1091,11 @@ function seahivez_get_extras_page_hero() {
 		seahivez_get_page_hero_defaults(
 			array(
 				'eyebrow'     => __( 'Toys & Extras', 'seahivez-theme' ),
-				'heading'     => __( 'More ways to enjoy the water', 'seahivez-theme' ),
-				'description' => __( 'From essential equipment included in every charter to premium water toys available on request.', 'seahivez-theme' ),
-				'image'       => seahivez_get_theme_image_uri( 'assets/images/photo/1.jpg' ),
-				'image_alt'   => __( 'Water toys and extras', 'seahivez-theme' ),
-				'compact'     => true,
+				'heading'     => __( 'Everything for your day on the water', 'seahivez-theme' ),
+				'description' => __( 'From essential equipment to premium water toys, food and drinks, everything can be prepared for your day aboard SeaHivez.', 'seahivez-theme' ),
+				'image'       => seahivez_get_theme_image_uri( 'assets/images/photo/3.jpg' ),
+				'image_alt'   => __( 'Water toys and yacht experience aboard SeaHivez', 'seahivez-theme' ),
+				'size'        => 'extras',
 			)
 		)
 	);
@@ -1106,63 +1107,7 @@ function seahivez_get_extras_page_hero() {
  * @return array<string, mixed>
  */
 function seahivez_get_extras_page_data() {
-	$defaults = seahivez_get_home_extras_data();
-
-	if ( ! seahivez_acf_is_active() ) {
-		return $defaults;
-	}
-
-	$content = get_field( 'extras_content' );
-
-	if ( empty( $content ) || ! is_array( $content ) ) {
-		return $defaults;
-	}
-
-	$included = array();
-	$paid     = array();
-	$amenities = array();
-
-	if ( ! empty( $content['included'] ) && is_array( $content['included'] ) ) {
-		foreach ( $content['included'] as $row ) {
-			$included[] = array(
-				'icon'     => seahivez_normalize_acf_icon( $row['icon'] ?? '' ),
-				'title'    => (string) ( $row['title'] ?? '' ),
-				'included' => true,
-			);
-		}
-	}
-
-	if ( ! empty( $content['paid'] ) && is_array( $content['paid'] ) ) {
-		foreach ( $content['paid'] as $row ) {
-			$paid[] = array(
-				'icon'     => seahivez_normalize_acf_icon( $row['icon'] ?? '' ),
-				'title'    => (string) ( $row['title'] ?? '' ),
-				'price'    => (string) ( $row['price'] ?? '' ),
-				'included' => false,
-			);
-		}
-	}
-
-	if ( ! empty( $content['amenities'] ) && is_array( $content['amenities'] ) ) {
-		foreach ( $content['amenities'] as $row ) {
-			if ( ! empty( $row['text'] ) ) {
-				$amenities[] = (string) $row['text'];
-			}
-		}
-	}
-
-	return array(
-		'eyebrow'          => ! empty( $content['eyebrow'] ) ? (string) $content['eyebrow'] : $defaults['eyebrow'],
-		'heading'          => ! empty( $content['heading'] ) ? (string) $content['heading'] : $defaults['heading'],
-		'description'      => ! empty( $content['description'] ) ? (string) $content['description'] : $defaults['description'],
-		'included_heading' => ! empty( $content['included_heading'] ) ? (string) $content['included_heading'] : $defaults['included_heading'],
-		'included_helper'  => ! empty( $content['included_helper'] ) ? (string) $content['included_helper'] : $defaults['included_helper'],
-		'paid_heading'     => ! empty( $content['paid_heading'] ) ? (string) $content['paid_heading'] : $defaults['paid_heading'],
-		'paid_helper'      => ! empty( $content['paid_helper'] ) ? (string) $content['paid_helper'] : $defaults['paid_helper'],
-		'included'         => ! empty( $included ) ? $included : $defaults['included'],
-		'paid'             => ! empty( $paid ) ? $paid : $defaults['paid'],
-		'amenities'        => ! empty( $amenities ) ? $amenities : $defaults['amenities'],
-	);
+	return seahivez_get_extras_page_sections();
 }
 
 /**

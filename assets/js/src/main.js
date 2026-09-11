@@ -4,6 +4,7 @@ import { initReveal } from './reveal.js';
 import { initGallery } from './gallery.js';
 import { initFaq } from './faq.js';
 import { initMap } from './map.js';
+import { initCharterCalculator, initExtrasPageCalculator } from './charter-calculator.js';
 
 document.addEventListener( 'DOMContentLoaded', () => {
 	initNavigation();
@@ -12,4 +13,6 @@ document.addEventListener( 'DOMContentLoaded', () => {
 	initGallery();
 	initFaq();
 	initMap();
+	initCharterCalculator();
+	initExtrasPageCalculator();
 } );

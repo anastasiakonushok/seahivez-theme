@@ -923,6 +923,205 @@
                                     "append": ""
                                 }
                             ]
+                        },
+                        {
+                            "required": 0,
+                            "conditional_logic": 0,
+                            "wrapper": {
+                                "width": "",
+                                "class": "",
+                                "id": ""
+                            },
+                            "key": "field_shvz_extras_food_eyebrow",
+                            "label": "Food & drinks eyebrow",
+                            "name": "food_drinks_eyebrow",
+                            "type": "text",
+                            "default_value": "",
+                            "maxlength": "",
+                            "placeholder": "",
+                            "prepend": "",
+                            "append": ""
+                        },
+                        {
+                            "required": 0,
+                            "conditional_logic": 0,
+                            "wrapper": {
+                                "width": "",
+                                "class": "",
+                                "id": ""
+                            },
+                            "key": "field_shvz_extras_food_status",
+                            "label": "Food & drinks status",
+                            "name": "food_drinks_status",
+                            "type": "text",
+                            "default_value": "",
+                            "maxlength": "",
+                            "placeholder": "",
+                            "prepend": "",
+                            "append": ""
+                        },
+                        {
+                            "required": 0,
+                            "conditional_logic": 0,
+                            "wrapper": {
+                                "width": "",
+                                "class": "",
+                                "id": ""
+                            },
+                            "key": "field_shvz_extras_food_note",
+                            "label": "Food & drinks note",
+                            "name": "food_drinks_note",
+                            "type": "text",
+                            "default_value": "",
+                            "maxlength": "",
+                            "placeholder": "",
+                            "prepend": "",
+                            "append": ""
+                        },
+                        {
+                            "required": 0,
+                            "conditional_logic": 0,
+                            "wrapper": {
+                                "width": "",
+                                "class": "",
+                                "id": ""
+                            },
+                            "key": "field_shvz_extras_food_items",
+                            "label": "Food & drinks items",
+                            "name": "food_drinks_items",
+                            "type": "repeater",
+                            "layout": "table",
+                            "min": 0,
+                            "max": 0,
+                            "collapsed": "",
+                            "button_label": "Add food / drink item",
+                            "sub_fields": [
+                                {
+                                    "required": 0,
+                                    "conditional_logic": 0,
+                                    "wrapper": {
+                                        "width": "",
+                                        "class": "",
+                                        "id": ""
+                                    },
+                                    "key": "field_shvz_extras_food_item_id",
+                                    "label": "Item ID",
+                                    "name": "item_id",
+                                    "type": "select",
+                                    "choices": {
+                                        "food": "Food",
+                                        "drinks": "Drinks",
+                                        "children": "Children's Menu"
+                                    },
+                                    "default_value": false,
+                                    "return_format": "value",
+                                    "multiple": 0,
+                                    "allow_null": 1,
+                                    "ui": 0,
+                                    "ajax": 0,
+                                    "placeholder": "",
+                                    "instructions": "Links this row to the charter calculator pricing. Leave empty for display-only rows."
+                                },
+                                {
+                                    "required": 0,
+                                    "conditional_logic": 0,
+                                    "wrapper": {
+                                        "width": "",
+                                        "class": "",
+                                        "id": ""
+                                    },
+                                    "key": "field_shvz_extras_food_icon",
+                                    "label": "Icon",
+                                    "name": "icon",
+                                    "type": "image",
+                                    "return_format": "array",
+                                    "preview_size": "thumbnail",
+                                    "library": "all",
+                                    "min_width": "",
+                                    "min_height": "",
+                                    "min_size": "",
+                                    "max_width": "",
+                                    "max_height": "",
+                                    "max_size": "",
+                                    "mime_types": "svg,png",
+                                    "instructions": "Choose an SVG/PNG from assets/images/icons/ or upload your own."
+                                },
+                                {
+                                    "required": 0,
+                                    "conditional_logic": 0,
+                                    "wrapper": {
+                                        "width": "",
+                                        "class": "",
+                                        "id": ""
+                                    },
+                                    "key": "field_shvz_extras_food_title",
+                                    "label": "Title",
+                                    "name": "title",
+                                    "type": "text",
+                                    "default_value": "",
+                                    "maxlength": "",
+                                    "placeholder": "",
+                                    "prepend": "",
+                                    "append": ""
+                                },
+                                {
+                                    "required": 0,
+                                    "conditional_logic": 0,
+                                    "wrapper": {
+                                        "width": "",
+                                        "class": "",
+                                        "id": ""
+                                    },
+                                    "key": "field_shvz_extras_food_price",
+                                    "label": "Price",
+                                    "name": "price",
+                                    "type": "number",
+                                    "default_value": "",
+                                    "min": 0,
+                                    "max": "",
+                                    "step": 1,
+                                    "placeholder": "",
+                                    "prepend": "",
+                                    "append": ""
+                                },
+                                {
+                                    "required": 0,
+                                    "conditional_logic": 0,
+                                    "wrapper": {
+                                        "width": "",
+                                        "class": "",
+                                        "id": ""
+                                    },
+                                    "key": "field_shvz_extras_food_unit",
+                                    "label": "Unit",
+                                    "name": "unit",
+                                    "type": "text",
+                                    "default_value": "",
+                                    "maxlength": "",
+                                    "placeholder": "",
+                                    "prepend": "",
+                                    "append": "",
+                                    "instructions": "e.g. person or child"
+                                },
+                                {
+                                    "required": 0,
+                                    "conditional_logic": 0,
+                                    "wrapper": {
+                                        "width": "",
+                                        "class": "",
+                                        "id": ""
+                                    },
+                                    "key": "field_shvz_extras_food_description",
+                                    "label": "Description",
+                                    "name": "description",
+                                    "type": "textarea",
+                                    "default_value": "",
+                                    "maxlength": "",
+                                    "rows": 2,
+                                    "placeholder": "",
+                                    "new_lines": ""
+                                }
+                            ]
                         }
                     ],
                     "min": "",
@@ -1399,5 +1598,5 @@
     "active": true,
     "description": "",
     "show_in_rest": 0,
-    "modified": 1788956665
+    "modified": 1789118028
 }

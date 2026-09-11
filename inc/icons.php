@@ -30,10 +30,17 @@ function seahivez_get_icon_path( $icon_name ) {
 		return false;
 	}
 
-	$relative = seahivez_get_icons_base_relative_path() . $icon_name . '.svg';
-	$path     = get_theme_file_path( $relative );
+	$base_path = get_theme_file_path( seahivez_get_icons_base_relative_path() );
 
-	return file_exists( $path ) ? $path : false;
+	foreach ( array( 'svg', 'png' ) as $extension ) {
+		$path = $base_path . $icon_name . '.' . $extension;
+
+		if ( file_exists( $path ) ) {
+			return $path;
+		}
+	}
+
+	return false;
 }
 
 /**
@@ -49,7 +56,15 @@ function seahivez_get_icon_uri( $icon_name ) {
 		return '';
 	}
 
-	return get_theme_file_uri( seahivez_get_icons_base_relative_path() . $icon_name . '.svg' );
+	foreach ( array( 'svg', 'png' ) as $extension ) {
+		$relative = seahivez_get_icons_base_relative_path() . $icon_name . '.' . $extension;
+
+		if ( file_exists( get_theme_file_path( $relative ) ) ) {
+			return get_theme_file_uri( $relative );
+		}
+	}
+
+	return '';
 }
 
 /**
@@ -219,6 +234,16 @@ function seahivez_render_flexible_icon( $icon, $args = array() ) {
 	if ( ! empty( $normalized['slug'] ) ) {
 		$path = seahivez_get_icon_path( $normalized['slug'] );
 
+		if ( $path && preg_match( '/\.png$/i', $path ) ) {
+			printf(
+				'<img src="%1$s" alt="" class="%2$s"%3$s />',
+				esc_url( seahivez_get_icon_uri( $normalized['slug'] ) ),
+				esc_attr( $args['class'] ),
+				$args['aria_hidden'] ? ' aria-hidden="true"' : ''
+			);
+			return;
+		}
+
 		if ( $path ) {
 			// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 			echo seahivez_get_inline_svg_from_path( $path, $args );
@@ -298,11 +323,18 @@ function seahivez_get_allowed_toy_icons() {
 		'paddle-board'  => __( 'Paddle Board', 'seahivez-theme' ),
 		'seabob'        => __( 'SeaBob', 'seahivez-theme' ),
 		'jet-ski'       => __( 'Jet Ski', 'seahivez-theme' ),
-		'efoil-air'     => __( 'Efoil Air', 'seahivez-theme' ),
-		'towel'         => __( 'Towel Service', 'seahivez-theme' ),
-		'water'         => __( 'Drinking Water', 'seahivez-theme' ),
-		'flippers'      => __( 'Flippers', 'seahivez-theme' ),
-		'swimming'      => __( 'Swimming', 'seahivez-theme' ),
+		'efoil-air'        => __( 'Efoil Air', 'seahivez-theme' ),
+		'donat'            => __( 'Donat', 'seahivez-theme' ),
+		'fishing-package'  => __( 'Fishing Package', 'seahivez-theme' ),
+		'towel'          => __( 'Towel Service', 'seahivez-theme' ),
+		'water'          => __( 'Drinking Water', 'seahivez-theme' ),
+		'flippers'       => __( 'Flippers', 'seahivez-theme' ),
+		'swimming'       => __( 'Swimming', 'seahivez-theme' ),
+		'food'           => __( 'Food', 'seahivez-theme' ),
+		'drinks'         => __( 'Drinks', 'seahivez-theme' ),
+		'children-menu'  => __( "Children's Menu", 'seahivez-theme' ),
+		'cleaning'       => __( 'Final Cleaning', 'seahivez-theme' ),
+		'insurance'      => __( 'Insurance', 'seahivez-theme' ),
 	);
 }
 

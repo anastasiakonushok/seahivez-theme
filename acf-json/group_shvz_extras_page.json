@@ -139,66 +139,61 @@
                 "class": "",
                 "id": ""
             },
-            "key": "field_shvz_extrasp_content",
-            "label": "Page content",
-            "name": "extras_content",
+            "key": "field_shvz_extrasp_tab_intro",
+            "label": "Intro",
+            "name": "",
+            "type": "tab",
+            "placement": "top",
+            "endpoint": 0
+        },
+        {
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "key": "field_shvz_extrasp_intro",
+            "label": "Intro text",
+            "name": "intro",
+            "type": "textarea",
+            "default_value": "",
+            "maxlength": "",
+            "rows": 4,
+            "placeholder": "",
+            "new_lines": "",
+            "instructions": "Editorial paragraph below the hero."
+        },
+        {
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "key": "field_shvz_extrasp_tab_included",
+            "label": "Included",
+            "name": "",
+            "type": "tab",
+            "placement": "top",
+            "endpoint": 0
+        },
+        {
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "key": "field_shvz_extrasp_included_section",
+            "label": "Included section",
+            "name": "included_section",
             "type": "group",
             "layout": "block",
             "sub_fields": [
-                {
-                    "required": 0,
-                    "conditional_logic": 0,
-                    "wrapper": {
-                        "width": "",
-                        "class": "",
-                        "id": ""
-                    },
-                    "key": "field_shvz_extrasp_eyebrow",
-                    "label": "Eyebrow",
-                    "name": "eyebrow",
-                    "type": "text",
-                    "default_value": "",
-                    "maxlength": "",
-                    "placeholder": "",
-                    "prepend": "",
-                    "append": ""
-                },
-                {
-                    "required": 0,
-                    "conditional_logic": 0,
-                    "wrapper": {
-                        "width": "",
-                        "class": "",
-                        "id": ""
-                    },
-                    "key": "field_shvz_extrasp_heading",
-                    "label": "Heading",
-                    "name": "heading",
-                    "type": "text",
-                    "default_value": "",
-                    "maxlength": "",
-                    "placeholder": "",
-                    "prepend": "",
-                    "append": ""
-                },
-                {
-                    "required": 0,
-                    "conditional_logic": 0,
-                    "wrapper": {
-                        "width": "",
-                        "class": "",
-                        "id": ""
-                    },
-                    "key": "field_shvz_extrasp_description",
-                    "label": "Description",
-                    "name": "description",
-                    "type": "textarea",
-                    "default_value": "",
-                    "maxlength": "",
-                    "rows": 3,
-                    "placeholder": "",
-                    "new_lines": ""
-                },
                 {
                     "required": 0,
                     "conditional_logic": 0,
@@ -243,6 +238,197 @@
                         "class": "",
                         "id": ""
                     },
+                    "key": "field_shvz_extrasp_included_equipment",
+                    "label": "Included equipment",
+                    "name": "included_equipment",
+                    "type": "repeater",
+                    "layout": "block",
+                    "min": 0,
+                    "max": 0,
+                    "collapsed": "",
+                    "button_label": "Add equipment item",
+                    "sub_fields": [
+                        {
+                            "required": 0,
+                            "conditional_logic": 0,
+                            "wrapper": {
+                                "width": "",
+                                "class": "",
+                                "id": ""
+                            },
+                            "key": "field_shvz_extrasp_inc_eq_icon",
+                            "label": "Icon",
+                            "name": "icon",
+                            "type": "image",
+                            "return_format": "array",
+                            "preview_size": "thumbnail",
+                            "library": "all",
+                            "min_width": "",
+                            "min_height": "",
+                            "min_size": "",
+                            "max_width": "",
+                            "max_height": "",
+                            "max_size": "",
+                            "mime_types": "svg",
+                            "instructions": "Choose an SVG from assets/images/icons/ or upload your own."
+                        },
+                        {
+                            "required": 0,
+                            "conditional_logic": 0,
+                            "wrapper": {
+                                "width": "",
+                                "class": "",
+                                "id": ""
+                            },
+                            "key": "field_shvz_extrasp_inc_eq_title",
+                            "label": "Title",
+                            "name": "title",
+                            "type": "text",
+                            "default_value": "",
+                            "maxlength": "",
+                            "placeholder": "",
+                            "prepend": "",
+                            "append": ""
+                        },
+                        {
+                            "required": 0,
+                            "conditional_logic": 0,
+                            "wrapper": {
+                                "width": "",
+                                "class": "",
+                                "id": ""
+                            },
+                            "key": "field_shvz_extrasp_inc_eq_status",
+                            "label": "Status",
+                            "name": "status",
+                            "type": "text",
+                            "default_value": "",
+                            "maxlength": "",
+                            "placeholder": "Included",
+                            "prepend": "",
+                            "append": ""
+                        },
+                        {
+                            "required": 0,
+                            "conditional_logic": 0,
+                            "wrapper": {
+                                "width": "",
+                                "class": "",
+                                "id": ""
+                            },
+                            "key": "field_shvz_extrasp_inc_eq_description",
+                            "label": "Description",
+                            "name": "description",
+                            "type": "textarea",
+                            "default_value": "",
+                            "maxlength": "",
+                            "rows": 3,
+                            "placeholder": "",
+                            "new_lines": ""
+                        }
+                    ]
+                },
+                {
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "key": "field_shvz_extrasp_included_services",
+                    "label": "Included services",
+                    "name": "included_services",
+                    "type": "repeater",
+                    "layout": "table",
+                    "min": 0,
+                    "max": 0,
+                    "collapsed": "",
+                    "button_label": "Add service",
+                    "sub_fields": [
+                        {
+                            "required": 0,
+                            "conditional_logic": 0,
+                            "wrapper": {
+                                "width": "",
+                                "class": "",
+                                "id": ""
+                            },
+                            "key": "field_shvz_extrasp_inc_svc_icon",
+                            "label": "Icon",
+                            "name": "icon",
+                            "type": "image",
+                            "return_format": "array",
+                            "preview_size": "thumbnail",
+                            "library": "all",
+                            "min_width": "",
+                            "min_height": "",
+                            "min_size": "",
+                            "max_width": "",
+                            "max_height": "",
+                            "max_size": "",
+                            "mime_types": "svg",
+                            "instructions": "Choose an SVG from assets/images/icons/ or upload your own."
+                        },
+                        {
+                            "required": 0,
+                            "conditional_logic": 0,
+                            "wrapper": {
+                                "width": "",
+                                "class": "",
+                                "id": ""
+                            },
+                            "key": "field_shvz_extrasp_inc_svc_label",
+                            "label": "Label",
+                            "name": "label",
+                            "type": "text",
+                            "default_value": "",
+                            "maxlength": "",
+                            "placeholder": "",
+                            "prepend": "",
+                            "append": ""
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "key": "field_shvz_extrasp_tab_paid",
+            "label": "Paid extras",
+            "name": "",
+            "type": "tab",
+            "placement": "top",
+            "endpoint": 0
+        },
+        {
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "key": "field_shvz_extrasp_paid_section",
+            "label": "Paid extras section",
+            "name": "paid_section",
+            "type": "group",
+            "layout": "block",
+            "sub_fields": [
+                {
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
                     "key": "field_shvz_extrasp_paid_heading",
                     "label": "Paid heading",
                     "name": "paid_heading",
@@ -279,78 +465,44 @@
                         "class": "",
                         "id": ""
                     },
-                    "key": "field_shvz_extrasp_included",
-                    "label": "Included items",
-                    "name": "included",
-                    "type": "repeater",
-                    "layout": "table",
-                    "min": 0,
-                    "max": 0,
-                    "collapsed": "",
-                    "button_label": "Add included item",
-                    "sub_fields": [
-                        {
-                            "required": 0,
-                            "conditional_logic": 0,
-                            "wrapper": {
-                                "width": "",
-                                "class": "",
-                                "id": ""
-                            },
-                            "key": "field_shvz_extrasp_inc_icon",
-                            "label": "Icon",
-                            "name": "icon",
-                            "type": "image",
-                            "return_format": "array",
-                            "preview_size": "thumbnail",
-                            "library": "all",
-                            "min_width": "",
-                            "min_height": "",
-                            "min_size": "",
-                            "max_width": "",
-                            "max_height": "",
-                            "max_size": "",
-                            "mime_types": "svg",
-                            "instructions": "Choose an SVG from assets/images/icons/ or upload your own."
-                        },
-                        {
-                            "required": 0,
-                            "conditional_logic": 0,
-                            "wrapper": {
-                                "width": "",
-                                "class": "",
-                                "id": ""
-                            },
-                            "key": "field_shvz_extrasp_inc_title",
-                            "label": "Title",
-                            "name": "title",
-                            "type": "text",
-                            "default_value": "",
-                            "maxlength": "",
-                            "placeholder": "",
-                            "prepend": "",
-                            "append": ""
-                        }
-                    ]
-                },
-                {
-                    "required": 0,
-                    "conditional_logic": 0,
-                    "wrapper": {
-                        "width": "",
-                        "class": "",
-                        "id": ""
-                    },
-                    "key": "field_shvz_extrasp_paid",
+                    "key": "field_shvz_extrasp_paid_items",
                     "label": "Paid extras",
-                    "name": "paid",
+                    "name": "paid_items",
                     "type": "repeater",
-                    "layout": "table",
+                    "layout": "block",
                     "min": 0,
                     "max": 0,
                     "collapsed": "",
                     "button_label": "Add paid extra",
                     "sub_fields": [
+                        {
+                            "required": 0,
+                            "conditional_logic": 0,
+                            "wrapper": {
+                                "width": "",
+                                "class": "",
+                                "id": ""
+                            },
+                            "key": "field_shvz_extrasp_paid_item_id",
+                            "label": "Catalog ID",
+                            "name": "item_id",
+                            "type": "select",
+                            "choices": {
+                                "seabob": "SeaBob",
+                                "jet-ski": "Jet Ski",
+                                "efoil-air": "Efoil Air",
+                                "donat": "Donut",
+                                "fishing-package": "Fishing Package"
+                            },
+                            "default_value": false,
+                            "return_format": "value",
+                            "multiple": 0,
+                            "allow_null": 1,
+                            "ui": 0,
+                            "ajax": 0,
+                            "placeholder": "",
+                            "instructions": "Links to charter calculator pricing. Leave empty for custom rows."
+                        },
                         {
                             "required": 0,
                             "conditional_logic": 0,
@@ -402,16 +554,86 @@
                                 "id": ""
                             },
                             "key": "field_shvz_extrasp_paid_price",
-                            "label": "Price",
+                            "label": "Price (€)",
                             "name": "price",
-                            "type": "text",
+                            "type": "number",
                             "default_value": "",
-                            "maxlength": "",
+                            "min": 0,
+                            "max": "",
+                            "step": 1,
                             "placeholder": "",
                             "prepend": "",
-                            "append": ""
+                            "append": "",
+                            "instructions": "Leave empty to use the theme default price."
+                        },
+                        {
+                            "required": 0,
+                            "conditional_logic": 0,
+                            "wrapper": {
+                                "width": "",
+                                "class": "",
+                                "id": ""
+                            },
+                            "key": "field_shvz_extrasp_paid_description",
+                            "label": "Description",
+                            "name": "description",
+                            "type": "textarea",
+                            "default_value": "",
+                            "maxlength": "",
+                            "rows": 3,
+                            "placeholder": "",
+                            "new_lines": ""
                         }
                     ]
+                }
+            ]
+        },
+        {
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "key": "field_shvz_extrasp_tab_food",
+            "label": "Food & drinks",
+            "name": "",
+            "type": "tab",
+            "placement": "top",
+            "endpoint": 0
+        },
+        {
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "key": "field_shvz_extrasp_food_drinks",
+            "label": "Food & drinks",
+            "name": "food_drinks",
+            "type": "group",
+            "layout": "block",
+            "sub_fields": [
+                {
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "key": "field_shvz_extrasp_food_eyebrow",
+                    "label": "Eyebrow",
+                    "name": "eyebrow",
+                    "type": "text",
+                    "default_value": "",
+                    "maxlength": "",
+                    "placeholder": "",
+                    "prepend": "",
+                    "append": ""
                 },
                 {
                     "required": 0,
@@ -421,15 +643,51 @@
                         "class": "",
                         "id": ""
                     },
-                    "key": "field_shvz_extrasp_amenities",
-                    "label": "Amenities",
-                    "name": "amenities",
+                    "key": "field_shvz_extrasp_food_status",
+                    "label": "Status",
+                    "name": "status",
+                    "type": "text",
+                    "default_value": "",
+                    "maxlength": "",
+                    "placeholder": "",
+                    "prepend": "",
+                    "append": ""
+                },
+                {
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "key": "field_shvz_extrasp_food_note",
+                    "label": "Note",
+                    "name": "note",
+                    "type": "text",
+                    "default_value": "",
+                    "maxlength": "",
+                    "placeholder": "",
+                    "prepend": "",
+                    "append": ""
+                },
+                {
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "key": "field_shvz_extrasp_food_items",
+                    "label": "Food & drinks items",
+                    "name": "items",
                     "type": "repeater",
                     "layout": "table",
                     "min": 0,
                     "max": 0,
                     "collapsed": "",
-                    "button_label": "Add amenity",
+                    "button_label": "Add food / drink item",
                     "sub_fields": [
                         {
                             "required": 0,
@@ -439,19 +697,472 @@
                                 "class": "",
                                 "id": ""
                             },
-                            "key": "field_shvz_extrasp_amenity_text",
-                            "label": "Text",
-                            "name": "text",
+                            "key": "field_shvz_extrasp_food_item_id",
+                            "label": "Item ID",
+                            "name": "item_id",
+                            "type": "select",
+                            "choices": {
+                                "food": "Food",
+                                "drinks": "Drinks",
+                                "children": "Children's Menu"
+                            },
+                            "default_value": false,
+                            "return_format": "value",
+                            "multiple": 0,
+                            "allow_null": 1,
+                            "ui": 0,
+                            "ajax": 0,
+                            "placeholder": "",
+                            "instructions": "Links this row to charter calculator pricing. Leave empty for custom display-only rows."
+                        },
+                        {
+                            "required": 0,
+                            "conditional_logic": 0,
+                            "wrapper": {
+                                "width": "",
+                                "class": "",
+                                "id": ""
+                            },
+                            "key": "field_shvz_extrasp_food_icon",
+                            "label": "Icon",
+                            "name": "icon",
+                            "type": "image",
+                            "return_format": "array",
+                            "preview_size": "thumbnail",
+                            "library": "all",
+                            "min_width": "",
+                            "min_height": "",
+                            "min_size": "",
+                            "max_width": "",
+                            "max_height": "",
+                            "max_size": "",
+                            "mime_types": "svg,png",
+                            "instructions": "Choose an SVG/PNG from assets/images/icons/ or upload your own."
+                        },
+                        {
+                            "required": 0,
+                            "conditional_logic": 0,
+                            "wrapper": {
+                                "width": "",
+                                "class": "",
+                                "id": ""
+                            },
+                            "key": "field_shvz_extrasp_food_title",
+                            "label": "Title",
+                            "name": "title",
                             "type": "text",
                             "default_value": "",
                             "maxlength": "",
                             "placeholder": "",
                             "prepend": "",
                             "append": ""
+                        },
+                        {
+                            "required": 0,
+                            "conditional_logic": 0,
+                            "wrapper": {
+                                "width": "",
+                                "class": "",
+                                "id": ""
+                            },
+                            "key": "field_shvz_extrasp_food_price",
+                            "label": "Price",
+                            "name": "price",
+                            "type": "number",
+                            "default_value": "",
+                            "min": 0,
+                            "max": "",
+                            "step": 1,
+                            "placeholder": "",
+                            "prepend": "",
+                            "append": ""
+                        },
+                        {
+                            "required": 0,
+                            "conditional_logic": 0,
+                            "wrapper": {
+                                "width": "",
+                                "class": "",
+                                "id": ""
+                            },
+                            "key": "field_shvz_extrasp_food_unit",
+                            "label": "Unit",
+                            "name": "unit",
+                            "type": "text",
+                            "default_value": "",
+                            "maxlength": "",
+                            "placeholder": "",
+                            "prepend": "",
+                            "append": "",
+                            "instructions": "e.g. person or child"
+                        },
+                        {
+                            "required": 0,
+                            "conditional_logic": 0,
+                            "wrapper": {
+                                "width": "",
+                                "class": "",
+                                "id": ""
+                            },
+                            "key": "field_shvz_extrasp_food_description",
+                            "label": "Description",
+                            "name": "description",
+                            "type": "textarea",
+                            "default_value": "",
+                            "maxlength": "",
+                            "rows": 2,
+                            "placeholder": "",
+                            "new_lines": ""
+                        },
+                        {
+                            "required": 0,
+                            "conditional_logic": 0,
+                            "wrapper": {
+                                "width": "",
+                                "class": "",
+                                "id": ""
+                            },
+                            "key": "field_shvz_extrasp_food_description_list",
+                            "label": "Description list",
+                            "name": "description_list",
+                            "type": "textarea",
+                            "default_value": "",
+                            "maxlength": "",
+                            "rows": 4,
+                            "placeholder": "",
+                            "new_lines": "",
+                            "instructions": "Optional. One line per list item (e.g. drinks menu)."
                         }
                     ]
                 }
             ]
+        },
+        {
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "key": "field_shvz_extrasp_tab_good_to_know",
+            "label": "Good to know",
+            "name": "",
+            "type": "tab",
+            "placement": "top",
+            "endpoint": 0
+        },
+        {
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "key": "field_shvz_extrasp_good_to_know",
+            "label": "Good to know",
+            "name": "good_to_know",
+            "type": "group",
+            "layout": "block",
+            "sub_fields": [
+                {
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "key": "field_shvz_extrasp_gtk_title",
+                    "label": "Section title",
+                    "name": "title",
+                    "type": "text",
+                    "default_value": "",
+                    "maxlength": "",
+                    "placeholder": "",
+                    "prepend": "",
+                    "append": ""
+                },
+                {
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "key": "field_shvz_extrasp_gtk_items",
+                    "label": "Notes",
+                    "name": "items",
+                    "type": "repeater",
+                    "layout": "table",
+                    "min": 0,
+                    "max": 0,
+                    "collapsed": "",
+                    "button_label": "Add note",
+                    "sub_fields": [
+                        {
+                            "required": 0,
+                            "conditional_logic": 0,
+                            "wrapper": {
+                                "width": "",
+                                "class": "",
+                                "id": ""
+                            },
+                            "key": "field_shvz_extrasp_gtk_text",
+                            "label": "Text",
+                            "name": "text",
+                            "type": "textarea",
+                            "default_value": "",
+                            "maxlength": "",
+                            "rows": 2,
+                            "placeholder": "",
+                            "new_lines": ""
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "key": "field_shvz_extrasp_tab_calculator",
+            "label": "Calculator",
+            "name": "",
+            "type": "tab",
+            "placement": "top",
+            "endpoint": 0
+        },
+        {
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "key": "field_shvz_extrasp_calculator",
+            "label": "Package calculator",
+            "name": "calculator",
+            "type": "group",
+            "layout": "block",
+            "sub_fields": [
+                {
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "key": "field_shvz_extrasp_calc_eyebrow",
+                    "label": "Eyebrow",
+                    "name": "eyebrow",
+                    "type": "text",
+                    "default_value": "",
+                    "maxlength": "",
+                    "placeholder": "Plan your charter",
+                    "prepend": "",
+                    "append": ""
+                },
+                {
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "key": "field_shvz_extrasp_calc_heading",
+                    "label": "Heading",
+                    "name": "heading",
+                    "type": "text",
+                    "default_value": "",
+                    "maxlength": "",
+                    "placeholder": "Calculate your charter price",
+                    "prepend": "",
+                    "append": ""
+                },
+                {
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "key": "field_shvz_extrasp_calc_description",
+                    "label": "Description",
+                    "name": "description",
+                    "type": "textarea",
+                    "default_value": "",
+                    "maxlength": "",
+                    "rows": 3,
+                    "placeholder": "",
+                    "new_lines": ""
+                },
+                {
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "key": "field_shvz_extrasp_calc_packages",
+                    "label": "Packages",
+                    "name": "packages",
+                    "type": "relationship",
+                    "post_type": [
+                        "package"
+                    ],
+                    "taxonomy": "",
+                    "filters": [
+                        "search",
+                        "post_type"
+                    ],
+                    "elements": [
+                        "featured_image"
+                    ],
+                    "min": 0,
+                    "max": 0,
+                    "return_format": "object",
+                    "layout": "block",
+                    "instructions": "Select packages to show. Leave empty to display all packages (menu order)."
+                }
+            ]
+        },
+        {
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "key": "field_shvz_extrasp_tab_gallery",
+            "label": "Gallery",
+            "name": "",
+            "type": "tab",
+            "placement": "top",
+            "endpoint": 0
+        },
+        {
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "key": "field_shvz_extrasp_gallery",
+            "label": "Gallery",
+            "name": "gallery",
+            "type": "group",
+            "layout": "block",
+            "sub_fields": [
+                {
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "key": "field_shvz_extrasp_gallery_eyebrow",
+                    "label": "Eyebrow",
+                    "name": "eyebrow",
+                    "type": "text",
+                    "default_value": "",
+                    "maxlength": "",
+                    "placeholder": "",
+                    "prepend": "",
+                    "append": ""
+                },
+                {
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "key": "field_shvz_extrasp_gallery_heading",
+                    "label": "Heading",
+                    "name": "heading",
+                    "type": "text",
+                    "default_value": "",
+                    "maxlength": "",
+                    "placeholder": "",
+                    "prepend": "",
+                    "append": ""
+                },
+                {
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "key": "field_shvz_extrasp_gallery_description",
+                    "label": "Description",
+                    "name": "description",
+                    "type": "textarea",
+                    "default_value": "",
+                    "maxlength": "",
+                    "rows": 3,
+                    "placeholder": "",
+                    "new_lines": ""
+                },
+                {
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "key": "field_shvz_extrasp_gallery_images",
+                    "label": "Images",
+                    "name": "images",
+                    "type": "gallery",
+                    "return_format": "array",
+                    "preview_size": "medium",
+                    "insert": "append",
+                    "library": "all",
+                    "min": "",
+                    "max": "",
+                    "min_width": "",
+                    "min_height": "",
+                    "min_size": "",
+                    "max_width": "",
+                    "max_height": "",
+                    "max_size": "",
+                    "mime_types": ""
+                }
+            ]
+        },
+        {
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "key": "field_shvz_extrasp_tab_cta",
+            "label": "Booking CTA",
+            "name": "",
+            "type": "tab",
+            "placement": "top",
+            "endpoint": 0
         },
         {
             "required": 0,
@@ -539,5 +1250,5 @@
     "active": true,
     "description": "",
     "show_in_rest": 0,
-    "modified": 1788956665
+    "modified": 1789118028
 }

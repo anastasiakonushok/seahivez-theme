@@ -13,9 +13,13 @@ if ( empty( $args['heading'] ) ) {
 	return;
 }
 
-$height_class = ! empty( $args['compact'] )
-	? 'min-h-[42vh] md:min-h-[50vh] lg:min-h-[58vh]'
-	: 'min-h-[48vh] md:min-h-[58vh] lg:min-h-[68vh]';
+if ( ! empty( $args['size'] ) && 'extras' === $args['size'] ) {
+	$height_class = 'min-h-[440px] md:min-h-[55vh] lg:min-h-[60vh]';
+} elseif ( ! empty( $args['compact'] ) ) {
+	$height_class = 'min-h-[42vh] md:min-h-[50vh] lg:min-h-[58vh]';
+} else {
+	$height_class = 'min-h-[48vh] md:min-h-[58vh] lg:min-h-[68vh]';
+}
 ?>
 
 <section class="page-hero relative flex <?php echo esc_attr( $height_class ); ?> items-end overflow-hidden bg-navy-950" aria-labelledby="page-hero-heading">

@@ -51,6 +51,11 @@ const toyIconChoices = {
 	water: 'Drinking Water',
 	flippers: 'Flippers',
 	swimming: 'Swimming',
+	food: 'Food',
+	drinks: 'Drinks',
+	'children-menu': "Children's Menu",
+	donat: 'Donut',
+	'fishing-package': 'Fishing Package',
 };
 
 const socialIconChoices = {
@@ -387,6 +392,42 @@ const pageSectionLayouts = {
 			[textField('field_shvz_extras_amenity_text', 'Text', 'text')],
 			{ button_label: 'Add amenity' }
 		),
+		textField('field_shvz_extras_food_eyebrow', 'Food & drinks eyebrow', 'food_drinks_eyebrow'),
+		textField('field_shvz_extras_food_status', 'Food & drinks status', 'food_drinks_status'),
+		textField('field_shvz_extras_food_note', 'Food & drinks note', 'food_drinks_note'),
+		repeaterField(
+			'field_shvz_extras_food_items',
+			'Food & drinks items',
+			'food_drinks_items',
+			[
+				selectField(
+					'field_shvz_extras_food_item_id',
+					'Item ID',
+					'item_id',
+					{
+						food: 'Food',
+						drinks: 'Drinks',
+						children: "Children's Menu",
+					},
+					{
+						allow_null: 1,
+						instructions:
+							'Links this row to the charter calculator pricing. Leave empty for display-only rows.',
+					}
+				),
+				iconField('field_shvz_extras_food_icon', 'Icon', 'icon', {
+					mime_types: 'svg,png',
+					instructions: 'Choose an SVG/PNG from assets/images/icons/ or upload your own.',
+				}),
+				textField('field_shvz_extras_food_title', 'Title', 'title'),
+				numberField('field_shvz_extras_food_price', 'Price', 'price', { min: 0, step: 1 }),
+				textField('field_shvz_extras_food_unit', 'Unit', 'unit', {
+					instructions: 'e.g. person or child',
+				}),
+				textareaField('field_shvz_extras_food_description', 'Description', 'description', { rows: 2 }),
+			],
+			{ button_label: 'Add food / drink item' }
+		),
 	]),
 	layout_shvz_gallery: layoutBase('layout_shvz_gallery', 'gallery', 'Gallery', [
 		textField('field_shvz_gallery_eyebrow', 'Eyebrow', 'eyebrow'),
@@ -569,6 +610,7 @@ const pageGroups = buildPageFieldGroups({
 	galleryField,
 	trueFalseField,
 	numberField,
+	tabField,
 	specIconChoices,
 	toyIconChoices,
 });

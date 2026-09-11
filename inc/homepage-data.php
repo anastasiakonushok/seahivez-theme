@@ -205,8 +205,8 @@ function seahivez_get_home_extras_data() {
 		'paid_heading'     => __( 'Extra Paid', 'seahivez-theme' ),
 		'paid_helper'      => __( 'Available on request', 'seahivez-theme' ),
 		'included'         => array(
-			array( 'icon' => 'snorkel', 'title' => __( 'Snorkel sets', 'seahivez-theme' ), 'included' => true ),
-			array( 'icon' => 'paddle-board', 'title' => __( 'Paddle boards', 'seahivez-theme' ), 'included' => true ),
+			array( 'icon' => 'snorkel', 'title' => __( '6 snorkel sets', 'seahivez-theme' ), 'included' => true ),
+			array( 'icon' => 'paddle-board', 'title' => __( '2 paddle boards', 'seahivez-theme' ), 'included' => true ),
 			array( 'icon' => 'flippers', 'title' => __( 'Flippers', 'seahivez-theme' ), 'included' => true ),
 			array( 'icon' => 'towel', 'title' => __( 'Towels', 'seahivez-theme' ), 'included' => true ),
 		),
@@ -216,11 +216,24 @@ function seahivez_get_home_extras_data() {
 			array( 'icon' => 'efoil-air', 'title' => __( 'Efoil Air', 'seahivez-theme' ), 'price' => '500', 'included' => false ),
 		),
 		'amenities'        => array(
-			__( 'Towel service included', 'seahivez-theme' ),
-			__( 'Final cleaning included', 'seahivez-theme' ),
-			__( 'Insurance and taxes included', 'seahivez-theme' ),
-			__( 'Water included', 'seahivez-theme' ),
+			array(
+				'icon'  => 'towel',
+				'label' => __( 'Towel service included', 'seahivez-theme' ),
+			),
+			array(
+				'icon'  => 'cleaning',
+				'label' => __( 'Final cleaning included', 'seahivez-theme' ),
+			),
+			array(
+				'icon'  => 'insurance',
+				'label' => __( 'Insurance and taxes included', 'seahivez-theme' ),
+			),
+			array(
+				'icon'  => 'water',
+				'label' => __( 'Water included', 'seahivez-theme' ),
+			),
 		),
+		'food_drinks'      => seahivez_get_home_food_drinks_data(),
 	);
 }
 

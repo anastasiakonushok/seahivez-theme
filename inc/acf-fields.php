@@ -376,6 +376,43 @@ function seahivez_acf_get_page_section_layouts() {
 						array( 'key' => 'field_shvz_extras_amenity_text', 'label' => 'Text', 'name' => 'text', 'type' => 'text' ),
 					),
 				),
+				array( 'key' => 'field_shvz_extras_food_eyebrow', 'label' => 'Food & drinks eyebrow', 'name' => 'food_drinks_eyebrow', 'type' => 'text' ),
+				array( 'key' => 'field_shvz_extras_food_status', 'label' => 'Food & drinks status', 'name' => 'food_drinks_status', 'type' => 'text' ),
+				array( 'key' => 'field_shvz_extras_food_note', 'label' => 'Food & drinks note', 'name' => 'food_drinks_note', 'type' => 'text' ),
+				array(
+					'key'          => 'field_shvz_extras_food_items',
+					'label'        => 'Food & drinks items',
+					'name'         => 'food_drinks_items',
+					'type'         => 'repeater',
+					'button_label' => 'Add food / drink item',
+					'sub_fields'   => array(
+						array(
+							'key'           => 'field_shvz_extras_food_item_id',
+							'label'         => 'Item ID',
+							'name'          => 'item_id',
+							'type'          => 'select',
+							'choices'       => array(
+								'food'     => 'Food',
+								'drinks'   => 'Drinks',
+								'children' => "Children's Menu",
+							),
+							'default_value' => '',
+							'allow_null'    => 1,
+							'instructions'  => 'Links this row to the charter calculator pricing. Leave empty for display-only rows.',
+						),
+						array_merge(
+							seahivez_get_acf_icon_field_schema( 'field_shvz_extras_food_icon' ),
+							array(
+								'mime_types'   => 'svg,png',
+								'instructions' => 'Choose an SVG/PNG from assets/images/icons/ or upload your own.',
+							)
+						),
+						array( 'key' => 'field_shvz_extras_food_title', 'label' => 'Title', 'name' => 'title', 'type' => 'text' ),
+						array( 'key' => 'field_shvz_extras_food_price', 'label' => 'Price', 'name' => 'price', 'type' => 'number', 'min' => 0, 'step' => 1 ),
+						array( 'key' => 'field_shvz_extras_food_unit', 'label' => 'Unit', 'name' => 'unit', 'type' => 'text', 'instructions' => 'e.g. person or child' ),
+						array( 'key' => 'field_shvz_extras_food_description', 'label' => 'Description', 'name' => 'description', 'type' => 'textarea', 'rows' => 2 ),
+					),
+				),
 			),
 		),
 		'layout_shvz_gallery' => array(

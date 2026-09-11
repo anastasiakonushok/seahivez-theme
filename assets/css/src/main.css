@@ -57,6 +57,10 @@
 		@apply py-12 md:py-16 lg:py-20;
 	}
 
+	.section-spacing-sm {
+		@apply py-10 md:py-12;
+	}
+
 	/* --------------------------------------------------------------------------
 	 * Typography scale (Satoshi)
 	 * -------------------------------------------------------------------------- */
@@ -495,6 +499,34 @@
 		@apply text-navy-900;
 	}
 
+	.toys-extras__status-dot {
+		@apply inline-block h-2 w-2 min-w-[8px] shrink-0 rounded-full;
+	}
+
+	.toys-extras__status-dot--request {
+		background-color: #c65d5d;
+	}
+
+	.toys-extras__status-label--request {
+		color: #c65d5d;
+	}
+
+	.toys-extras__food-item {
+		@apply min-w-0;
+	}
+
+	.toys-extras__food-title {
+		@apply text-navy-800/80;
+	}
+
+	.toys-extras__food-price {
+		@apply tabular-nums;
+	}
+
+	.toys-extras__food-description {
+		@apply text-slate-600;
+	}
+
 	/* Gallery slider — full-bleed, no outer section padding */
 	.gallery {
 		@apply w-full max-w-none p-0 m-0;
@@ -647,6 +679,80 @@
 	.yacht-gallery__cell .gallery-item,
 	.yacht-gallery__cell .gallery-item__link {
 		@apply min-h-[200px] sm:min-h-0;
+	}
+
+	.extras-section__title {
+		@apply text-xs font-medium uppercase tracking-[0.16em] text-navy-800/80;
+	}
+
+	.section-status__dot {
+		@apply inline-block h-2 w-2 min-w-[8px] shrink-0 rounded-full;
+	}
+
+	.section-status--included .section-status__dot {
+		background-color: #65a844;
+	}
+
+	.section-status--included .section-status__label {
+		color: #65a844;
+	}
+
+	.section-status--request .section-status__dot {
+		background-color: #c65d5d;
+	}
+
+	.section-status--request .section-status__label {
+		color: #c65d5d;
+	}
+
+	.extras-gallery__grid {
+		grid-auto-flow: row;
+	}
+
+	.extras-gallery__cell {
+		@apply min-h-0;
+	}
+
+	.extras-gallery__cell .gallery-item,
+	.extras-gallery__cell .gallery-item__link {
+		@apply min-h-[220px] sm:min-h-0;
+	}
+
+	.extras-booking-cta__actions .btn-primary,
+	.extras-booking-cta__actions .btn-outline {
+		@apply w-full sm:w-auto;
+	}
+
+	.extras-calculator__package-tab {
+		@apply flex w-full flex-col items-start rounded-md border border-slate-200 bg-white px-4 py-4 text-left transition-colors duration-200 hover:border-slate-300;
+	}
+
+	.extras-calculator__package-tab.is-active {
+		@apply border-navy-900/20 bg-sand-50;
+	}
+
+	.extras-calculator__package-tab-title {
+		@apply text-sm font-medium uppercase tracking-[0.12em] text-navy-900;
+	}
+
+	.extras-calculator__package-tab-meta {
+		@apply mt-1 text-xs uppercase tracking-[0.1em] text-slate-500;
+	}
+
+	.extras-calculator__package-tab-price {
+		@apply mt-2 text-lg font-medium leading-none tracking-tight text-navy-900 tabular-nums;
+	}
+
+	.extras-calculator__route-tab {
+		@apply rounded-md border border-slate-200 bg-white px-3 py-2 text-left text-[11px] font-semibold uppercase tracking-[0.08em] text-slate-600 transition-colors duration-200 hover:border-[#C7A46A];
+	}
+
+	.extras-calculator__route-tab.is-active {
+		@apply border-[#C7A46A] bg-[#C7A46A]/10 text-navy-900;
+	}
+
+	.charter-calculator-inline--page {
+		@apply rounded-md border border-slate-200 bg-white p-5 md:p-6;
 	}
 
 	.section-outline-cta.btn-outline {
@@ -1333,6 +1439,357 @@
 
 	.experience-card__footer {
 		@apply w-full;
+	}
+
+	.experience-card--home {
+		@apply h-full;
+	}
+
+	.experience-card--home .experience-card__body {
+		@apply flex min-h-0 flex-1 flex-col;
+	}
+
+	.experience-card--home .experience-card__footer {
+		@apply mt-auto;
+	}
+
+	.experience-card__price-stack--with-fuel .experience-card__price--total {
+		@apply mt-2;
+	}
+
+	.experience-card__price-stack:not(.experience-card__price-stack--with-fuel) .experience-card__price--total {
+		@apply mt-1;
+	}
+
+	.experience-card__fuel-adjustment {
+		@apply text-navy-900;
+	}
+
+	@media (min-width: 1024px) {
+		.experience-card--home {
+			min-height: 44rem;
+		}
+	}
+
+	.experience-card__cta-btn .icon-arrow {
+		@apply text-white;
+	}
+
+	.experience-card__toys-link {
+		@apply max-w-full;
+	}
+
+	.experience-card__calculator-trigger {
+		@apply flex w-full items-center justify-between border border-[#C7A46A] bg-[#C7A46A]/5 px-4 py-3 text-left text-sm font-medium uppercase tracking-[0.08em] text-[#0B1F3A] transition-colors duration-200 hover:bg-[#C7A46A]/10;
+	}
+
+	.experience-card__calculator-trigger-icon {
+		@apply ml-3 shrink-0 text-base leading-none;
+	}
+
+	.experience-card__route-segment {
+		@apply rounded-md border border-slate-200 bg-white px-3 py-2 text-left text-[11px] font-semibold uppercase tracking-[0.08em] text-slate-600 transition-colors duration-200 hover:border-[#C7A46A];
+	}
+
+	.experience-card__route-segment.is-active {
+		border-color: #c7a46a;
+		background-color: rgb(199 164 106 / 0.1);
+		color: #0b1f3a;
+		@apply font-semibold;
+	}
+
+	.experience-card__route-heading {
+		@apply text-sm font-semibold uppercase tracking-[0.08em] text-navy-900;
+	}
+
+	.experience-card__route-path {
+		@apply break-words;
+	}
+
+	.experience-card__included-list {
+		@apply list-none p-0;
+	}
+
+	.experience-card__included-row dt,
+	.experience-card__included-row dd {
+		@apply m-0;
+	}
+
+	.charter-calculator-inline {
+		@apply w-full rounded-md border border-slate-200 bg-warm-white p-4;
+	}
+
+	.charter-calculator-inline[hidden] {
+		display: none !important;
+	}
+
+	.charter-calculator__section {
+		@apply border-b border-slate-200 pb-4;
+	}
+
+	.charter-calculator__section + .charter-calculator__section {
+		@apply mt-4;
+	}
+
+	.charter-calculator__section--breakdown {
+		@apply pb-3;
+	}
+
+	.charter-calculator__route-ref {
+		@apply mt-1 text-xs text-slate-500;
+	}
+
+	.charter-calculator__breakdown {
+		@apply mt-2 space-y-1;
+	}
+
+	.charter-calculator__extras-compact {
+		@apply mt-2 divide-y divide-slate-100 border-y border-slate-100;
+	}
+
+	.charter-calculator__extra-compact {
+		@apply flex cursor-pointer items-center gap-3 py-2.5 text-sm text-navy-900;
+	}
+
+	.charter-calculator__extra-compact.is-selected {
+		background-color: rgb(199 164 106 / 0.08);
+	}
+
+	.charter-calculator__extra-checkbox {
+		@apply h-4 w-4 shrink-0 rounded border-slate-300 text-navy-900;
+	}
+
+	.charter-calculator__extra-compact-label {
+		@apply flex-1 font-medium uppercase tracking-[0.05em];
+	}
+
+	.charter-calculator__extra-compact-price {
+		@apply shrink-0 font-medium tabular-nums;
+	}
+
+	.charter-calculator__extra-compact-note {
+		@apply -mt-1 mb-2 pl-7 text-xs leading-snug text-slate-500;
+	}
+
+	.charter-calculator__quantities-compact {
+		@apply mt-2 divide-y divide-slate-100 border-y border-slate-100;
+	}
+
+	.charter-calculator__quantity-compact {
+		@apply flex items-center justify-between gap-3 py-2.5 text-sm text-navy-900;
+	}
+
+	.charter-calculator__quantity-compact-label {
+		@apply min-w-0 flex-1 leading-snug;
+	}
+
+	.charter-calculator__section-title {
+		@apply text-sm font-semibold uppercase tracking-[0.08em] text-navy-900;
+	}
+
+	.charter-calculator__included-label {
+		@apply flex items-center gap-2 text-sm font-medium text-[#65A844];
+	}
+
+	.charter-calculator__included-breakdown,
+	.charter-calculator__totals {
+		@apply mt-3 space-y-1.5;
+	}
+
+	.charter-calculator__included-list {
+		@apply mt-3 list-none space-y-1 p-0 text-sm text-navy-900;
+	}
+
+	.charter-calculator__included-summary,
+	.charter-calculator__deposit-note,
+	.charter-calculator__deposit-explainer,
+	.charter-calculator__selected-note,
+	.charter-calculator__selected-meta {
+		@apply mt-3 text-sm leading-snug text-slate-600;
+	}
+
+	.charter-calculator__line,
+	.charter-calculator__total-line {
+		@apply flex items-start justify-between gap-4 text-sm text-navy-900;
+	}
+
+	.charter-calculator__line-value {
+		@apply shrink-0 font-medium tabular-nums;
+	}
+
+	.charter-calculator__extras {
+		@apply mt-3 space-y-2;
+	}
+
+	.charter-calculator__extra {
+		@apply block cursor-pointer;
+	}
+
+	.charter-calculator__extra input {
+		@apply sr-only;
+	}
+
+	.charter-calculator__extra-row {
+		@apply flex items-start justify-between gap-4 rounded-lg border border-slate-200 bg-white px-4 py-3 transition-colors duration-200;
+	}
+
+	.charter-calculator__extra.is-selected .charter-calculator__extra-row,
+	.charter-calculator__extra input:focus-visible + .charter-calculator__extra-row {
+		@apply border-sand-200 bg-sand-50;
+	}
+
+	.charter-calculator__extra-label {
+		@apply block text-sm font-medium uppercase tracking-[0.06em] text-navy-900;
+	}
+
+	.charter-calculator__extra-note {
+		@apply mt-1 block text-xs leading-snug text-slate-500;
+	}
+
+	.charter-calculator__extra-price {
+		@apply shrink-0 text-sm font-medium tabular-nums text-navy-900;
+	}
+
+	.charter-calculator__quantities {
+		@apply mt-3 space-y-3;
+	}
+
+	.charter-calculator__quantity {
+		@apply flex items-center justify-between gap-4 rounded-lg border border-slate-200 bg-white px-4 py-3;
+	}
+
+	.charter-calculator__quantity-label {
+		@apply text-sm font-medium text-navy-900;
+	}
+
+	.charter-calculator__quantity-unit {
+		@apply mt-0.5 text-xs text-slate-500;
+	}
+
+	.charter-calculator__quantity-controls {
+		@apply flex items-center gap-2;
+	}
+
+	.charter-calculator__qty-btn {
+		@apply inline-flex h-10 w-10 items-center justify-center rounded-md border border-slate-200 bg-white text-lg leading-none text-navy-900 transition-colors duration-200 hover:border-sand-200 hover:bg-sand-50;
+	}
+
+	.charter-calculator__qty-value {
+		@apply min-w-[2rem] text-center text-sm font-medium tabular-nums text-navy-900;
+	}
+
+	.charter-calculator__section--totals {
+		@apply border-b-0 pb-0;
+	}
+
+	.charter-calculator__total-divider {
+		@apply my-3 border-t border-slate-200;
+	}
+
+	.charter-calculator__total-line--strong,
+	.charter-calculator__total-line--prepare {
+		@apply text-base font-semibold;
+	}
+
+	.experience-card__details {
+		@apply mt-4 space-y-3 border-t border-slate-200 pt-4;
+	}
+
+	.experience-card__detail-block + .experience-card__status,
+	.experience-card__status + .experience-card__status {
+		@apply border-t border-slate-200 pt-3;
+	}
+
+	.experience-card__section-label {
+		@apply text-xs font-medium uppercase tracking-[0.12em] text-slate-500;
+	}
+
+	.experience-card__section-text {
+		@apply mt-1 text-sm leading-snug text-slate-600;
+	}
+
+	.experience-card__routes {
+		@apply mt-2;
+	}
+
+	.experience-card__route {
+		@apply py-3;
+	}
+
+	.experience-card__route--divider {
+		@apply border-t border-slate-200;
+	}
+
+	.experience-card__route-row {
+		@apply flex gap-2.5;
+	}
+
+	.experience-card__route-badge {
+		@apply flex h-7 w-7 shrink-0 items-center justify-center rounded-full border border-navy-900/80 text-[10px] font-semibold leading-none text-navy-900;
+	}
+
+	.experience-card__route-content {
+		@apply min-w-0 flex-1;
+	}
+
+	.experience-card__route-name {
+		@apply text-sm font-medium leading-tight text-navy-900;
+	}
+
+	.experience-card__route-path {
+		@apply mt-0.5 text-xs leading-snug text-slate-600;
+	}
+
+	.experience-card__route-note {
+		@apply mt-0.5 text-xs leading-snug text-slate-500;
+	}
+
+	.experience-card__price-row {
+		@apply mt-1.5 flex items-center justify-between gap-3 text-sm text-navy-900;
+	}
+
+	.experience-card__price-row--list {
+		@apply mt-0 border-b border-slate-100 py-1.5 last:border-b-0;
+	}
+
+	.experience-card__price-value {
+		@apply shrink-0 font-medium text-navy-900;
+	}
+
+	.experience-card__status-label {
+		@apply flex items-center gap-1.5 text-sm font-medium;
+	}
+
+	.experience-card__status-label--included {
+		@apply text-[#65A844];
+	}
+
+	.experience-card__status-label--excluded {
+		@apply text-[#C65D5D];
+	}
+
+	.experience-card__status-dot {
+		@apply inline-block h-1.5 w-1.5 shrink-0 rounded-full;
+	}
+
+	.experience-card__status-dot--included {
+		@apply bg-[#65A844];
+	}
+
+	.experience-card__status-dot--excluded {
+		@apply bg-[#C65D5D];
+	}
+
+	.experience-card__included-inline {
+		@apply mt-1.5 text-sm leading-snug text-navy-900;
+	}
+
+	.experience-card__included-grid {
+		@apply mt-1.5 grid grid-cols-2 gap-x-3 gap-y-1 text-xs leading-snug text-navy-900;
+	}
+
+	.experience-card__price-list {
+		@apply mt-1.5;
 	}
 
 	/* Reveal animation */

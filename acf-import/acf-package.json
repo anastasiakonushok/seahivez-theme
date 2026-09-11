@@ -144,7 +144,7 @@
                     "id": ""
                 },
                 "key": "field_shvz_pkg_included",
-                "label": "Included items (override)",
+                "label": "Included items (package page)",
                 "name": "included_items",
                 "type": "repeater",
                 "layout": "table",
@@ -172,7 +172,387 @@
                         "append": ""
                     }
                 ],
-                "instructions": "Optional. Leave empty to use the shared list from the Experiences page."
+                "instructions": "Optional. Shown on the single package page. Leave empty to use shared defaults."
+            },
+            {
+                "required": 0,
+                "conditional_logic": 0,
+                "wrapper": {
+                    "width": "",
+                    "class": "",
+                    "id": ""
+                },
+                "key": "field_shvz_pkg_tab_charter",
+                "label": "Charter card",
+                "name": "",
+                "type": "tab",
+                "placement": "top",
+                "endpoint": 0
+            },
+            {
+                "required": 0,
+                "conditional_logic": 0,
+                "wrapper": {
+                    "width": "",
+                    "class": "",
+                    "id": ""
+                },
+                "key": "field_shvz_pkg_charter_details",
+                "label": "Charter details (homepage card)",
+                "name": "charter_details",
+                "type": "group",
+                "layout": "block",
+                "sub_fields": [
+                    {
+                        "required": 0,
+                        "conditional_logic": 0,
+                        "wrapper": {
+                            "width": "",
+                            "class": "",
+                            "id": ""
+                        },
+                        "key": "field_shvz_pkg_charter_type",
+                        "label": "Display type",
+                        "name": "type",
+                        "type": "select",
+                        "choices": {
+                            "sunset": "Sunset",
+                            "half-day": "Half day",
+                            "full-day": "Full day"
+                        },
+                        "default_value": false,
+                        "return_format": "value",
+                        "multiple": 0,
+                        "allow_null": 0,
+                        "ui": 0,
+                        "ajax": 0,
+                        "placeholder": "",
+                        "instructions": "Controls route / included layout on homepage experience cards."
+                    },
+                    {
+                        "required": 0,
+                        "conditional_logic": 0,
+                        "wrapper": {
+                            "width": "",
+                            "class": "",
+                            "id": ""
+                        },
+                        "key": "field_shvz_pkg_charter_sections",
+                        "label": "Intro sections",
+                        "name": "sections",
+                        "type": "repeater",
+                        "layout": "block",
+                        "min": 0,
+                        "max": 0,
+                        "collapsed": "",
+                        "button_label": "Add section",
+                        "sub_fields": [
+                            {
+                                "required": 0,
+                                "conditional_logic": 0,
+                                "wrapper": {
+                                    "width": "",
+                                    "class": "",
+                                    "id": ""
+                                },
+                                "key": "field_shvz_pkg_charter_section_label",
+                                "label": "Label",
+                                "name": "label",
+                                "type": "text",
+                                "default_value": "",
+                                "maxlength": "",
+                                "placeholder": "",
+                                "prepend": "",
+                                "append": ""
+                            },
+                            {
+                                "required": 0,
+                                "conditional_logic": 0,
+                                "wrapper": {
+                                    "width": "",
+                                    "class": "",
+                                    "id": ""
+                                },
+                                "key": "field_shvz_pkg_charter_section_text",
+                                "label": "Text",
+                                "name": "text",
+                                "type": "textarea",
+                                "default_value": "",
+                                "maxlength": "",
+                                "rows": 2,
+                                "placeholder": "",
+                                "new_lines": ""
+                            }
+                        ],
+                        "instructions": "For Sunset packages (no routes)."
+                    },
+                    {
+                        "required": 0,
+                        "conditional_logic": 0,
+                        "wrapper": {
+                            "width": "",
+                            "class": "",
+                            "id": ""
+                        },
+                        "key": "field_shvz_pkg_charter_routes_label",
+                        "label": "Routes heading",
+                        "name": "routes_label",
+                        "type": "text",
+                        "default_value": "",
+                        "maxlength": "",
+                        "placeholder": "Choose your route",
+                        "prepend": "",
+                        "append": ""
+                    },
+                    {
+                        "required": 0,
+                        "conditional_logic": 0,
+                        "wrapper": {
+                            "width": "",
+                            "class": "",
+                            "id": ""
+                        },
+                        "key": "field_shvz_pkg_charter_routes",
+                        "label": "Routes",
+                        "name": "routes",
+                        "type": "repeater",
+                        "layout": "block",
+                        "min": 0,
+                        "max": 0,
+                        "collapsed": "",
+                        "button_label": "Add route",
+                        "sub_fields": [
+                            {
+                                "required": 0,
+                                "conditional_logic": 0,
+                                "wrapper": {
+                                    "width": "",
+                                    "class": "",
+                                    "id": ""
+                                },
+                                "key": "field_shvz_pkg_charter_route_number",
+                                "label": "Number",
+                                "name": "number",
+                                "type": "text",
+                                "default_value": "",
+                                "maxlength": "",
+                                "placeholder": "01",
+                                "prepend": "",
+                                "append": ""
+                            },
+                            {
+                                "required": 0,
+                                "conditional_logic": 0,
+                                "wrapper": {
+                                    "width": "",
+                                    "class": "",
+                                    "id": ""
+                                },
+                                "key": "field_shvz_pkg_charter_route_name",
+                                "label": "Name",
+                                "name": "name",
+                                "type": "text",
+                                "default_value": "",
+                                "maxlength": "",
+                                "placeholder": "",
+                                "prepend": "",
+                                "append": ""
+                            },
+                            {
+                                "required": 0,
+                                "conditional_logic": 0,
+                                "wrapper": {
+                                    "width": "",
+                                    "class": "",
+                                    "id": ""
+                                },
+                                "key": "field_shvz_pkg_charter_route_path",
+                                "label": "Path",
+                                "name": "path",
+                                "type": "text",
+                                "default_value": "",
+                                "maxlength": "",
+                                "placeholder": "",
+                                "prepend": "",
+                                "append": ""
+                            },
+                            {
+                                "required": 0,
+                                "conditional_logic": 0,
+                                "wrapper": {
+                                    "width": "",
+                                    "class": "",
+                                    "id": ""
+                                },
+                                "key": "field_shvz_pkg_charter_route_note",
+                                "label": "Note",
+                                "name": "note",
+                                "type": "text",
+                                "default_value": "",
+                                "maxlength": "",
+                                "placeholder": "",
+                                "prepend": "",
+                                "append": ""
+                            },
+                            {
+                                "required": 0,
+                                "conditional_logic": 0,
+                                "wrapper": {
+                                    "width": "",
+                                    "class": "",
+                                    "id": ""
+                                },
+                                "key": "field_shvz_pkg_charter_route_fuel_label",
+                                "label": "Fuel label",
+                                "name": "fuel_label",
+                                "type": "text",
+                                "default_value": "Fuel",
+                                "maxlength": "",
+                                "placeholder": "",
+                                "prepend": "",
+                                "append": ""
+                            },
+                            {
+                                "required": 0,
+                                "conditional_logic": 0,
+                                "wrapper": {
+                                    "width": "",
+                                    "class": "",
+                                    "id": ""
+                                },
+                                "key": "field_shvz_pkg_charter_route_fuel_cost",
+                                "label": "Fuel cost",
+                                "name": "fuel_cost",
+                                "type": "text",
+                                "default_value": "",
+                                "maxlength": "",
+                                "placeholder": "€400",
+                                "prepend": "",
+                                "append": ""
+                            }
+                        ]
+                    },
+                    {
+                        "required": 0,
+                        "conditional_logic": 0,
+                        "wrapper": {
+                            "width": "",
+                            "class": "",
+                            "id": ""
+                        },
+                        "key": "field_shvz_pkg_charter_included_layout",
+                        "label": "Included layout",
+                        "name": "included_layout",
+                        "type": "select",
+                        "choices": {
+                            "inline": "Inline (sunset)",
+                            "grid": "Grid (half / full day)"
+                        },
+                        "default_value": false,
+                        "return_format": "value",
+                        "multiple": 0,
+                        "allow_null": 0,
+                        "ui": 0,
+                        "ajax": 0,
+                        "placeholder": ""
+                    },
+                    {
+                        "required": 0,
+                        "conditional_logic": 0,
+                        "wrapper": {
+                            "width": "",
+                            "class": "",
+                            "id": ""
+                        },
+                        "key": "field_shvz_pkg_charter_included",
+                        "label": "Included (card)",
+                        "name": "included",
+                        "type": "repeater",
+                        "layout": "table",
+                        "min": 0,
+                        "max": 0,
+                        "collapsed": "",
+                        "button_label": "Add item",
+                        "sub_fields": [
+                            {
+                                "required": 0,
+                                "conditional_logic": 0,
+                                "wrapper": {
+                                    "width": "",
+                                    "class": "",
+                                    "id": ""
+                                },
+                                "key": "field_shvz_pkg_charter_included_text",
+                                "label": "Text",
+                                "name": "text",
+                                "type": "text",
+                                "default_value": "",
+                                "maxlength": "",
+                                "placeholder": "",
+                                "prepend": "",
+                                "append": ""
+                            }
+                        ],
+                        "instructions": "Shown on homepage experience cards (e.g. 6 snorkel sets, 2 paddle boards)."
+                    },
+                    {
+                        "required": 0,
+                        "conditional_logic": 0,
+                        "wrapper": {
+                            "width": "",
+                            "class": "",
+                            "id": ""
+                        },
+                        "key": "field_shvz_pkg_charter_not_included",
+                        "label": "Not included",
+                        "name": "not_included",
+                        "type": "repeater",
+                        "layout": "table",
+                        "min": 0,
+                        "max": 0,
+                        "collapsed": "",
+                        "button_label": "Add item",
+                        "sub_fields": [
+                            {
+                                "required": 0,
+                                "conditional_logic": 0,
+                                "wrapper": {
+                                    "width": "",
+                                    "class": "",
+                                    "id": ""
+                                },
+                                "key": "field_shvz_pkg_charter_not_included_label",
+                                "label": "Label",
+                                "name": "label",
+                                "type": "text",
+                                "default_value": "",
+                                "maxlength": "",
+                                "placeholder": "",
+                                "prepend": "",
+                                "append": ""
+                            },
+                            {
+                                "required": 0,
+                                "conditional_logic": 0,
+                                "wrapper": {
+                                    "width": "",
+                                    "class": "",
+                                    "id": ""
+                                },
+                                "key": "field_shvz_pkg_charter_not_included_cost",
+                                "label": "Cost",
+                                "name": "cost",
+                                "type": "text",
+                                "default_value": "",
+                                "maxlength": "",
+                                "placeholder": "€400",
+                                "prepend": "",
+                                "append": ""
+                            }
+                        ]
+                    }
+                ],
+                "instructions": "Route, included and not-included block on homepage cards. Leave empty to use theme defaults."
             }
         ],
         "location": [
@@ -193,6 +573,6 @@
         "active": true,
         "description": "",
         "show_in_rest": 0,
-        "modified": 1788956665
+        "modified": 1789118028
     }
 ]

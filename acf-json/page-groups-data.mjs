@@ -21,9 +21,102 @@ export function buildPageFieldGroups({
 	galleryField,
 	trueFalseField,
 	numberField,
+	tabField,
 	specIconChoices,
 	toyIconChoices,
 }) {
+	function packageCharterDetailsGroup() {
+		return groupField(
+			'field_shvz_pkg_charter_details',
+			'Charter details (homepage card)',
+			'charter_details',
+			[
+				selectField(
+					'field_shvz_pkg_charter_type',
+					'Display type',
+					'type',
+					{
+						sunset: 'Sunset',
+						'half-day': 'Half day',
+						'full-day': 'Full day',
+					},
+					{
+						instructions: 'Controls route / included layout on homepage experience cards.',
+					}
+				),
+				repeaterField(
+					'field_shvz_pkg_charter_sections',
+					'Intro sections',
+					'sections',
+					[
+						textField('field_shvz_pkg_charter_section_label', 'Label', 'label'),
+						textareaField('field_shvz_pkg_charter_section_text', 'Text', 'text', { rows: 2 }),
+					],
+					{
+						layout: 'block',
+						button_label: 'Add section',
+						instructions: 'For Sunset packages (no routes).',
+					}
+				),
+				textField('field_shvz_pkg_charter_routes_label', 'Routes heading', 'routes_label', {
+					placeholder: 'Choose your route',
+				}),
+				repeaterField(
+					'field_shvz_pkg_charter_routes',
+					'Routes',
+					'routes',
+					[
+						textField('field_shvz_pkg_charter_route_number', 'Number', 'number', { placeholder: '01' }),
+						textField('field_shvz_pkg_charter_route_name', 'Name', 'name'),
+						textField('field_shvz_pkg_charter_route_path', 'Path', 'path'),
+						textField('field_shvz_pkg_charter_route_note', 'Note', 'note'),
+						textField('field_shvz_pkg_charter_route_fuel_label', 'Fuel label', 'fuel_label', {
+							default_value: 'Fuel',
+						}),
+						textField('field_shvz_pkg_charter_route_fuel_cost', 'Fuel cost', 'fuel_cost', {
+							placeholder: '€400',
+						}),
+					],
+					{ layout: 'block', button_label: 'Add route' }
+				),
+				selectField(
+					'field_shvz_pkg_charter_included_layout',
+					'Included layout',
+					'included_layout',
+					{
+						inline: 'Inline (sunset)',
+						grid: 'Grid (half / full day)',
+					}
+				),
+				repeaterField(
+					'field_shvz_pkg_charter_included',
+					'Included (card)',
+					'included',
+					[textField('field_shvz_pkg_charter_included_text', 'Text', 'text')],
+					{
+						button_label: 'Add item',
+						instructions: 'Shown on homepage experience cards (e.g. 6 snorkel sets, 2 paddle boards).',
+					}
+				),
+				repeaterField(
+					'field_shvz_pkg_charter_not_included',
+					'Not included',
+					'not_included',
+					[
+						textField('field_shvz_pkg_charter_not_included_label', 'Label', 'label'),
+						textField('field_shvz_pkg_charter_not_included_cost', 'Cost', 'cost', {
+							placeholder: '€400',
+						}),
+					],
+					{ button_label: 'Add item' }
+				),
+			],
+			{
+				instructions:
+					'Route, included and not-included block on homepage cards. Leave empty to use theme defaults.',
+			}
+		);
+	}
 	const template = (file) => [[{ param: 'page_template', operator: '==', value: file }]];
 
 	function heroGroup(prefix) {
@@ -320,48 +413,165 @@ export function buildPageFieldGroups({
 		template('page-experiences.php')
 	);
 
+	const paidExtraIdChoices = {
+		seabob: 'SeaBob',
+		'jet-ski': 'Jet Ski',
+		'efoil-air': 'Efoil Air',
+		donat: 'Donut',
+		'fishing-package': 'Fishing Package',
+	};
+
+	function extrasFoodDrinksItemsRepeater(prefix) {
+		return repeaterField(
+			`${prefix}_food_items`,
+			'Food & drinks items',
+			'items',
+			[
+				selectField(
+					`${prefix}_food_item_id`,
+					'Item ID',
+					'item_id',
+					{
+						food: 'Food',
+						drinks: 'Drinks',
+						children: "Children's Menu",
+					},
+					{
+						allow_null: 1,
+						instructions:
+							'Links this row to charter calculator pricing. Leave empty for custom display-only rows.',
+					}
+				),
+				iconField(`${prefix}_food_icon`, 'Icon', 'icon', {
+					mime_types: 'svg,png',
+					instructions: 'Choose an SVG/PNG from assets/images/icons/ or upload your own.',
+				}),
+				textField(`${prefix}_food_title`, 'Title', 'title'),
+				numberField(`${prefix}_food_price`, 'Price', 'price', { min: 0, step: 1 }),
+				textField(`${prefix}_food_unit`, 'Unit', 'unit', {
+					instructions: 'e.g. person or child',
+				}),
+				textareaField(`${prefix}_food_description`, 'Description', 'description', { rows: 2 }),
+				textareaField(`${prefix}_food_description_list`, 'Description list', 'description_list', {
+					rows: 4,
+					instructions: 'Optional. One line per list item (e.g. drinks menu).',
+				}),
+			],
+			{ button_label: 'Add food / drink item' }
+		);
+	}
+
 	const extrasPageGroup = fieldGroupBase(
 		'group_shvz_extras_page',
 		'Extras Page',
 		[
 			heroGroup('field_shvz_extrasp'),
-			groupField('field_shvz_extrasp_content', 'Page content', 'extras_content', [
-				textField('field_shvz_extrasp_eyebrow', 'Eyebrow', 'eyebrow'),
-				textField('field_shvz_extrasp_heading', 'Heading', 'heading'),
-				textareaField('field_shvz_extrasp_description', 'Description', 'description', { rows: 3 }),
+			tabField('field_shvz_extrasp_tab_intro', 'Intro'),
+			textareaField('field_shvz_extrasp_intro', 'Intro text', 'intro', {
+				rows: 4,
+				instructions: 'Editorial paragraph below the hero.',
+			}),
+			tabField('field_shvz_extrasp_tab_included', 'Included'),
+			groupField('field_shvz_extrasp_included_section', 'Included section', 'included_section', [
 				textField('field_shvz_extrasp_included_heading', 'Included heading', 'included_heading'),
 				textField('field_shvz_extrasp_included_helper', 'Included helper', 'included_helper'),
+				repeaterField(
+					'field_shvz_extrasp_included_equipment',
+					'Included equipment',
+					'included_equipment',
+					[
+						iconField('field_shvz_extrasp_inc_eq_icon', 'Icon', 'icon'),
+						textField('field_shvz_extrasp_inc_eq_title', 'Title', 'title'),
+						textField('field_shvz_extrasp_inc_eq_status', 'Status', 'status', {
+							placeholder: 'Included',
+						}),
+						textareaField('field_shvz_extrasp_inc_eq_description', 'Description', 'description', {
+							rows: 3,
+						}),
+					],
+					{ layout: 'block', button_label: 'Add equipment item' }
+				),
+				repeaterField(
+					'field_shvz_extrasp_included_services',
+					'Included services',
+					'included_services',
+					[
+						iconField('field_shvz_extrasp_inc_svc_icon', 'Icon', 'icon'),
+						textField('field_shvz_extrasp_inc_svc_label', 'Label', 'label'),
+					],
+					{ button_label: 'Add service' }
+				),
+			]),
+			tabField('field_shvz_extrasp_tab_paid', 'Paid extras'),
+			groupField('field_shvz_extrasp_paid_section', 'Paid extras section', 'paid_section', [
 				textField('field_shvz_extrasp_paid_heading', 'Paid heading', 'paid_heading'),
 				textField('field_shvz_extrasp_paid_helper', 'Paid helper', 'paid_helper'),
 				repeaterField(
-					'field_shvz_extrasp_included',
-					'Included items',
-					'included',
-					[
-						iconField('field_shvz_extrasp_inc_icon', 'Icon', 'icon'),
-						textField('field_shvz_extrasp_inc_title', 'Title', 'title'),
-					],
-					{ button_label: 'Add included item' }
-				),
-				repeaterField(
-					'field_shvz_extrasp_paid',
+					'field_shvz_extrasp_paid_items',
 					'Paid extras',
-					'paid',
+					'paid_items',
 					[
+						selectField(
+							'field_shvz_extrasp_paid_item_id',
+							'Catalog ID',
+							'item_id',
+							paidExtraIdChoices,
+							{
+								allow_null: 1,
+								instructions: 'Links to charter calculator pricing. Leave empty for custom rows.',
+							}
+						),
 						iconField('field_shvz_extrasp_paid_icon', 'Icon', 'icon'),
 						textField('field_shvz_extrasp_paid_title', 'Title', 'title'),
-						textField('field_shvz_extrasp_paid_price', 'Price', 'price'),
+						numberField('field_shvz_extrasp_paid_price', 'Price (€)', 'price', {
+							min: 0,
+							step: 1,
+							instructions: 'Leave empty to use the theme default price.',
+						}),
+						textareaField('field_shvz_extrasp_paid_description', 'Description', 'description', {
+							rows: 3,
+						}),
 					],
-					{ button_label: 'Add paid extra' }
-				),
-				repeaterField(
-					'field_shvz_extrasp_amenities',
-					'Amenities',
-					'amenities',
-					[textField('field_shvz_extrasp_amenity_text', 'Text', 'text')],
-					{ button_label: 'Add amenity' }
+					{ layout: 'block', button_label: 'Add paid extra' }
 				),
 			]),
+			tabField('field_shvz_extrasp_tab_food', 'Food & drinks'),
+			groupField('field_shvz_extrasp_food_drinks', 'Food & drinks', 'food_drinks', [
+				textField('field_shvz_extrasp_food_eyebrow', 'Eyebrow', 'eyebrow'),
+				textField('field_shvz_extrasp_food_status', 'Status', 'status'),
+				textField('field_shvz_extrasp_food_note', 'Note', 'note'),
+				extrasFoodDrinksItemsRepeater('field_shvz_extrasp'),
+			]),
+			tabField('field_shvz_extrasp_tab_good_to_know', 'Good to know'),
+			groupField('field_shvz_extrasp_good_to_know', 'Good to know', 'good_to_know', [
+				textField('field_shvz_extrasp_gtk_title', 'Section title', 'title'),
+				repeaterField(
+					'field_shvz_extrasp_gtk_items',
+					'Notes',
+					'items',
+					[textareaField('field_shvz_extrasp_gtk_text', 'Text', 'text', { rows: 2 })],
+					{ button_label: 'Add note' }
+				),
+			]),
+			tabField('field_shvz_extrasp_tab_calculator', 'Calculator'),
+			groupField('field_shvz_extrasp_calculator', 'Package calculator', 'calculator', [
+				textField('field_shvz_extrasp_calc_eyebrow', 'Eyebrow', 'eyebrow', {
+					placeholder: 'Plan your charter',
+				}),
+				textField('field_shvz_extrasp_calc_heading', 'Heading', 'heading', {
+					placeholder: 'Calculate your charter price',
+				}),
+				textareaField('field_shvz_extrasp_calc_description', 'Description', 'description', { rows: 3 }),
+				packagesRelationshipField('field_shvz_extrasp_calc'),
+			]),
+			tabField('field_shvz_extrasp_tab_gallery', 'Gallery'),
+			groupField('field_shvz_extrasp_gallery', 'Gallery', 'gallery', [
+				textField('field_shvz_extrasp_gallery_eyebrow', 'Eyebrow', 'eyebrow'),
+				textField('field_shvz_extrasp_gallery_heading', 'Heading', 'heading'),
+				textareaField('field_shvz_extrasp_gallery_description', 'Description', 'description', { rows: 3 }),
+				galleryField('field_shvz_extrasp_gallery_images', 'Images', 'images'),
+			]),
+			tabField('field_shvz_extrasp_tab_cta', 'Booking CTA'),
 			bookingCtaGroup('field_shvz_extrasp'),
 		],
 		template('page-extras.php')
@@ -421,14 +631,16 @@ export function buildPageFieldGroups({
 				}),
 				repeaterField(
 					'field_shvz_pkg_included',
-					'Included items (override)',
+					'Included items (package page)',
 					'included_items',
 					[textField('field_shvz_pkg_included_text', 'Text', 'text')],
 					{
 						button_label: 'Add item',
-						instructions: 'Optional. Leave empty to use the shared list from the Experiences page.',
+						instructions: 'Optional. Shown on the single package page. Leave empty to use shared defaults.',
 					}
 				),
+				tabField('field_shvz_pkg_tab_charter', 'Charter card'),
+				packageCharterDetailsGroup(),
 			],
 			[[{ param: 'post_type', operator: '==', value: 'package' }]]
 		),
