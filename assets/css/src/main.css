@@ -723,6 +723,10 @@
 		@apply w-full sm:w-auto;
 	}
 
+	.extras-calculator__layout--simple {
+		@apply max-w-xl lg:grid-cols-1;
+	}
+
 	.extras-calculator__package-tab {
 		@apply flex w-full flex-col items-start rounded-md border border-slate-200 bg-white px-4 py-4 text-left transition-colors duration-200 hover:border-slate-300;
 	}

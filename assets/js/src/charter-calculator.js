@@ -459,22 +459,71 @@ class ExtrasPageCalculator {
 	constructor( root, configs ) {
 		this.root = root;
 		this.configs = configs;
+		this.layout = root.querySelector( '[data-extras-calculator-layout]' );
+		this.panel = root.querySelector( '[data-extras-calculator-panel]' );
 		this.body = root.querySelector( '[data-extras-calculator-body]' );
 		this.routeWrap = root.querySelector( '[data-extras-route-wrap]' );
 		this.routeList = root.querySelector( '[data-extras-route-list]' );
 		this.packageTabs = root.querySelectorAll( '[data-extras-package-tab]' );
-		this.activePackageId = root.querySelector( '[data-extras-package-tab].is-active' )?.getAttribute( 'data-extras-package-tab' )
+		const defaultTab = root.querySelector( '[data-extras-package-tab].is-active' )
+			|| root.querySelector( '[data-extras-package-tab][data-extras-package-simple="false"]' )
+			|| root.querySelector( '[data-extras-package-tab]' );
+		this.activePackageId = defaultTab?.getAttribute( 'data-extras-package-tab' )
 			|| Object.keys( configs )[ 0 ]
 			|| '';
-		this.config = configs[ this.activePackageId ] || configs[ Object.keys( configs )[ 0 ] ];
+		this.config = configs[ this.activePackageId ] || configs[ Object.keys( configs )[ 0 ] ] || null;
 		this.activeRouteId = this.config?.defaultRouteId || '';
 		this.selectedExtras = {};
 		this.quantities = {};
 
-		this.resetState();
 		this.bindPageEvents();
+
+		if ( this.isSimplePackage( this.activePackageId ) ) {
+			this.showSimplePackage( this.activePackageId );
+			return;
+		}
+
+		this.resetState();
 		this.updateRouteTabs();
 		this.render();
+	}
+
+	/**
+	 * @param {string} packageId
+	 * @return {boolean}
+	 */
+	isSimplePackage( packageId ) {
+		const tab = this.root.querySelector( `[data-extras-package-tab="${ packageId }"]` );
+
+		return tab?.getAttribute( 'data-extras-package-simple' ) === 'true';
+	}
+
+	/**
+	 * @param {string} packageId
+	 */
+	showSimplePackage( packageId ) {
+		this.activePackageId = packageId;
+		this.config = null;
+
+		this.packageTabs.forEach( ( button ) => {
+			const isActive = button.getAttribute( 'data-extras-package-tab' ) === packageId;
+			button.classList.toggle( 'is-active', isActive );
+			button.setAttribute( 'aria-selected', isActive ? 'true' : 'false' );
+		} );
+
+		this.layout?.classList.add( 'extras-calculator__layout--simple' );
+		this.panel?.classList.add( 'hidden' );
+		this.panel?.setAttribute( 'hidden', '' );
+		this.routeWrap?.classList.add( 'hidden' );
+		this.routeWrap?.setAttribute( 'hidden', '' );
+
+		if ( this.routeList ) {
+			this.routeList.innerHTML = '';
+		}
+
+		if ( this.body ) {
+			this.body.innerHTML = '';
+		}
 	}
 
 	resetState() {
@@ -512,6 +561,11 @@ class ExtrasPageCalculator {
 	 * @param {string} packageId
 	 */
 	selectPackage( packageId ) {
+		if ( this.isSimplePackage( packageId ) ) {
+			this.showSimplePackage( packageId );
+			return;
+		}
+
 		const config = this.configs[ packageId ];
 
 		if ( ! config ) {
@@ -527,6 +581,10 @@ class ExtrasPageCalculator {
 			button.classList.toggle( 'is-active', isActive );
 			button.setAttribute( 'aria-selected', isActive ? 'true' : 'false' );
 		} );
+
+		this.layout?.classList.remove( 'extras-calculator__layout--simple' );
+		this.panel?.classList.remove( 'hidden' );
+		this.panel?.removeAttribute( 'hidden' );
 
 		this.resetState();
 		this.updateRouteTabs();

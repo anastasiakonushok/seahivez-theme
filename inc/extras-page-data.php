@@ -168,6 +168,38 @@ function seahivez_get_extras_good_to_know_items() {
 }
 
 /**
+ * Sort calculator packages longest / highest value first.
+ *
+ * @param array<int, array<string, mixed>> $items Package rows.
+ * @return array<int, array<string, mixed>>
+ */
+function seahivez_sort_extras_calculator_packages( array $items ) {
+	$order = array(
+		'full-day' => 0,
+		'half-day' => 1,
+		'sunset'   => 2,
+	);
+
+	usort(
+		$items,
+		static function ( $a, $b ) use ( $order ) {
+			$a_key = (string) ( $a['id'] ?? '' );
+			$b_key = (string) ( $b['id'] ?? '' );
+			$a_pos = $order[ $a_key ] ?? 99;
+			$b_pos = $order[ $b_key ] ?? 99;
+
+			if ( $a_pos === $b_pos ) {
+				return strcmp( $a_key, $b_key );
+			}
+
+			return $a_pos <=> $b_pos;
+		}
+	);
+
+	return $items;
+}
+
+/**
  * Packages for the Extras page calculator.
  *
  * @param array<int, mixed>|null $selected Optional package post IDs from ACF.
@@ -196,7 +228,7 @@ function seahivez_get_extras_page_calculator_packages( $selected = null ) {
 		);
 	}
 
-	return $items;
+	return seahivez_sort_extras_calculator_packages( $items );
 }
 
 /**
@@ -208,18 +240,26 @@ function seahivez_get_extras_page_calculator_packages( $selected = null ) {
 function seahivez_get_extras_page_calculator_configs( $packages = null ) {
 	$packages = is_array( $packages ) ? $packages : seahivez_get_extras_page_calculator_packages();
 
-	return seahivez_get_home_charter_calculator_configs(
+	$configs = seahivez_get_home_charter_calculator_configs(
 		array_map(
 			static function ( $item ) {
 				return array(
-					'title'        => $item['title'],
-					'price'        => (string) $item['price'],
-					'package_key'  => $item['id'],
+					'title'       => $item['title'],
+					'price'       => (string) $item['price'],
+					'package_key' => $item['id'],
 				);
 			},
 			$packages
 		)
 	);
+
+	foreach ( array_keys( $configs ) as $package_key ) {
+		if ( ! seahivez_package_supports_charter_calculator( $package_key ) ) {
+			unset( $configs[ $package_key ] );
+		}
+	}
+
+	return $configs;
 }
 
 /**

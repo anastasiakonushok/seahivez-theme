@@ -22,7 +22,20 @@ if ( empty( $packages ) || empty( $configs ) ) {
 	return;
 }
 
-$first_package_id = (string) ( $packages[0]['id'] ?? '' );
+$first_package_id = '';
+
+foreach ( $packages as $package ) {
+	$package_id = (string) ( $package['id'] ?? '' );
+
+	if ( $package_id && seahivez_package_supports_charter_calculator( $package_id ) ) {
+		$first_package_id = $package_id;
+		break;
+	}
+}
+
+if ( '' === $first_package_id ) {
+	$first_package_id = (string) ( $packages[0]['id'] ?? '' );
+}
 ?>
 
 <section class="extras-calculator section-spacing bg-sand-50" id="extras-calculator" aria-labelledby="extras-calculator-heading" data-extras-calculator>
@@ -37,7 +50,7 @@ $first_package_id = (string) ( $packages[0]['id'] ?? '' );
 			</p>
 		</div>
 
-		<div class="extras-calculator__layout mt-10 grid gap-8 lg:grid-cols-[minmax(0,320px)_minmax(0,1fr)] lg:gap-10">
+		<div class="extras-calculator__layout mt-10 grid gap-8 lg:grid-cols-[minmax(0,320px)_minmax(0,1fr)] lg:gap-10" data-extras-calculator-layout>
 			<div class="extras-calculator__sidebar reveal">
 				<p class="extras-section__title"><?php esc_html_e( 'Charter package', 'seahivez-theme' ); ?></p>
 
@@ -48,11 +61,12 @@ $first_package_id = (string) ( $packages[0]['id'] ?? '' );
 				>
 					<?php foreach ( $packages as $package ) : ?>
 						<?php
-						$package_id    = (string) ( $package['id'] ?? '' );
-						$is_active     = $package_id === $first_package_id;
-						$package_title = (string) ( $package['title'] ?? '' );
-						$duration      = (string) ( $package['duration'] ?? '' );
-						$price         = (int) ( $package['price'] ?? 0 );
+						$package_id     = (string) ( $package['id'] ?? '' );
+						$is_active      = $package_id === $first_package_id;
+						$package_title  = (string) ( $package['title'] ?? '' );
+						$duration       = (string) ( $package['duration'] ?? '' );
+						$price          = (int) ( $package['price'] ?? 0 );
+						$is_simple_tab  = ! seahivez_package_supports_charter_calculator( $package_id );
 						?>
 						<button
 							type="button"
@@ -60,6 +74,7 @@ $first_package_id = (string) ( $packages[0]['id'] ?? '' );
 							role="tab"
 							aria-selected="<?php echo $is_active ? 'true' : 'false'; ?>"
 							data-extras-package-tab="<?php echo esc_attr( $package_id ); ?>"
+							data-extras-package-simple="<?php echo $is_simple_tab ? 'true' : 'false'; ?>"
 						>
 							<span class="extras-calculator__package-tab-title"><?php echo esc_html( $package_title ); ?></span>
 							<?php if ( $duration ) : ?>
@@ -76,7 +91,7 @@ $first_package_id = (string) ( $packages[0]['id'] ?? '' );
 				</div>
 			</div>
 
-			<div class="extras-calculator__panel reveal reveal-delay-1">
+			<div class="extras-calculator__panel reveal reveal-delay-1" data-extras-calculator-panel>
 				<div class="charter-calculator-inline charter-calculator-inline--page" data-extras-calculator-body></div>
 			</div>
 		</div>
