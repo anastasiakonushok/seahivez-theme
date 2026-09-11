@@ -30,6 +30,8 @@ $time_slots   = $requires_slot ? seahivez_get_half_day_time_slots() : array();
 				esc_html_e( 'Your charter selection has expired. Please choose your package again.', 'seahivez-theme' );
 			} elseif ( 'save' === $args['error'] ) {
 				esc_html_e( 'We could not save your request. Please try again.', 'seahivez-theme' );
+			} elseif ( 'prepare' === $args['error'] ) {
+				esc_html_e( 'Your charter selection could not be updated. Please return to the homepage and click Book now again.', 'seahivez-theme' );
 			} else {
 				esc_html_e( 'Something went wrong. Please try again.', 'seahivez-theme' );
 			}

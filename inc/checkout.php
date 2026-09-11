@@ -424,29 +424,73 @@ function seahivez_calculate_charter_booking( $selection ) {
 }
 
 /**
- * Create a checkout session token and store booking data.
+ * Persist checkout session cookie for the current token.
+ *
+ * @param string $token Session token.
+ */
+function seahivez_set_checkout_session_cookie( $token ) {
+	$token = sanitize_key( (string) $token );
+
+	if ( '' === $token || headers_sent() ) {
+		return;
+	}
+
+	setcookie(
+		SEAHIVEZ_CHECKOUT_COOKIE,
+		$token,
+		array(
+			'expires'  => time() + ( 30 * MINUTE_IN_SECONDS ),
+			'path'     => COOKIEPATH ? COOKIEPATH : '/',
+			'domain'   => COOKIE_DOMAIN,
+			'secure'   => is_ssl(),
+			'httponly' => true,
+			'samesite' => 'Lax',
+		)
+	);
+
+	$_COOKIE[ SEAHIVEZ_CHECKOUT_COOKIE ] = $token;
+}
+
+/**
+ * Resolve the active checkout session token.
+ *
+ * @return string
+ */
+function seahivez_get_checkout_session_token() {
+	if ( isset( $_GET['prepared'] ) ) {
+		$prepared = sanitize_key( wp_unslash( $_GET['prepared'] ) );
+
+		if ( '' !== $prepared ) {
+			seahivez_set_checkout_session_cookie( $prepared );
+
+			return $prepared;
+		}
+	}
+
+	if ( isset( $_COOKIE[ SEAHIVEZ_CHECKOUT_COOKIE ] ) ) {
+		return sanitize_key( wp_unslash( $_COOKIE[ SEAHIVEZ_CHECKOUT_COOKIE ] ) );
+	}
+
+	return '';
+}
+
+/**
+ * Create or update a checkout session and store booking data.
  *
  * @param array<string, mixed> $booking Calculated booking payload.
  * @return string
  */
 function seahivez_store_checkout_session( $booking ) {
-	$token = wp_generate_password( 32, false, false );
+	$token = seahivez_get_checkout_session_token();
 
-	set_transient( 'seahivez_checkout_' . $token, $booking, 30 * MINUTE_IN_SECONDS );
-
-	if ( ! headers_sent() ) {
-		setcookie(
-			SEAHIVEZ_CHECKOUT_COOKIE,
-			$token,
-			time() + ( 30 * MINUTE_IN_SECONDS ),
-			COOKIEPATH ? COOKIEPATH : '/',
-			COOKIE_DOMAIN,
-			is_ssl(),
-			true
-		);
+	if ( '' === $token ) {
+		$token = wp_generate_password( 32, false, false );
 	}
 
-	$_COOKIE[ SEAHIVEZ_CHECKOUT_COOKIE ] = $token;
+	$booking['prepared_at'] = time();
+
+	set_transient( 'seahivez_checkout_' . $token, $booking, 30 * MINUTE_IN_SECONDS );
+	seahivez_set_checkout_session_cookie( $token );
 
 	return $token;
 }
@@ -457,7 +501,7 @@ function seahivez_store_checkout_session( $booking ) {
  * @return array<string, mixed>|null
  */
 function seahivez_get_checkout_session() {
-	$token = isset( $_COOKIE[ SEAHIVEZ_CHECKOUT_COOKIE ] ) ? sanitize_key( wp_unslash( $_COOKIE[ SEAHIVEZ_CHECKOUT_COOKIE ] ) ) : '';
+	$token = seahivez_get_checkout_session_token();
 
 	if ( '' === $token ) {
 		return null;
@@ -511,8 +555,21 @@ function seahivez_clear_checkout_session() {
 	}
 
 	if ( ! headers_sent() ) {
-		setcookie( SEAHIVEZ_CHECKOUT_COOKIE, '', time() - HOUR_IN_SECONDS, COOKIEPATH ? COOKIEPATH : '/', COOKIE_DOMAIN, is_ssl(), true );
+		setcookie(
+			SEAHIVEZ_CHECKOUT_COOKIE,
+			'',
+			array(
+				'expires'  => time() - HOUR_IN_SECONDS,
+				'path'     => COOKIEPATH ? COOKIEPATH : '/',
+				'domain'   => COOKIE_DOMAIN,
+				'secure'   => is_ssl(),
+				'httponly' => true,
+				'samesite' => 'Lax',
+			)
+		);
 	}
+
+	unset( $_COOKIE[ SEAHIVEZ_CHECKOUT_COOKIE ] );
 }
 
 /**
@@ -734,7 +791,8 @@ function seahivez_handle_checkout_actions() {
 
 	if ( 'prepare' === $action ) {
 		if ( ! isset( $_POST['seahivez_checkout_nonce'] ) || ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['seahivez_checkout_nonce'] ) ), 'seahivez_checkout_prepare' ) ) {
-			return;
+			wp_safe_redirect( add_query_arg( 'checkout_error', 'prepare', seahivez_get_checkout_url() ) );
+			exit;
 		}
 
 		$selection = seahivez_sanitize_checkout_selection( wp_unslash( $_POST ) );
@@ -745,8 +803,15 @@ function seahivez_handle_checkout_actions() {
 			exit;
 		}
 
-		seahivez_store_checkout_session( $booking );
-		wp_safe_redirect( seahivez_get_checkout_url() );
+		$token = seahivez_store_checkout_session( $booking );
+
+		wp_safe_redirect(
+			add_query_arg(
+				'prepared',
+				$token,
+				seahivez_get_checkout_url()
+			)
+		);
 		exit;
 	}
 
@@ -840,6 +905,22 @@ function seahivez_handle_checkout_actions() {
 	}
 }
 add_action( 'template_redirect', 'seahivez_handle_checkout_actions', 5 );
+
+/**
+ * Prevent checkout pages from being cached with stale booking data.
+ */
+function seahivez_prevent_checkout_cache() {
+	if ( ! seahivez_is_checkout_page() ) {
+		return;
+	}
+
+	if ( ! defined( 'DONOTCACHEPAGE' ) ) {
+		define( 'DONOTCACHEPAGE', true );
+	}
+
+	nocache_headers();
+}
+add_action( 'template_redirect', 'seahivez_prevent_checkout_cache', 0 );
 
 /**
  * Checkout view model for templates.
