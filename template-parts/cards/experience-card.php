@@ -128,7 +128,7 @@ $package_key = ! empty( $args['package_key'] ) ? (string) $args['package_key'] :
 					</p>
 
 					<?php if ( $price_label ) : ?>
-						<p class="experience-card__price-base mt-1 text-lg font-medium leading-none tracking-tight text-slate-600" data-charter-base-price>
+						<p class="experience-card__price-base mt-1 hidden text-lg font-medium leading-none tracking-tight text-slate-600" data-charter-base-price hidden>
 							<?php echo esc_html( $price_label ); ?>
 						</p>
 					<?php endif; ?>
