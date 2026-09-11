@@ -85,6 +85,13 @@ if ( '' === $first_package_id ) {
 					<?php endforeach; ?>
 				</div>
 
+				<div class="extras-calculator__included mt-8 border-t border-slate-200 pt-6">
+					<p class="extras-section__title"><?php esc_html_e( 'Included in charter', 'seahivez-theme' ); ?></p>
+					<p class="extras-calculator__included-text mt-3 text-sm leading-relaxed text-slate-600">
+						<?php echo esc_html( seahivez_get_charter_included_in_charter_summary() ); ?>
+					</p>
+				</div>
+
 				<div class="extras-calculator__routes mt-8 hidden" data-extras-route-wrap hidden>
 					<p class="extras-section__title"><?php esc_html_e( 'Route', 'seahivez-theme' ); ?></p>
 					<div class="extras-calculator__route-tabs mt-3 flex flex-col gap-2" data-extras-route-list></div>

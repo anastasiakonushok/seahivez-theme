@@ -234,6 +234,30 @@ function seahivez_get_charter_equipment_summary_line() {
 }
 
 /**
+ * Standard "included in charter" summary for calculator sidebars.
+ *
+ * @return string
+ */
+function seahivez_get_charter_included_in_charter_summary() {
+	$equipment = seahivez_get_charter_included_equipment_labels();
+
+	return implode(
+		' · ',
+		array(
+			__( 'Captain', 'seahivez-theme' ),
+			__( 'Fuel', 'seahivez-theme' ),
+			$equipment['snorkel'],
+			$equipment['paddle_boards'],
+			__( 'Flippers', 'seahivez-theme' ),
+			__( 'Towels', 'seahivez-theme' ),
+			__( 'Taxes', 'seahivez-theme' ),
+			__( 'Insurance', 'seahivez-theme' ),
+			__( 'Final cleaning', 'seahivez-theme' ),
+		)
+	);
+}
+
+/**
  * Split a charter route path into individual stops.
  *
  * @param string $path Route path string.
@@ -394,20 +418,7 @@ function seahivez_get_home_charter_card_display( $package_key, $base_price ) {
 
 	if ( 'sunset' === $package_key ) {
 		$display['included_label']   = __( 'Included in charter', 'seahivez-theme' );
-		$display['included_compact'] = implode(
-			' · ',
-			array(
-				__( 'Captain', 'seahivez-theme' ),
-				__( 'Fuel', 'seahivez-theme' ),
-				$equipment['snorkel'],
-				$equipment['paddle_boards'],
-				__( 'Flippers', 'seahivez-theme' ),
-				__( 'Towels', 'seahivez-theme' ),
-				__( 'Taxes', 'seahivez-theme' ),
-				__( 'Insurance', 'seahivez-theme' ),
-				__( 'Final cleaning', 'seahivez-theme' ),
-			)
-		);
+		$display['included_compact'] = seahivez_get_charter_included_in_charter_summary();
 		$display['included_breakdown'] = array();
 		$display['included_summary']   = '';
 		$display['included_items']     = array();
