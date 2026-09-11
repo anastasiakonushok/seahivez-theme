@@ -116,23 +116,25 @@ $first_route      = $routes[0] ?? array();
 		<?php endif; ?>
 	</div>
 
-	<button
-		type="button"
-		class="experience-card__calculator-trigger mt-4"
-		data-charter-calculator-toggle
-		aria-expanded="false"
-		aria-controls="charter-calculator-<?php echo esc_attr( $package_key ); ?>"
-	>
-		<span data-charter-calculator-toggle-text><?php esc_html_e( 'Calculate final price', 'seahivez-theme' ); ?></span>
-		<span class="experience-card__calculator-trigger-icon" data-charter-calculator-toggle-icon aria-hidden="true">↓</span>
-	</button>
+	<?php if ( seahivez_package_supports_charter_calculator( $package_key ) ) : ?>
+		<button
+			type="button"
+			class="experience-card__calculator-trigger mt-4"
+			data-charter-calculator-toggle
+			aria-expanded="false"
+			aria-controls="charter-calculator-<?php echo esc_attr( $package_key ); ?>"
+		>
+			<span data-charter-calculator-toggle-text><?php esc_html_e( 'Calculate final price', 'seahivez-theme' ); ?></span>
+			<span class="experience-card__calculator-trigger-icon" data-charter-calculator-toggle-icon aria-hidden="true">↓</span>
+		</button>
 
-	<div
-		id="charter-calculator-<?php echo esc_attr( $package_key ); ?>"
-		class="charter-calculator-inline mt-3 hidden"
-		data-charter-calculator-panel
-		hidden
-	>
-		<div data-charter-calculator-body></div>
-	</div>
+		<div
+			id="charter-calculator-<?php echo esc_attr( $package_key ); ?>"
+			class="charter-calculator-inline mt-3 hidden"
+			data-charter-calculator-panel
+			hidden
+		>
+			<div data-charter-calculator-body></div>
+		</div>
+	<?php endif; ?>
 </div>

@@ -24,6 +24,18 @@ function seahivez_get_charter_security_deposit() {
 }
 
 /**
+ * Whether a package should expose the inline charter calculator.
+ *
+ * @param string $package_key Package key.
+ * @return bool
+ */
+function seahivez_package_supports_charter_calculator( $package_key ) {
+	$package_key = sanitize_key( (string) $package_key );
+
+	return '' !== $package_key && 'sunset' !== $package_key;
+}
+
+/**
  * Shared optional extras for the calculator.
  *
  * @return array<int, array<string, mixed>>
@@ -528,7 +540,7 @@ function seahivez_get_home_charter_calculator_configs( $cards ) {
 			$key = seahivez_get_experience_package_key( $card );
 		}
 
-		if ( '' === $key || isset( $configs[ $key ] ) ) {
+		if ( '' === $key || isset( $configs[ $key ] ) || ! seahivez_package_supports_charter_calculator( $key ) ) {
 			continue;
 		}
 
