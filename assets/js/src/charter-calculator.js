@@ -123,11 +123,18 @@ class InlineCharterCalculator {
 		this.fuelRow = article.querySelector( '[data-charter-fuel-row]' );
 		this.fuelValue = article.querySelector( '[data-charter-fuel-value]' );
 		this.totalPrice = article.querySelector( '[data-charter-total-price]' );
+		this.checkoutTotal = charterCard.querySelector( '[data-charter-checkout-total]' );
+		this.checkoutRoute = charterCard.querySelector( '[data-charter-checkout-route]' );
+		this.checkoutExtras = charterCard.querySelector( '[data-charter-checkout-extras]' );
+		this.checkoutQuantities = charterCard.querySelector( '[data-charter-checkout-quantities]' );
 
 		this.resetState();
 		this.bindEvents();
 		this.updateToggleLabel();
 		this.updateFooterPrice();
+		this.updateCheckoutSummary();
+
+		charterCard._charterCalculator = this;
 	}
 
 	resetState() {
@@ -244,6 +251,36 @@ class InlineCharterCalculator {
 		}
 
 		this.priceStack?.classList.toggle( 'experience-card__price-stack--with-fuel', hasFuelAdjustment );
+
+		this.updateCheckoutSummary();
+	}
+
+	updateCheckoutSummary() {
+		if ( ! this.checkoutTotal ) {
+			return;
+		}
+
+		const totals = calculateTotals(
+			this.config,
+			this.activeRouteId,
+			this.selectedExtras,
+			this.quantities
+		);
+
+		this.checkoutTotal.textContent = formatEuro( totals.charterTotal );
+
+		if ( this.checkoutRoute ) {
+			this.checkoutRoute.value = this.activeRouteId;
+		}
+
+		if ( this.checkoutExtras ) {
+			const selected = Object.keys( this.selectedExtras ).filter( ( id ) => this.selectedExtras[ id ] );
+			this.checkoutExtras.value = JSON.stringify( selected );
+		}
+
+		if ( this.checkoutQuantities ) {
+			this.checkoutQuantities.value = JSON.stringify( this.quantities );
+		}
 	}
 
 	render() {
@@ -266,6 +303,7 @@ class InlineCharterCalculator {
 		`;
 
 		this.bindBodyEvents();
+		this.updateCheckoutSummary();
 	}
 
 	/**
@@ -730,12 +768,91 @@ export function initExtrasPageCalculator() {
 }
 
 /**
+ * @returns {Record<string, Record<string, unknown>>}
+ */
+function readCheckoutConfigs() {
+	const configNode = document.getElementById( 'seahivez-charter-checkout-config' )
+		|| document.getElementById( 'seahivez-charter-calculator-config' );
+
+	if ( ! configNode ) {
+		return {};
+	}
+
+	try {
+		return JSON.parse( configNode.textContent || '{}' );
+	} catch {
+		return {};
+	}
+}
+
+/**
+ * Initialize checkout totals for cards without inline calculators.
+ */
+export function initCharterCheckout() {
+	const configs = readCheckoutConfigs();
+
+	document.querySelectorAll( CARD_SELECTOR ).forEach( ( charterCard ) => {
+		if ( charterCard._charterCalculator ) {
+			return;
+		}
+
+		const packageKey = charterCard.getAttribute( 'data-package-key' ) || '';
+		const config = configs[ packageKey ];
+		const checkoutTotal = charterCard.querySelector( '[data-charter-checkout-total]' );
+		const checkoutRoute = charterCard.querySelector( '[data-charter-checkout-route]' );
+		const checkoutExtras = charterCard.querySelector( '[data-charter-checkout-extras]' );
+		const checkoutQuantities = charterCard.querySelector( '[data-charter-checkout-quantities]' );
+
+		if ( ! config || ! checkoutTotal ) {
+			return;
+		}
+
+		const updateSimpleCheckout = () => {
+			const routeId = checkoutRoute?.value
+				|| charterCard.getAttribute( 'data-default-route' )
+				|| config.defaultRouteId
+				|| '';
+			const totals = calculateTotals( config, routeId, {}, {} );
+
+			checkoutTotal.textContent = formatEuro( totals.charterTotal );
+
+			if ( checkoutRoute ) {
+				checkoutRoute.value = routeId;
+			}
+
+			if ( checkoutExtras ) {
+				checkoutExtras.value = '[]';
+			}
+
+			if ( checkoutQuantities ) {
+				checkoutQuantities.value = '{}';
+			}
+		};
+
+		charterCard.querySelectorAll( '[data-route-tab]' ).forEach( ( button ) => {
+			button.addEventListener( 'click', () => {
+				const routeId = button.getAttribute( 'data-route-tab' ) || '';
+
+				if ( checkoutRoute ) {
+					checkoutRoute.value = routeId;
+				}
+
+				updateSimpleCheckout();
+			} );
+		} );
+
+		updateSimpleCheckout();
+	} );
+}
+
+/**
  * Initialize inline charter calculators on homepage cards.
  */
 export function initCharterCalculator() {
 	const configNode = document.getElementById( 'seahivez-charter-calculator-config' );
 
 	if ( ! configNode ) {
+		initCharterCheckout();
 		return;
 	}
 
@@ -744,6 +861,7 @@ export function initCharterCalculator() {
 	try {
 		configs = JSON.parse( configNode.textContent || '{}' );
 	} catch {
+		initCharterCheckout();
 		return;
 	}
 
@@ -758,4 +876,6 @@ export function initCharterCalculator() {
 
 		new InlineCharterCalculator( article, charterCard, config );
 	} );
+
+	initCharterCheckout();
 }

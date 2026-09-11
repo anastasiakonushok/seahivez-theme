@@ -9,6 +9,7 @@ $section_args  = ! empty( $args['section'] ) && is_array( $args['section'] ) ? $
 $experiences   = ! empty( $section_args['experiences'] ) ? $section_args['experiences'] : seahivez_get_packages_for_display();
 $experiences   = seahivez_attach_home_charter_calculator_data( $experiences );
 $calculator_configs = seahivez_get_home_charter_calculator_configs( $experiences );
+$checkout_configs   = seahivez_get_charter_calculator_configs_for_cards( $experiences, true );
 $eyebrow       = ! empty( $section_args['eyebrow'] ) ? $section_args['eyebrow'] : __( 'Charter Services', 'seahivez-theme' );
 $heading       = ! empty( $section_args['heading'] ) ? $section_args['heading'] : __( 'Choose your experience', 'seahivez-theme' );
 
@@ -49,6 +50,12 @@ if ( empty( $experiences ) ) {
 			<?php endforeach; ?>
 		</div>
 	</div>
+
+	<?php if ( ! empty( $checkout_configs ) ) : ?>
+		<script type="application/json" id="seahivez-charter-checkout-config">
+			<?php echo wp_json_encode( $checkout_configs ); ?>
+		</script>
+	<?php endif; ?>
 
 	<?php if ( ! empty( $calculator_configs ) ) : ?>
 		<script type="application/json" id="seahivez-charter-calculator-config">

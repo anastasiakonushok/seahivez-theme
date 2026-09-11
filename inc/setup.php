@@ -113,27 +113,59 @@ function seahivez_get_booking_url()
 }
 
 /**
- * Create required theme pages when missing (runs once per version).
+ * Create required theme pages when missing.
  */
 function seahivez_ensure_theme_pages()
 {
-	$pages_version = '1';
-
-	if (get_option('seahivez_theme_pages_version') === $pages_version) {
-		return;
-	}
+	$pages_version = '4';
 
 	$pages = array(
 		'faq' => array(
-			'post_title'   => 'FAQ',
+			'post_title'    => 'FAQ',
 			'page_template' => 'page-faq.php',
 		),
+		'checkout' => array(
+			'post_title'    => 'Checkout',
+			'page_template' => 'page-checkout.php',
+		),
 	);
+
+	$all_present = true;
+
+	foreach ($pages as $slug => $page_data) {
+		$existing = get_page_by_path($slug);
+
+		if (! ($existing instanceof WP_Post) || 'publish' !== $existing->post_status) {
+			$all_present = false;
+			break;
+		}
+	}
+
+	if ($all_present && get_option('seahivez_theme_pages_version') === $pages_version) {
+		return;
+	}
 
 	foreach ($pages as $slug => $page_data) {
 		$existing = get_page_by_path($slug);
 
 		if ($existing instanceof WP_Post) {
+			if ('publish' !== $existing->post_status) {
+				wp_update_post(
+					array(
+						'ID'          => $existing->ID,
+						'post_status' => 'publish',
+					)
+				);
+			}
+
+			if (! empty($page_data['page_template'])) {
+				$current_template = get_page_template_slug($existing->ID);
+
+				if ($current_template !== $page_data['page_template']) {
+					update_post_meta($existing->ID, '_wp_page_template', $page_data['page_template']);
+				}
+			}
+
 			continue;
 		}
 
@@ -158,4 +190,4 @@ function seahivez_ensure_theme_pages()
 
 	update_option('seahivez_theme_pages_version', $pages_version);
 }
-add_action('init', 'seahivez_ensure_theme_pages');
+add_action('init', 'seahivez_ensure_theme_pages', 1);

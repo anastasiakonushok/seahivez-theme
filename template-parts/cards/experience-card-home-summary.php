@@ -13,11 +13,24 @@ if ( empty( $card['package_key'] ) ) {
 	return;
 }
 
-$package_key      = (string) $card['package_key'];
-$routes           = ! empty( $card['routes'] ) && is_array( $card['routes'] ) ? $card['routes'] : array();
-$route_choice     = ! empty( $card['route_choice'] );
-$default_route_id = (string) ( $card['default_route_id'] ?? '' );
-$first_route      = $routes[0] ?? array();
+$package_key       = (string) $card['package_key'];
+$routes            = ! empty( $card['routes'] ) && is_array( $card['routes'] ) ? $card['routes'] : array();
+$route_choice      = ! empty( $card['route_choice'] );
+$default_route_id  = (string) ( $card['default_route_id'] ?? '' );
+$first_route       = $routes[0] ?? array();
+$has_calculator    = seahivez_package_supports_charter_calculator( $package_key );
+$is_sunset         = 'sunset' === $package_key;
+$base_price        = (int) preg_replace( '/[^\d]/', '', (string) ( $card['base_price'] ?? '0' ) );
+
+$checkout_args = array(
+	'package_key'       => $package_key,
+	'default_route_id'  => $default_route_id,
+	'base_price'        => $base_price,
+	'package_url'       => (string) ( $card['package_url'] ?? '' ),
+	'cta_label'         => (string) ( $card['cta_label'] ?? __( 'View package', 'seahivez-theme' ) ),
+	'show_view_package' => $is_sunset,
+	'inline'            => $has_calculator,
+);
 ?>
 
 <div
@@ -116,7 +129,7 @@ $first_route      = $routes[0] ?? array();
 		<?php endif; ?>
 	</div>
 
-	<?php if ( seahivez_package_supports_charter_calculator( $package_key ) ) : ?>
+	<?php if ( $has_calculator ) : ?>
 		<button
 			type="button"
 			class="experience-card__calculator-trigger mt-4"
@@ -135,6 +148,23 @@ $first_route      = $routes[0] ?? array();
 			hidden
 		>
 			<div data-charter-calculator-body></div>
+			<?php
+			get_template_part(
+				'template-parts/cards/experience-card-checkout',
+				null,
+				$checkout_args
+			);
+			?>
 		</div>
+	<?php endif; ?>
+
+	<?php if ( ! $has_calculator ) : ?>
+		<?php
+		get_template_part(
+			'template-parts/cards/experience-card-checkout',
+			null,
+			$checkout_args
+		);
+		?>
 	<?php endif; ?>
 </div>

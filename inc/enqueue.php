@@ -43,14 +43,50 @@ function seahivez_enqueue_assets()
 			true
 		);
 
+		$seahivez_data = array(
+			'mapsApiKey'  => seahivez_get_google_maps_api_key(),
+			'mapsMapId'   => seahivez_get_google_maps_map_id(),
+			'port'        => seahivez_get_port_location(),
+			'checkoutUrl' => seahivez_get_checkout_url(),
+		);
+
+		if (function_exists('seahivez_is_checkout_page') && seahivez_is_checkout_page()) {
+			$intl_tel_css = 'assets/vendor/intl-tel-input/intlTelInput.css';
+			$intl_tel_utils = 'assets/vendor/intl-tel-input/utils.js';
+
+			if (file_exists(get_theme_file_path($intl_tel_css))) {
+				wp_enqueue_style(
+					'intl-tel-input',
+					get_theme_file_uri($intl_tel_css),
+					array('seahivez-main'),
+					seahivez_get_asset_version($intl_tel_css)
+				);
+
+				$flags_1x = esc_url(get_theme_file_uri('assets/vendor/intl-tel-input/img/flags.webp'));
+				$flags_2x = esc_url(get_theme_file_uri('assets/vendor/intl-tel-input/img/flags@2x.webp'));
+				$globe_1x = esc_url(get_theme_file_uri('assets/vendor/intl-tel-input/img/globe.webp'));
+				$globe_2x = esc_url(get_theme_file_uri('assets/vendor/intl-tel-input/img/globe@2x.webp'));
+
+				wp_add_inline_style(
+					'intl-tel-input',
+					".checkout-field--phone {
+						--iti-path-flags-1x: url('{$flags_1x}');
+						--iti-path-flags-2x: url('{$flags_2x}');
+						--iti-path-globe-1x: url('{$globe_1x}');
+						--iti-path-globe-2x: url('{$globe_2x}');
+					}"
+				);
+			}
+
+			if (file_exists(get_theme_file_path($intl_tel_utils))) {
+				$seahivez_data['intlTelUtilsUrl'] = get_theme_file_uri($intl_tel_utils);
+			}
+		}
+
 		wp_localize_script(
 			'seahivez-main',
 			'seahivezData',
-			array(
-				'mapsApiKey' => seahivez_get_google_maps_api_key(),
-				'mapsMapId'  => seahivez_get_google_maps_map_id(),
-				'port'       => seahivez_get_port_location(),
-			)
+			$seahivez_data
 		);
 	}
 

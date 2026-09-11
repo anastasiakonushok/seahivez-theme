@@ -16,7 +16,15 @@ if ( ! defined( '_S_VERSION' ) ) {
 	define( '_S_VERSION', SEAHIVEZ_VERSION );
 }
 
+$seahivez_secrets = WP_CONTENT_DIR . '/seahivez-secrets.php';
+
+if ( is_readable( $seahivez_secrets ) ) {
+	require_once $seahivez_secrets;
+}
+
+require get_template_directory() . '/inc/mail.php';
 require get_template_directory() . '/inc/booking.php';
+require get_template_directory() . '/inc/checkout.php';
 require get_template_directory() . '/inc/setup.php';
 require get_template_directory() . '/inc/menus.php';
 require get_template_directory() . '/inc/enqueue.php';

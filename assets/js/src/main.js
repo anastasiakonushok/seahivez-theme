@@ -15,4 +15,10 @@ document.addEventListener( 'DOMContentLoaded', () => {
 	initMap();
 	initCharterCalculator();
 	initExtrasPageCalculator();
+
+	if ( document.querySelector( '[data-checkout-phone]' ) ) {
+		import( './checkout-phone.js' ).then( ( module ) => {
+			module.initCheckoutPhone();
+		} );
+	}
 } );

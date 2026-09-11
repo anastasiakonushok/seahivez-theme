@@ -1483,6 +1483,38 @@
 		@apply max-w-full;
 	}
 
+	.experience-card__book-btn {
+		@apply gap-2.5 bg-navy-900 text-white transition-colors duration-200 hover:bg-navy-800;
+	}
+
+	.experience-card__book-btn:hover .icon-arrow {
+		@apply text-white;
+	}
+
+	.experience-card__view-package-btn {
+		@apply gap-2.5 border-2 border-navy-900 bg-transparent text-navy-900 transition-colors duration-200 hover:bg-navy-900 hover:text-white;
+	}
+
+	.experience-card__view-package-btn:hover .icon-arrow {
+		@apply text-white;
+	}
+
+	.experience-card__checkout--inline {
+		@apply rounded-md border border-slate-200 bg-sand-50/60 p-4;
+	}
+
+	.experience-card__checkout--dual .experience-card__cta-row {
+		@apply flex flex-col gap-3;
+	}
+
+	.experience-card__checkout-total {
+		@apply tabular-nums;
+	}
+
+	.experience-card__checkout-deposit {
+		@apply leading-snug;
+	}
+
 	.experience-card__calculator-trigger {
 		@apply flex w-full items-center justify-between border border-[#C7A46A] bg-[#C7A46A]/5 px-4 py-3 text-left text-sm font-medium uppercase tracking-[0.08em] text-[#0B1F3A] transition-colors duration-200 hover:bg-[#C7A46A]/10;
 	}
@@ -1811,6 +1843,113 @@
 
 	.reveal-delay-2 {
 		transition-delay: 220ms;
+	}
+
+	/* Checkout */
+	.checkout-page {
+		@apply text-navy-900;
+	}
+
+	.checkout-field__label {
+		@apply mb-2 block text-xs font-medium uppercase tracking-[0.12em] text-slate-600;
+	}
+
+	.checkout-field__input,
+	.checkout-field__textarea {
+		@apply w-full rounded-md border border-slate-200 bg-white px-4 py-3 text-sm text-navy-900 transition-colors duration-200 placeholder:text-slate-400 focus:border-gold/60 focus:outline-none focus:ring-2 focus:ring-gold/20;
+	}
+
+	.checkout-field__input.is-invalid,
+	.checkout-field__textarea.is-invalid {
+		@apply border-red-300 focus:border-red-400 focus:ring-red-100;
+	}
+
+	.checkout-field__textarea {
+		@apply min-h-[120px] resize-y;
+	}
+
+	.checkout-form__submit {
+		@apply gap-2.5 transition-colors duration-200 hover:bg-gold hover:text-navy-900;
+	}
+
+	.checkout-form__submit:hover .icon-arrow {
+		@apply text-navy-900;
+	}
+
+	.checkout-summary__line {
+		@apply gap-6;
+	}
+
+	.checkout-summary__lines {
+		@apply min-w-0;
+	}
+
+	.checkout-summary__line span:last-child {
+		@apply min-w-[4.5rem] text-right;
+	}
+
+	.checkout-summary__total span:last-child {
+		@apply min-w-[5rem] text-right;
+	}
+
+	.checkout-summary__deposit .flex span:last-child {
+		@apply min-w-[4.5rem] text-right;
+	}
+
+	.checkout-field--phone {
+		--iti-path-flags-1x: url('../vendor/intl-tel-input/img/flags.webp');
+		--iti-path-flags-2x: url('../vendor/intl-tel-input/img/flags@2x.webp');
+		--iti-path-globe-1x: url('../vendor/intl-tel-input/img/globe.webp');
+		--iti-path-globe-2x: url('../vendor/intl-tel-input/img/globe@2x.webp');
+	}
+
+	.checkout-field--phone .iti {
+		@apply block w-full max-w-full;
+	}
+
+	.checkout-field--phone .iti__flag-container {
+		@apply z-[2];
+	}
+
+	.checkout-field--phone .iti__selected-flag {
+		@apply rounded-l-md;
+	}
+
+	.checkout-field--phone .checkout-field__input--phone,
+	.checkout-field--phone .iti input[type='tel'] {
+		@apply w-full max-w-full rounded-md border border-slate-200 bg-white py-3 pl-[52px] pr-4 text-sm text-navy-900 transition-colors duration-200 placeholder:text-slate-400 focus:border-gold/60 focus:outline-none focus:ring-2 focus:ring-gold/20;
+	}
+
+	.checkout-field--phone .checkout-field__input--phone.is-invalid,
+	.checkout-field--phone .iti input[type='tel'].is-invalid {
+		@apply border-red-300 focus:border-red-400 focus:ring-red-100;
+	}
+
+	.checkout-contact-fallback__list {
+		@apply min-w-0;
+	}
+
+	.checkout-time-slot {
+		@apply cursor-pointer;
+	}
+
+	.checkout-time-slot__input {
+		@apply sr-only;
+	}
+
+	.checkout-time-slot__label {
+		@apply inline-flex rounded-md border border-slate-200 bg-white px-4 py-3 text-sm font-semibold uppercase tracking-[0.08em] text-slate-600 transition-colors duration-200 hover:border-[#C7A46A];
+	}
+
+	.checkout-time-slot__input:checked + .checkout-time-slot__label,
+	.checkout-time-slot__input:focus-visible + .checkout-time-slot__label {
+		border-color: #c7a46a;
+		background-color: rgb(199 164 106 / 0.1);
+		color: #0b1f3a;
+	}
+
+	.checkout-field--time-slots.is-invalid .checkout-time-slot__label {
+		@apply border-red-300;
 	}
 }
 

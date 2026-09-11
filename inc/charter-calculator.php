@@ -411,6 +411,7 @@ function seahivez_get_home_charter_card_display( $package_key, $base_price ) {
 
 	$display = array(
 		'package_key'      => $package_key,
+		'base_price'       => $base_price,
 		'routes'           => $routes,
 		'route_choice'     => 'full-day' === $package_key,
 		'default_route_id' => $routes[0]['id'],
@@ -527,8 +528,11 @@ function seahivez_attach_home_charter_calculator_data( $cards ) {
 		$display    = seahivez_get_home_charter_card_display( $key, $base_price );
 
 		if ( $display ) {
-			$cards[ $index ]['package_key']   = $key;
-			$cards[ $index ]['charter_card']  = $display;
+			$display['package_url'] = (string) ( $card['url'] ?? '' );
+			$display['cta_label']   = (string) ( $card['cta_label'] ?? __( 'View package', 'seahivez-theme' ) );
+
+			$cards[ $index ]['package_key']  = $key;
+			$cards[ $index ]['charter_card'] = $display;
 		}
 	}
 
@@ -536,12 +540,13 @@ function seahivez_attach_home_charter_calculator_data( $cards ) {
 }
 
 /**
- * Build calculator configs for all homepage cards.
+ * Build calculator configs for experience cards.
  *
  * @param array<int, array<string, mixed>> $cards Experience cards.
+ * @param bool                            $include_simple Include packages without inline calculator UI.
  * @return array<string, array<string, mixed>>
  */
-function seahivez_get_home_charter_calculator_configs( $cards ) {
+function seahivez_get_charter_calculator_configs_for_cards( $cards, $include_simple = true ) {
 	$configs = array();
 
 	foreach ( $cards as $card ) {
@@ -551,7 +556,11 @@ function seahivez_get_home_charter_calculator_configs( $cards ) {
 			$key = seahivez_get_experience_package_key( $card );
 		}
 
-		if ( '' === $key || isset( $configs[ $key ] ) || ! seahivez_package_supports_charter_calculator( $key ) ) {
+		if ( '' === $key || isset( $configs[ $key ] ) ) {
+			continue;
+		}
+
+		if ( ! $include_simple && ! seahivez_package_supports_charter_calculator( $key ) ) {
 			continue;
 		}
 
@@ -568,4 +577,14 @@ function seahivez_get_home_charter_calculator_configs( $cards ) {
 	}
 
 	return $configs;
+}
+
+/**
+ * Build calculator configs for interactive homepage cards.
+ *
+ * @param array<int, array<string, mixed>> $cards Experience cards.
+ * @return array<string, array<string, mixed>>
+ */
+function seahivez_get_home_charter_calculator_configs( $cards ) {
+	return seahivez_get_charter_calculator_configs_for_cards( $cards, false );
 }

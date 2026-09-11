@@ -122,25 +122,15 @@ $package_key = ! empty( $args['package_key'] ) ? (string) $args['package_key'] :
 
 		<div class="experience-card__footer w-full shrink-0<?php echo $is_homepage ? ' mt-auto border-t border-slate-200 pt-4' : ' mt-auto pt-4'; ?>">
 			<?php if ( $is_homepage && $package_key ) : ?>
-				<div class="experience-card__price-stack" data-charter-price-stack>
-					<p class="experience-card__price-label text-xs font-medium uppercase tracking-[0.1em] text-slate-500">
-						<?php esc_html_e( 'Base charter', 'seahivez-theme' ); ?>
-					</p>
-
+				<div class="experience-card__price-stack hidden" data-charter-price-stack hidden aria-hidden="true">
 					<?php if ( $price_label ) : ?>
-						<p class="experience-card__price-base mt-1 hidden text-lg font-medium leading-none tracking-tight text-slate-600" data-charter-base-price hidden>
-							<?php echo esc_html( $price_label ); ?>
-						</p>
+						<p class="experience-card__price-base" data-charter-base-price hidden><?php echo esc_html( $price_label ); ?></p>
 					<?php endif; ?>
-
-					<div class="experience-card__fuel-adjustment mt-2 flex hidden items-baseline justify-between gap-3 text-sm text-navy-900" data-charter-fuel-row hidden>
+					<div class="experience-card__fuel-adjustment hidden" data-charter-fuel-row hidden>
 						<span><?php esc_html_e( 'Fuel', 'seahivez-theme' ); ?></span>
-						<span class="shrink-0 font-medium tabular-nums" data-charter-fuel-value></span>
+						<span data-charter-fuel-value></span>
 					</div>
-
-					<p class="experience-card__price experience-card__price--total mt-2 text-2xl font-medium leading-none tracking-tight text-navy-900 md:text-[26px]" data-charter-total-price>
-						<?php echo esc_html( $price_label ); ?>
-					</p>
+					<p class="experience-card__price experience-card__price--total" data-charter-total-price hidden><?php echo esc_html( $price_label ); ?></p>
 				</div>
 			<?php elseif ( $is_homepage ) : ?>
 				<p class="experience-card__price-label text-xs font-medium uppercase tracking-[0.1em] text-slate-500">
@@ -159,7 +149,14 @@ $package_key = ! empty( $args['package_key'] ) ? (string) $args['package_key'] :
 			<?php endif; ?>
 
 			<?php if ( ! empty( $args['url'] ) ) : ?>
-				<?php if ( $is_homepage ) : ?>
+				<?php if ( $is_homepage && $package_key && 'sunset' !== $package_key ) : ?>
+					<a class="experience-card__view-package-btn btn-outline experience-card__cta mt-4 inline-flex w-full justify-center" href="<?php echo esc_url( $args['url'] ); ?>">
+						<span><?php echo esc_html( $args['cta_label'] ); ?></span>
+						<?php seahivez_render_link_arrow_icon( 'sm' ); ?>
+					</a>
+				<?php elseif ( $is_homepage && $package_key ) : ?>
+					<?php // Sunset: view package is shown next to Book now in the card summary. ?>
+				<?php elseif ( $is_homepage ) : ?>
 					<a class="experience-card__cta-btn btn-primary mt-4 inline-flex w-full justify-center" href="<?php echo esc_url( $args['url'] ); ?>">
 						<span><?php echo esc_html( $args['cta_label'] ); ?></span>
 						<?php seahivez_render_link_arrow_icon( 'sm' ); ?>
@@ -174,7 +171,7 @@ $package_key = ! empty( $args['package_key'] ) ? (string) $args['package_key'] :
 
 			<?php if ( $is_homepage && $package_key ) : ?>
 				<a
-					class="experience-card__toys-link mt-3 inline-flex py-1 text-xs font-medium uppercase tracking-[0.08em] text-slate-500 transition-colors duration-300 hover:text-gold-dark"
+					class="experience-card__toys-link mt-3 flex w-full justify-center py-1 text-xs font-medium uppercase tracking-[0.08em] text-slate-500 transition-colors duration-300 hover:text-gold-dark"
 					href="<?php echo esc_url( $args['toys_extras_url'] ); ?>"
 				>
 					<?php esc_html_e( 'See toys & extras', 'seahivez-theme' ); ?>
